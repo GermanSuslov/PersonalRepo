@@ -2,11 +2,12 @@ package org.Exchange;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class RequestBuilder {
+public class RequestParser {
     private BufferedReader input;
 
     private String predictionAlg;
@@ -15,10 +16,16 @@ public class RequestBuilder {
     private String predictionType;
     private String predictionDate;
     private String outputType;
-    private final Set<String> currencies = new HashSet<>(Arrays.asList("TRY", "USD", "EURO", "AMD", "BGN"));
 
+    private ArrayList<String> graphCurrencies = new ArrayList<>();
+
+    private final Set<String> currencies = new HashSet<>(Arrays.asList("TRY", "USD", "EURO", "AMD", "BGN"));
     public String getCurrency() {
         return currency;
+    }
+
+    public ArrayList<String> getGraphCurrencies() {
+        return graphCurrencies;
     }
 
     public String getPredictionType() {
@@ -37,11 +44,16 @@ public class RequestBuilder {
         return outputType;
     }
 
-    public RequestBuilder(BufferedReader input) {
+    public RequestParser(BufferedReader input) {
         this.input = input;
     }
 
-    public void build() {
+    public void parse() {
+        String instruction = "Введите запрос по типу : \n" +
+                "rate EURO/TRY/USD/AMD/BGN -date tomorrow/dd.MM.yyyy -alg mist/moon/linereg \n" +
+                "или \n" +
+                "rate EURO/TRY/USD/AMD/BGN -period week/month -alg mist/moon/linereg -output list/graph";
+        System.out.println(instruction);
         try {
             boolean checked = false;
             while (!checked) {
@@ -52,15 +64,21 @@ public class RequestBuilder {
                     requestArgs[i] = requestArgs[i].toUpperCase();
                 }
                 if (!isValid(requestArgs)) {
-                    System.out.println("Ошибка! Введите запрос по типу : rate EURO/TRY/USD tomorrow/week");
+                    System.out.println("Ошибка! " + instruction);
                     continue;
                 }
                 input.close();
-                currency = requestArgs[1];
+                if(requestArgs[1].contains(",")) {
+                    String[] graphLine = requestArgs[1].split(",");
+                    for (String cur : graphLine) {
+                        graphCurrencies.add(cur);
+                    }
+                }
+                else currency = requestArgs[1];
                 predictionType = requestArgs[2];
                 predictionDate = requestArgs[3];
                 predictionAlg = requestArgs[5];
-                if(predictionType.equals("-PERIOD")) {
+                if (predictionType.equals("-PERIOD")) {
                     outputType = requestArgs[7];
                 }
                 checked = true;

@@ -1,5 +1,7 @@
 package org.Exchange;
 
+import org.jfree.chart.plot.XYPlot;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,11 +21,14 @@ public class Prediction {
     private final String predictionAlg;
     private final String outputType;
     private LocalDate currentDate;
-    private String fileName;
+    private final String currency;
     private ArrayList<String> result = new ArrayList<>();
-    private ArrayList<Double> courseList = new ArrayList<>();
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
+    private ArrayList<Double> courseList = new ArrayList<>();
+
+    private ArrayList<String> currencyList = new ArrayList<>();
+    private ArrayList<LocalDate> dateList = new ArrayList<>();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     /**
      * Создает запрос на прогноз
      *
@@ -31,7 +36,7 @@ public class Prediction {
      * @param predictionType тип прогноза
      */
     public Prediction(String currency, String predictionType, String predictionDate, String predictionAlg, String outputType) {
-        this.fileName = "/" + currency + ".csv";
+        this.currency = currency;
         this.predictionType = predictionType;
         this.predictionDate = predictionDate;
         this.predictionAlg = predictionAlg;
@@ -40,16 +45,32 @@ public class Prediction {
     }
 
     public Prediction(String currency, String predictionType, String predictionDate, String predictionAlg) {
-        this.fileName = "/" + currency + ".csv";
+        this.currency = currency;
         this.predictionType = predictionType;
         this.predictionDate = predictionDate;
         this.predictionAlg = predictionAlg;
-        this.outputType = "ROW";
+        this.outputType = "LIST";
         this.currentDate = LocalDate.now();
+    }
+
+    public ArrayList<Double> getCourseList() {
+        return courseList;
+    }
+
+    public ArrayList<String> getCurrencyList() {
+        return currencyList;
+    }
+
+    public ArrayList<LocalDate> getDateList() {
+        return dateList;
     }
 
     public String getPredictionType() {
         return predictionType;
+    }
+
+    public String getOutputType() {
+        return outputType;
     }
 
     /**
@@ -97,7 +118,6 @@ public class Prediction {
                 }
                 break;
         }
-
     }
 
     private void datePrediction() {
@@ -117,6 +137,7 @@ public class Prediction {
     }
 
     private void lineRegAlgorithm(LocalDate requestDate) {
+        String fileName = "/" + currency + ".csv";
         List<Double> x = new ArrayList<>();
         List<Double> y = new ArrayList<>();
         try (InputStreamReader inputStr = new InputStreamReader(getClass().getResourceAsStream(fileName));
@@ -141,6 +162,9 @@ public class Prediction {
         BigDecimal lineRegPredict = BigDecimal.valueOf(lineReg.predict(requestDate.toEpochDay()))
                 .setScale(2, RoundingMode.HALF_UP);
         String formattedString = getStringDate(requestDate);
+        if(outputType.equals("GRAPH")) {
+            initiateGraphArgs(requestDate, lineRegPredict);
+        }
         if(lineRegPredict.doubleValue() <= 0) {
             result.add("Невозможно предсказать курс на - " + formattedString);
         }
@@ -148,6 +172,10 @@ public class Prediction {
     }
 
     private void moonAlgorithm(LocalDate requestDate) {
+        if(outputType.equals("GRAPH")) {
+            String fileName = "/" + currency + ".csv";
+        }
+        String fileName = "/" + currency + ".csv";
         LocalDate resultDate = requestDate.minusYears(1);
         try (InputStreamReader inputStr = new InputStreamReader(getClass().getResourceAsStream(fileName));
              BufferedReader reader = new BufferedReader(inputStr)) {
@@ -160,9 +188,15 @@ public class Prediction {
                 BigDecimal nominal = new BigDecimal(line[0]);
                 parsedCourse = parsedCourse.divide(nominal).setScale(2, RoundingMode.HALF_UP);
                 if (parsedDate.equals(resultDate)) {
+                    if(outputType.equals("GRAPH")) {
+                        initiateGraphArgs(requestDate, parsedCourse);
+                    }
                     result.add(getStringDate(currentDate) + " - " + parsedCourse);
                     courseFound = true;
                 } else if (ChronoUnit.DAYS.between(resultDate, parsedDate) < 0) {
+                    if(outputType.equals("GRAPH")) {
+                        initiateGraphArgs(requestDate, parsedCourse);
+                    }
                     result.add(getStringDate(currentDate) + " - " + parsedCourse);
                     courseFound = true;
                 }
@@ -171,6 +205,12 @@ public class Prediction {
             System.out.println("Ошибка чтения файла");
             e.printStackTrace();
         }
+    }
+
+    private void initiateGraphArgs(LocalDate requestDate, BigDecimal parsedCourse) {
+        courseList.add(parsedCourse.doubleValue());
+        currencyList.add(currency);
+        dateList.add(requestDate);
     }
 
     private void mistAlgorithm(LocalDate requestDate) {
@@ -190,60 +230,3 @@ public class Prediction {
         return dayOfWeek + " " + resultDate.format(formatter);
     }
 }
-
-    /*private void tomorrowPrediction() {
-        initiateCourseList();
-        int meanDimension = 5;
-        String tomorrowDate = getNextDate();
-        double sumCourse = 0;
-        for (Double course : courseList) {
-            sumCourse += course;
-        }
-        double arithmeticalMean = Math.round(sumCourse / meanDimension * 100) / 100.0;
-        if (sumCourse != 0) {
-            result.add(tomorrowDate + " - " + arithmeticalMean);
-        }
-    }
-
-    private void weekPrediction() {
-        initiateCourseList();
-        int daysInWeek = 7;
-        int meanDimension = 5;
-        for (int i = 0; i < daysInWeek; i++) {
-            double sumCourse = 0;
-            for (Double course : courseList) {
-                sumCourse += course;
-            }
-            if (sumCourse == 0) break;
-            double arithmeticalMean = Math.round(sumCourse / meanDimension * 100) / 100.0;
-            courseList.add(0, arithmeticalMean);
-            courseList.remove(courseList.size() - 1);
-            String nextDate = getNextDate();
-            result.add(nextDate + " - " + arithmeticalMean);
-        }
-    }
-
-    private void initiateCourseList() {
-        try {
-            String fileName = "/" + currency + ".csv";
-            BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(fileName)));
-            String check = reader.readLine();
-            int meanDimension = 5;
-            for (int i = 0; i < meanDimension; i++) {
-                String[] line = reader.readLine().split(";");
-                double course = Double.parseDouble(line[2]) / Integer.parseInt(line[0]);
-                courseList.add(course);
-            }
-        } catch (Exception e) {
-            System.out.println("Ошибка чтения файла");
-        }
-    }*/
-/*    private String getNextDate() {
-        currentDate = currentDate.plusDays(1);
-        String dayOfWeek = currentDate
-                .getDayOfWeek()
-                .getDisplayName(TextStyle.SHORT, new Locale("ru"));
-        dayOfWeek = dayOfWeek.substring(0, 1).toUpperCase() + dayOfWeek.substring(1);
-        return dayOfWeek + " " + currentDate.format(formatter);
-    }
-}*/
