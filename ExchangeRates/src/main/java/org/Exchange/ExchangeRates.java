@@ -18,7 +18,7 @@ public class ExchangeRates {
         RequestParser parser = new RequestParser(new BufferedReader(new InputStreamReader((System.in))));
         Prediction prediction = null;
         parser.parse();
-        String currency = parser.getCurrency();
+        ArrayList<String> currency = parser.getCurrencyInputList();
         String predictionType = parser.getPredictionType();
         String predictionDate = parser.getPredictionDate();
         String predictionAlg = parser.getPredictionAlg();

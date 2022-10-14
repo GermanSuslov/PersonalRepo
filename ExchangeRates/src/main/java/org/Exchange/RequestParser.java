@@ -12,20 +12,15 @@ public class RequestParser {
 
     private String predictionAlg;
 
-    private String currency;
+    private ArrayList<String> currencyInputList = new ArrayList<>();
     private String predictionType;
     private String predictionDate;
     private String outputType;
 
-    private ArrayList<String> graphCurrencies = new ArrayList<>();
+    private final Set<String> currenciesSet = new HashSet<>(Arrays.asList("TRY", "USD", "EURO", "AMD", "BGN"));
 
-    private final Set<String> currencies = new HashSet<>(Arrays.asList("TRY", "USD", "EURO", "AMD", "BGN"));
-    public String getCurrency() {
-        return currency;
-    }
-
-    public ArrayList<String> getGraphCurrencies() {
-        return graphCurrencies;
+    public ArrayList<String> getCurrencyInputList() {
+        return currencyInputList;
     }
 
     public String getPredictionType() {
@@ -68,13 +63,12 @@ public class RequestParser {
                     continue;
                 }
                 input.close();
-                if(requestArgs[1].contains(",")) {
+                if (requestArgs[1].contains(",")) {
                     String[] graphLine = requestArgs[1].split(",");
                     for (String cur : graphLine) {
-                        graphCurrencies.add(cur);
+                        currencyInputList.add(cur);
                     }
-                }
-                else currency = requestArgs[1];
+                } else currencyInputList.add(requestArgs[1]);
                 predictionType = requestArgs[2];
                 predictionDate = requestArgs[3];
                 predictionAlg = requestArgs[5];
@@ -86,7 +80,6 @@ public class RequestParser {
         } catch (IOException e) {
             System.out.println("Ошибка чтения запроса");
         }
-
     }
 
     public boolean isValid(String[] requestArgs) {
@@ -94,8 +87,16 @@ public class RequestParser {
         if (!requestArgs[0].equals("RATE")) {
             return false;
         }
-        if (!currencies.contains(requestArgs[1])) {
-            return false;
+        if (requestArgs[1].split(",").length == 1) {
+            if (!currenciesSet.contains(requestArgs[1])) {
+                return false;
+            }
+        } else {
+            for(String cur : requestArgs[1].split(",")) {
+                if (!currenciesSet.contains(cur)) {
+                    return false;
+                }
+            }
         }
         if (predictionTypeInvalid(requestArgs)) {
             return false;

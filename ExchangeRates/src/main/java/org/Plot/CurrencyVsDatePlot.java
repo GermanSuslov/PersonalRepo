@@ -21,14 +21,11 @@ public class CurrencyVsDatePlot {
     public static JFreeChart createChart(XYDataset dataset) {
 
         JFreeChart chart = ChartFactory.createTimeSeriesChart(
-                "International Coffee Organisation : Coffee Prices",
-                null, "US cents/lb", dataset);
+                "График прогноза курса валют",
+                "Дата", "Курс валют", dataset);
 
         String fontName = "Palatino";
         chart.getTitle().setFont(new Font(fontName, Font.BOLD, 18));
-        chart.addSubtitle(new TextTitle(
-                "Source: http://www.ico.org/historical/2010-19/PDF/HIST-PRICES.pdf",
-                new Font(fontName, Font.PLAIN, 14)));
 
         XYPlot plot = (XYPlot) chart.getPlot();
         plot.setDomainPannable(true);
@@ -50,7 +47,6 @@ public class CurrencyVsDatePlot {
             XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) r;
             renderer.setDefaultShapesVisible(false);
             renderer.setDrawSeriesLineAsPath(true);
-            // set the default stroke for all series
             renderer.setAutoPopulateSeriesStroke(false);
             renderer.setDefaultStroke(new BasicStroke(3.0f,
                     BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL), false);
@@ -122,30 +118,4 @@ public class CurrencyVsDatePlot {
         return period;
     }
 
-/*    public CurrencyVsDatePlot(List<Double> course, List<String> currency, List<String> date) {
-        super("Currency Vs Dates");
-        JFreeChart lineChart = ChartFactory.createLineChart(
-                "График валют",
-                "Date",
-                "Course",
-                createDataset(course, currency, date),
-                PlotOrientation.HORIZONTAL,
-                true, true, false);
-        XYPlot plotXY = (XYPlot) lineChart.getPlot();
-        ChartPanel chartPanel = new ChartPanel(lineChart);
-
-        chartPanel.setPreferredSize(new java.awt.Dimension(560, 367));
-        setContentPane(chartPanel);
-    }
-
-    private DefaultCategoryDataset createDataset(List<Double> course, List<String> currency, List<String> date) {
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        for (int i = 0; i < course.size(); i++) {
-            dataset.addValue(
-                    course.get(i),
-                    currency.get(i),
-                    date.get(i));
-        }
-        return dataset;
-    }*/
 }

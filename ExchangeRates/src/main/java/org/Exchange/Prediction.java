@@ -1,7 +1,5 @@
 package org.Exchange;
 
-import org.jfree.chart.plot.XYPlot;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,7 +19,7 @@ public class Prediction {
     private final String predictionAlg;
     private final String outputType;
     private LocalDate currentDate;
-    private final String currency;
+    private ArrayList<String> currencyInputList = new ArrayList<>();
     private ArrayList<String> result = new ArrayList<>();
 
     private ArrayList<Double> courseList = new ArrayList<>();
@@ -29,14 +27,15 @@ public class Prediction {
     private ArrayList<String> currencyList = new ArrayList<>();
     private ArrayList<LocalDate> dateList = new ArrayList<>();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     /**
      * Создает запрос на прогноз
      *
-     * @param currency       вид валюты
+     * @param currencyInputList       вид валюты
      * @param predictionType тип прогноза
      */
-    public Prediction(String currency, String predictionType, String predictionDate, String predictionAlg, String outputType) {
-        this.currency = currency;
+    public Prediction(ArrayList<String> currencyInputList, String predictionType, String predictionDate, String predictionAlg, String outputType) {
+        this.currencyInputList = currencyInputList;
         this.predictionType = predictionType;
         this.predictionDate = predictionDate;
         this.predictionAlg = predictionAlg;
@@ -44,8 +43,8 @@ public class Prediction {
         this.currentDate = LocalDate.now();
     }
 
-    public Prediction(String currency, String predictionType, String predictionDate, String predictionAlg) {
-        this.currency = currency;
+    public Prediction(ArrayList<String> currencyInputList, String predictionType, String predictionDate, String predictionAlg) {
+        this.currencyInputList = currencyInputList;
         this.predictionType = predictionType;
         this.predictionDate = predictionDate;
         this.predictionAlg = predictionAlg;
@@ -90,7 +89,7 @@ public class Prediction {
                 if (this.predictionDate.equals("WEEK")) {
                     periodPrediction(7);
                 }
-                if(this.predictionDate.equals("MONTH")) {
+                if (this.predictionDate.equals("MONTH")) {
                     periodPrediction(30);
                 }
         }
@@ -137,77 +136,77 @@ public class Prediction {
     }
 
     private void lineRegAlgorithm(LocalDate requestDate) {
-        String fileName = "/" + currency + ".csv";
-        List<Double> x = new ArrayList<>();
-        List<Double> y = new ArrayList<>();
-        try (InputStreamReader inputStr = new InputStreamReader(getClass().getResourceAsStream(fileName));
-             BufferedReader reader = new BufferedReader(inputStr)) {
-            String check = reader.readLine();
-            for (int day = 0; day < 31; day++) {
-                String[] line = reader.readLine().split(";");
-                long parsedDate = LocalDate.parse(line[1], formatter).toEpochDay();
-                BigDecimal parsedCourse = new BigDecimal(line[2]);
-                BigDecimal nominal = new BigDecimal(line[0]);
-                parsedCourse = parsedCourse.divide(nominal).setScale(2, RoundingMode.HALF_UP);
-                x.add((double) parsedDate);
-                y.add(parsedCourse.doubleValue());
+        for (int i = 0; i < currencyInputList.size(); i++) {
+            String fileName = "/" + currencyInputList.get(i) + ".csv";
+            List<Double> x = new ArrayList<>();
+            List<Double> y = new ArrayList<>();
+            try (InputStreamReader inputStr = new InputStreamReader(getClass().getResourceAsStream(fileName));
+                 BufferedReader reader = new BufferedReader(inputStr)) {
+                String check = reader.readLine();
+                for (int day = 0; day < 31; day++) {
+                    String[] line = reader.readLine().split(";");
+                    long parsedDate = LocalDate.parse(line[1], formatter).toEpochDay();
+                    BigDecimal parsedCourse = new BigDecimal(line[2]);
+                    BigDecimal nominal = new BigDecimal(line[0]);
+                    parsedCourse = parsedCourse.divide(nominal).setScale(2, RoundingMode.HALF_UP);
+                    x.add((double) parsedDate);
+                    y.add(parsedCourse.doubleValue());
+                }
+            } catch (IOException e) {
+                System.out.println("Ошибка чтения файла");
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            System.out.println("Ошибка чтения файла");
-            e.printStackTrace();
+            Double[] xArray = x.toArray(new Double[0]);
+            Double[] yArray = y.toArray(new Double[0]);
+            LinearRegression lineReg = new LinearRegression(xArray, yArray);
+            BigDecimal lineRegPredict = BigDecimal.valueOf(lineReg.predict(requestDate.toEpochDay()))
+                    .setScale(2, RoundingMode.HALF_UP);
+            String formattedString = getStringDate(requestDate);
+            if (outputType.equals("GRAPH")) {
+                initiateGraphArgs(currencyInputList.get(i), currentDate, lineRegPredict);
+            }
+            if (lineRegPredict.doubleValue() <= 0) {
+                result.add("Невозможно предсказать курс на - " + formattedString);
+            } else result.add(formattedString + " - " + lineRegPredict);
         }
-        Double[] xArray = x.toArray(new Double[0]);
-        Double[] yArray = y.toArray(new Double[0]);
-        LinearRegression lineReg = new LinearRegression(xArray, yArray);
-        BigDecimal lineRegPredict = BigDecimal.valueOf(lineReg.predict(requestDate.toEpochDay()))
-                .setScale(2, RoundingMode.HALF_UP);
-        String formattedString = getStringDate(requestDate);
-        if(outputType.equals("GRAPH")) {
-            initiateGraphArgs(requestDate, lineRegPredict);
-        }
-        if(lineRegPredict.doubleValue() <= 0) {
-            result.add("Невозможно предсказать курс на - " + formattedString);
-        }
-        else result.add(formattedString + " - " + lineRegPredict);
     }
 
     private void moonAlgorithm(LocalDate requestDate) {
-        if(outputType.equals("GRAPH")) {
-            String fileName = "/" + currency + ".csv";
-        }
-        String fileName = "/" + currency + ".csv";
-        LocalDate resultDate = requestDate.minusYears(1);
-        try (InputStreamReader inputStr = new InputStreamReader(getClass().getResourceAsStream(fileName));
-             BufferedReader reader = new BufferedReader(inputStr)) {
-            String check = reader.readLine();
-            boolean courseFound = false;
-            while (!courseFound && reader.ready()) {
-                String[] line = reader.readLine().split(";");
-                LocalDate parsedDate = LocalDate.parse(line[1], formatter);
-                BigDecimal parsedCourse = new BigDecimal(line[2]);
-                BigDecimal nominal = new BigDecimal(line[0]);
-                parsedCourse = parsedCourse.divide(nominal).setScale(2, RoundingMode.HALF_UP);
-                if (parsedDate.equals(resultDate)) {
-                    if(outputType.equals("GRAPH")) {
-                        initiateGraphArgs(requestDate, parsedCourse);
+        for (int i = 0; i < currencyInputList.size(); i++) {
+            String fileName = "/" + currencyInputList.get(i) + ".csv";
+            requestDate = requestDate.minusYears(1);
+            try (InputStreamReader inputStr = new InputStreamReader(getClass().getResourceAsStream(fileName));
+                 BufferedReader reader = new BufferedReader(inputStr)) {
+                String check = reader.readLine();
+                boolean courseFound = false;
+                while (!courseFound && reader.ready()) {
+                    String[] line = reader.readLine().split(";");
+                    LocalDate parsedDate = LocalDate.parse(line[1], formatter);
+                    BigDecimal parsedCourse = new BigDecimal(line[2]);
+                    BigDecimal nominal = new BigDecimal(line[0]);
+                    parsedCourse = parsedCourse.divide(nominal).setScale(2, RoundingMode.HALF_UP);
+                    if (parsedDate.equals(requestDate)) {
+                        if (outputType.equals("GRAPH")) {
+                            initiateGraphArgs(currencyInputList.get(i), currentDate, parsedCourse);
+                        }
+                        result.add(getStringDate(currentDate) + " - " + parsedCourse);
+                        courseFound = true;
+                    } else if (ChronoUnit.DAYS.between(requestDate, parsedDate) < 0) {
+                        if (outputType.equals("GRAPH")) {
+                            initiateGraphArgs(currencyInputList.get(i), currentDate, parsedCourse);
+                        }
+                        result.add(getStringDate(currentDate) + " - " + parsedCourse);
+                        courseFound = true;
                     }
-                    result.add(getStringDate(currentDate) + " - " + parsedCourse);
-                    courseFound = true;
-                } else if (ChronoUnit.DAYS.between(resultDate, parsedDate) < 0) {
-                    if(outputType.equals("GRAPH")) {
-                        initiateGraphArgs(requestDate, parsedCourse);
-                    }
-                    result.add(getStringDate(currentDate) + " - " + parsedCourse);
-                    courseFound = true;
                 }
+            } catch (Exception e) {
+                System.out.println("Ошибка чтения файла");
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            System.out.println("Ошибка чтения файла");
-            e.printStackTrace();
         }
     }
 
-    private void initiateGraphArgs(LocalDate requestDate, BigDecimal parsedCourse) {
+    private void initiateGraphArgs(String currency, LocalDate requestDate, BigDecimal parsedCourse) {
         courseList.add(parsedCourse.doubleValue());
         currencyList.add(currency);
         dateList.add(requestDate);
