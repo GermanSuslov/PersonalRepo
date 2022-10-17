@@ -7,6 +7,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Проверяет валидность входных аргументов из ридера
+ */
 public class RequestParser {
     private BufferedReader input;
 
@@ -18,26 +21,6 @@ public class RequestParser {
     private String outputType;
 
     private final Set<String> currenciesSet = new HashSet<>(Arrays.asList("TRY", "USD", "EURO", "AMD", "BGN"));
-
-    public ArrayList<String> getCurrencyInputList() {
-        return currencyInputList;
-    }
-
-    public String getPredictionType() {
-        return predictionType;
-    }
-
-    public String getPredictionDate() {
-        return predictionDate;
-    }
-
-    public String getPredictionAlg() {
-        return predictionAlg;
-    }
-
-    public String getOutputType() {
-        return outputType;
-    }
 
     public RequestParser(BufferedReader input) {
         this.input = input;
@@ -146,5 +129,25 @@ public class RequestParser {
                 return true;
         }
         return false;
+    }
+
+    public ArrayList<String> getCurrencyInputList() {
+        return currencyInputList;
+    }
+
+    public String getPredictionType() {
+        return predictionType;
+    }
+
+    public String getPredictionDate() {
+        return predictionDate;
+    }
+
+    public String getPredictionAlg() {
+        return predictionAlg;
+    }
+
+    public String getOutputType() {
+        return outputType;
     }
 }

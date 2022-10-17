@@ -19,6 +19,7 @@ public class Prediction {
     private final String predictionAlg;
     private final String outputType;
     private LocalDate currentDate;
+    private LocalDate inputRequestDate;
     private ArrayList<String> currencyInputList = new ArrayList<>();
     private ArrayList<String> result = new ArrayList<>();
 
@@ -31,8 +32,8 @@ public class Prediction {
     /**
      * Создает запрос на прогноз
      *
-     * @param currencyInputList       вид валюты
-     * @param predictionType тип прогноза
+     * @param currencyInputList вид валюты
+     * @param predictionType    тип прогноза
      */
     public Prediction(ArrayList<String> currencyInputList, String predictionType, String predictionDate, String predictionAlg, String outputType) {
         this.currencyInputList = currencyInputList;
@@ -73,9 +74,9 @@ public class Prediction {
     }
 
     /**
-     * Возвращает список с результатом прогноза
+     * Возвращает список с результатом прогноза, инициализирует поля Prediction с результатами
      */
-    public ArrayList<String> getPrediction() {
+    public ArrayList<String> predictionToList() {
         switch (this.getPredictionType()) {
             case "-DATE":
                 if (this.predictionDate.matches("^\\d{2}.\\d{2}.\\d{4}$")) {
@@ -97,6 +98,7 @@ public class Prediction {
     }
 
     private void periodPrediction(int daysCount) {
+        currentDate = currentDate.plusDays(1);
         switch (predictionAlg) {
             case "MIST":
                 for (int day = 0; day < daysCount; day++) {
@@ -140,9 +142,8 @@ public class Prediction {
             String fileName = "/" + currencyInputList.get(i) + ".csv";
             List<Double> x = new ArrayList<>();
             List<Double> y = new ArrayList<>();
-            try (InputStreamReader inputStr = new InputStreamReader(getClass().getResourceAsStream(fileName));
-                 BufferedReader reader = new BufferedReader(inputStr)) {
-                String check = reader.readLine();
+            try (InputStreamReader inputStr = new InputStreamReader(getClass().getResourceAsStream(fileName)); BufferedReader reader = new BufferedReader(inputStr)) {
+                reader.readLine();
                 for (int day = 0; day < 31; day++) {
                     String[] line = reader.readLine().split(";");
                     long parsedDate = LocalDate.parse(line[1], formatter).toEpochDay();
@@ -154,13 +155,11 @@ public class Prediction {
                 }
             } catch (IOException e) {
                 System.out.println("Ошибка чтения файла");
-                e.printStackTrace();
             }
             Double[] xArray = x.toArray(new Double[0]);
             Double[] yArray = y.toArray(new Double[0]);
             LinearRegression lineReg = new LinearRegression(xArray, yArray);
-            BigDecimal lineRegPredict = BigDecimal.valueOf(lineReg.predict(requestDate.toEpochDay()))
-                    .setScale(2, RoundingMode.HALF_UP);
+            BigDecimal lineRegPredict = BigDecimal.valueOf(lineReg.predict(requestDate.toEpochDay())).setScale(2, RoundingMode.HALF_UP);
             String formattedString = getStringDate(requestDate);
             if (outputType.equals("GRAPH")) {
                 initiateGraphArgs(currencyInputList.get(i), currentDate, lineRegPredict);
@@ -172,12 +171,14 @@ public class Prediction {
     }
 
     private void moonAlgorithm(LocalDate requestDate) {
+        if (predictionAlg.equals("MOON")) {
+            this.inputRequestDate = requestDate;
+        }
         for (int i = 0; i < currencyInputList.size(); i++) {
             String fileName = "/" + currencyInputList.get(i) + ".csv";
             requestDate = requestDate.minusYears(1);
-            try (InputStreamReader inputStr = new InputStreamReader(getClass().getResourceAsStream(fileName));
-                 BufferedReader reader = new BufferedReader(inputStr)) {
-                String check = reader.readLine();
+            try (InputStreamReader inputStr = new InputStreamReader(getClass().getResourceAsStream(fileName)); BufferedReader reader = new BufferedReader(inputStr)) {
+                reader.readLine();
                 boolean courseFound = false;
                 while (!courseFound && reader.ready()) {
                     String[] line = reader.readLine().split(";");
@@ -189,19 +190,18 @@ public class Prediction {
                         if (outputType.equals("GRAPH")) {
                             initiateGraphArgs(currencyInputList.get(i), currentDate, parsedCourse);
                         }
-                        result.add(getStringDate(currentDate) + " - " + parsedCourse);
+                        result.add(getStringDate(inputRequestDate) + " - " + parsedCourse);
                         courseFound = true;
                     } else if (ChronoUnit.DAYS.between(requestDate, parsedDate) < 0) {
                         if (outputType.equals("GRAPH")) {
                             initiateGraphArgs(currencyInputList.get(i), currentDate, parsedCourse);
                         }
-                        result.add(getStringDate(currentDate) + " - " + parsedCourse);
+                        result.add(getStringDate(inputRequestDate) + " - " + parsedCourse);
                         courseFound = true;
                     }
                 }
-            } catch (Exception e) {
+            } catch (RuntimeException | IOException ex) {
                 System.out.println("Ошибка чтения файла");
-                e.printStackTrace();
             }
         }
     }
@@ -213,6 +213,7 @@ public class Prediction {
     }
 
     private void mistAlgorithm(LocalDate requestDate) {
+        this.inputRequestDate = requestDate;
         long dataBaseYears = 17;
         int yearToMinusMin = 1;
         long yearTomMinusMax = dataBaseYears - ChronoUnit.YEARS.between(requestDate, currentDate);
@@ -222,9 +223,7 @@ public class Prediction {
     }
 
     private String getStringDate(LocalDate resultDate) {
-        String dayOfWeek = resultDate
-                .getDayOfWeek()
-                .getDisplayName(TextStyle.SHORT, new Locale("ru"));
+        String dayOfWeek = resultDate.getDayOfWeek().getDisplayName(TextStyle.SHORT, new Locale("ru"));
         dayOfWeek = dayOfWeek.substring(0, 1).toUpperCase() + dayOfWeek.substring(1);
         return dayOfWeek + " " + resultDate.format(formatter);
     }
