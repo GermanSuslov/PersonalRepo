@@ -1,13 +1,13 @@
-package org.TelegramBot;
+package org.ru.exchangerates.telegrambot;
 
+import org.apache.log4j.Logger;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
-/**
- * Запуск бота
- */
+
 public class StartBot {
+    private static Logger logger = Logger.getLogger(StartBot.class);
 
     public static void main(String[] args) {
         TelegramBotsApi botsApi = null;
@@ -16,7 +16,7 @@ public class StartBot {
             Bot telegramBot = new Bot();
             botsApi.registerBot(telegramBot);
         } catch (TelegramApiException e) {
-            System.out.println("Не удалось инициировать API");
+            logger.error("Не удалось инициировать API");
         }
     }
 }

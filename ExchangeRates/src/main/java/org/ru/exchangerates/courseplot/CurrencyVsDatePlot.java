@@ -1,4 +1,4 @@
-package org.Plot;
+package org.ru.exchangerates.courseplot;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -35,45 +35,24 @@ public class CurrencyVsDatePlot {
      *
      * @return the dataset.
      */
-    public static XYDataset createDataset(ArrayList<Double> course, ArrayList<String> currencies, ArrayList<LocalDate> date) {
-        TimeSeries usdTs = new TimeSeries("Американский доллар");
-        TimeSeries amdTs = new TimeSeries("Армянский драм");
-        TimeSeries bgnTs = new TimeSeries("Болгарский лев");
-        TimeSeries euroTs = new TimeSeries("Евро");
-        TimeSeries tryTs = new TimeSeries("Турецкая лира");
-        for (int i = 0; i < currencies.size(); i++) {
-            switch (currencies.get(i)) {
-                case "USD":
-                    usdTs.add(getRegularTimePeriod(date, i), course.get(i));
-                    break;
-                case "AMD":
-                    amdTs.add(getRegularTimePeriod(date, i), course.get(i));
-                    break;
-                case "BGN":
-                    bgnTs.add(getRegularTimePeriod(date, i), course.get(i));
-                    break;
-                case "EURO":
-                    euroTs.add(getRegularTimePeriod(date, i), course.get(i));
-                    break;
-                case "TRY":
-                    tryTs.add(getRegularTimePeriod(date, i), course.get(i));
-                    break;
+
+    public static XYDataset createDataset(ArrayList<GraphArgs> graphArgsList) {
+        HashSet<TimeSeries> seriesSet = new HashSet<>();
+        for(GraphArgs graphArgs : graphArgsList) {
+            TimeSeries ts = new TimeSeries<>(graphArgs.getCurrency());
+            for (int i = 0; i < graphArgs.getCourseList().size(); i++) {
+                ts.add(getRegularTimePeriod(graphArgs.getDateList(), i), graphArgs.getCourseList().get(i));
             }
+            seriesSet.add(ts);
         }
 
-        TimeSeriesCollection dataset = getTimeSeriesCollection(usdTs, amdTs, bgnTs, euroTs, tryTs);
+        TimeSeriesCollection dataset = getTimeSeriesCollection(seriesSet);
 
         return dataset;
     }
 
-    private static TimeSeriesCollection getTimeSeriesCollection(TimeSeries usdTs, TimeSeries amdTs, TimeSeries bgnTs, TimeSeries euroTs, TimeSeries tryTs) {
+    private static TimeSeriesCollection getTimeSeriesCollection(Set<TimeSeries> seriesSet) {
         TimeSeriesCollection dataset = new TimeSeriesCollection();
-        Set<TimeSeries> seriesSet = new HashSet<>();
-        seriesSet.add(usdTs);
-        seriesSet.add(amdTs);
-        seriesSet.add(bgnTs);
-        seriesSet.add(euroTs);
-        seriesSet.add(tryTs);
         for (TimeSeries series : seriesSet) {
             if(!series.isEmpty()) {
                 dataset.addSeries(series);

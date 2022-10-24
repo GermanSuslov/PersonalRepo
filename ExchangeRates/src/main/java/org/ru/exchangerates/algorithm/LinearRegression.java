@@ -1,4 +1,4 @@
-package org.Exchange;
+package org.ru.exchangerates.algorithm;
 
 public class LinearRegression {
     private final double intercept, slope;
