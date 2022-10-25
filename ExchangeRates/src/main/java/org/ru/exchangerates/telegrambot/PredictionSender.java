@@ -77,7 +77,7 @@ public class PredictionSender {
             listOutput.setText(resultMessage);
             bot.execute(listOutput);
         } catch (TelegramApiException e) {
-            logger.error("Ошибка отправки изображения");
+            logger.error("Ошибка отправки списка прогноза");
         }
     }
 }
