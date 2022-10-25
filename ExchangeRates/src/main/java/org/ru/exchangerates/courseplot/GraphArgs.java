@@ -8,8 +8,8 @@ import java.util.ArrayList;
 @Getter
 public class GraphArgs {
     private String currency = "";
-    private ArrayList<LocalDate> dateList = new ArrayList<>();
-    private ArrayList<BigDecimal> courseList = new ArrayList<>();
+    private final ArrayList<LocalDate> dateList = new ArrayList<>();
+    private final ArrayList<BigDecimal> courseList = new ArrayList<>();
 
     public GraphArgs(String currency) {
         this.currency = currency;

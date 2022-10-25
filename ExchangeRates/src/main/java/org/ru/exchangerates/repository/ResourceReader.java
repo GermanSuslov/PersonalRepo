@@ -1,7 +1,6 @@
 package org.ru.exchangerates.repository;
 
 import org.apache.log4j.Logger;
-import org.ru.exchangerates.domain.ValidatorCreator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +12,7 @@ import java.time.LocalDate;
 import static org.ru.exchangerates.algorithm.Algorithm.formatter;
 
 public class ResourceReader {
-    private Logger logger = Logger.getLogger(ResourceReader.class);
+    private final Logger logger = Logger.getLogger(ResourceReader.class);
     private LocalDate parsedDate;
     private BigDecimal parsedCourse;
     private final BufferedReader reader;
@@ -45,7 +44,7 @@ public class ResourceReader {
         try {
             reader.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("Ошибка закрытия ридера");
         }
     }
 

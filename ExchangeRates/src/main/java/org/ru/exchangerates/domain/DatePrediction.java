@@ -7,8 +7,8 @@ import org.ru.exchangerates.algorithm.MoonAlgorithm;
 import java.time.LocalDate;
 
 public class DatePrediction implements Prediction {
-    private PredictionRequest predictionRequest;
-    private PredictionResult predictionResult;
+    private final PredictionRequest predictionRequest;
+    private final PredictionResult predictionResult;
 
     public DatePrediction(PredictionRequest predictionRequest, PredictionResult predictionResult) {
         this.predictionRequest = predictionRequest;

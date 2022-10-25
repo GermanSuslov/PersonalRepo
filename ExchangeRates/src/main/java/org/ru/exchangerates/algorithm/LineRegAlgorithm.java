@@ -12,8 +12,8 @@ import java.util.List;
 
 public class LineRegAlgorithm extends MoonAlgorithm {
     @Getter
-    private ArrayList<String> result = new ArrayList<>();
-    private PredictionRequest predictionRequest;
+    private final ArrayList<String> result = new ArrayList<>();
+    private final PredictionRequest predictionRequest;
 
     public LineRegAlgorithm(PredictionRequest predictionRequest) {
         super(predictionRequest);

@@ -1,8 +1,0 @@
-Введите запрос по типу : 
-rate EURO/TRY/USD/AMD/BGN -date tomorrow/dd.MM.yyyy -alg mist/moon/linereg 
-или 
-rate EURO/TRY/USD/AMD/BGN -period week/month -alg mist/moon/linereg -output list/graph
-Введите запрос по типу : 
-rate EURO/TRY/USD/AMD/BGN -date tomorrow/dd.MM.yyyy -alg mist/moon/linereg 
-или 
-rate EURO/TRY/USD/AMD/BGN -period week/month -alg mist/moon/linereg -output list/graph

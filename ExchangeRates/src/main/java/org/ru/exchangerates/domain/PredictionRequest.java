@@ -13,8 +13,8 @@ public class PredictionRequest {
     private String predictionDate;
     private final String predictionAlg;
     private final String outputType;
-    private LocalDate currentDate;
-    private ArrayList<String> currencyInputList;
+    private final LocalDate currentDate;
+    private final ArrayList<String> currencyInputList;
 
     /**
      * Создает запрос на прогноз

@@ -10,24 +10,23 @@ import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Getter
 public class MoonAlgorithm implements Algorithm {
-    private ArrayList<Double> courseList = new ArrayList<>();
-    private ArrayList<String> currencyList = new ArrayList<>();
-    private ArrayList<LocalDate> dateList = new ArrayList<>();
+    private final ArrayList<Double> courseList = new ArrayList<>();
+    private final ArrayList<String> currencyList = new ArrayList<>();
+    private final ArrayList<LocalDate> dateList = new ArrayList<>();
     private LocalDate inputRequestDate;
-    private ArrayList<String> result = new ArrayList<>();
-    private PredictionRequest predictionRequest;
-    private ArrayList<GraphArgs> graphArgsList = new ArrayList<>();
+    private final ArrayList<String> result = new ArrayList<>();
+    private final PredictionRequest predictionRequest;
+    private final ArrayList<GraphArgs> graphArgsList = new ArrayList<>();
 
     public MoonAlgorithm(PredictionRequest predictionRequest) {
         this.predictionRequest = predictionRequest;
-        predictionRequest.getCurrencyInputList()
-                .stream()
-                .collect(Collectors.toSet())
+        new HashSet<>(predictionRequest.getCurrencyInputList())
                 .forEach(cur -> graphArgsList.add(new GraphArgs(cur)));
     }
 
@@ -73,7 +72,7 @@ public class MoonAlgorithm implements Algorithm {
 
     protected void initiateGraphArgs(String currency, LocalDate requestDate, BigDecimal parsedCourse) {
         graphArgsList.stream().forEach(graphArgs -> {
-            if(graphArgs.getCurrency().equals(currency)) {
+            if (graphArgs.getCurrency().equals(currency)) {
                 graphArgs.addDateAndCourse(requestDate, parsedCourse);
             }
         });

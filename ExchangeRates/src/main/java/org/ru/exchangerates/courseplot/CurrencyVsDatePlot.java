@@ -5,12 +5,17 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.time.*;
+import org.jfree.data.time.Day;
+import org.jfree.data.time.RegularTimePeriod;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 
 import java.awt.*;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class CurrencyVsDatePlot {
@@ -27,7 +32,6 @@ public class CurrencyVsDatePlot {
         chartRenderer(chart, fontName);
 
         return chart;
-
     }
 
     /**
@@ -38,12 +42,12 @@ public class CurrencyVsDatePlot {
 
     public static XYDataset createDataset(ArrayList<GraphArgs> graphArgsList) {
         HashSet<TimeSeries> seriesSet = new HashSet<>();
-        for(GraphArgs graphArgs : graphArgsList) {
-            TimeSeries ts = new TimeSeries<>(graphArgs.getCurrency());
+        for (GraphArgs graphArgs : graphArgsList) {
+            TimeSeries timeSeries = new TimeSeries<>(graphArgs.getCurrency());
             for (int i = 0; i < graphArgs.getCourseList().size(); i++) {
-                ts.add(getRegularTimePeriod(graphArgs.getDateList(), i), graphArgs.getCourseList().get(i));
+                timeSeries.add(getRegularTimePeriod(graphArgs.getDateList(), i), graphArgs.getCourseList().get(i));
             }
-            seriesSet.add(ts);
+            seriesSet.add(timeSeries);
         }
 
         TimeSeriesCollection dataset = getTimeSeriesCollection(seriesSet);
@@ -54,7 +58,7 @@ public class CurrencyVsDatePlot {
     private static TimeSeriesCollection getTimeSeriesCollection(Set<TimeSeries> seriesSet) {
         TimeSeriesCollection dataset = new TimeSeriesCollection();
         for (TimeSeries series : seriesSet) {
-            if(!series.isEmpty()) {
+            if (!series.isEmpty()) {
                 dataset.addSeries(series);
             }
         }

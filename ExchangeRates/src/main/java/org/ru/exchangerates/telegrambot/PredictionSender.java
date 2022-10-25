@@ -12,14 +12,13 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class PredictionSender {
-    private Logger logger = Logger.getLogger(PredictionSender.class);
-    private String message_text;
-    private Bot bot;
-    private Long chatId;
+    private final Logger logger = Logger.getLogger(PredictionSender.class);
+    private final String message_text;
+    private final Bot bot;
+    private final Long chatId;
 
     public PredictionSender(String message_text, Long chatId, Bot bot) {
 
@@ -40,6 +39,7 @@ public class PredictionSender {
             } else {
                 sendGraph(predictionResult, chatId);
             }
+            logger.info("Успешно отправлено");
         } else {
             SendMessage messageFail = new SendMessage();
             messageFail.setChatId(chatId);
@@ -55,14 +55,12 @@ public class PredictionSender {
     private void sendGraph(PredictionResult predictionResult, Long chatId) {
         GraphPrediction graphPrediction = new GraphPrediction();
         try {
-            File pic = graphPrediction.getGraphFile(predictionResult);
+            File pic = graphPrediction.createGraphFile(predictionResult);
             SendPhoto sendPhoto = new SendPhoto();
             sendPhoto.setChatId(chatId);
             InputFile pic2 = new InputFile(pic, "CVDPlot.png");
             sendPhoto.setPhoto(pic2);
             bot.execute(sendPhoto);
-        } catch (IOException e) {
-            logger.debug("Не удалось создать изображение");
         } catch (TelegramApiException e) {
             logger.error("Ошибка отправки изображения");
         }

@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class ValidatorCreator {
-    private Logger logger = Logger.getLogger(ValidatorCreator.class);
+    private final Logger logger = Logger.getLogger(ValidatorCreator.class);
     @Getter
     private boolean telegramValidator = false;
     public String instruction = "Введите запрос по типу : \n" +
@@ -36,7 +36,7 @@ public class ValidatorCreator {
         RequestValidator validator = null;
         String request = messageText;
         validator = new RequestValidator(request, this);
-        if(!validator.validated()) {
+        if (!validator.validated()) {
             validator = null;
         }
         return validator;

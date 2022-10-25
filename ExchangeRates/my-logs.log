@@ -1,0 +1,22 @@
+24-10-2022 19:37:17 INFO  RequestValidator:40 - Неправильный запрос
+24-10-2022 19:37:23 INFO  PredictionSender:43 - Успешно отправлено
+24-10-2022 19:37:43 INFO  PredictionSender:43 - Успешно отправлено
+24-10-2022 21:10:05 INFO  PredictionSender:43 - Успешно отправлено
+24-10-2022 21:10:18 INFO  PredictionSender:43 - Успешно отправлено
+24-10-2022 21:10:29 INFO  PredictionSender:43 - Успешно отправлено
+24-10-2022 21:19:47 ERROR StartBot:22 - Не удалось инициировать API
+25-10-2022 19:08:39 INFO  RequestValidator:40 - Неправильный запрос
+25-10-2022 19:08:48 INFO  PredictionSender:43 - Успешно отправлено
+25-10-2022 19:08:57 INFO  PredictionSender:43 - Успешно отправлено
+25-10-2022 19:09:28 INFO  PredictionSender:43 - Успешно отправлено
+25-10-2022 19:09:45 INFO  PredictionSender:43 - Успешно отправлено
+25-10-2022 19:10:40 INFO  RequestValidator:40 - Неправильный запрос
+25-10-2022 19:10:44 INFO  PredictionSender:43 - Успешно отправлено
+25-10-2022 19:12:32 INFO  PredictionSender:43 - Успешно отправлено
+25-10-2022 19:21:34 INFO  RequestValidator:40 - Неправильный запрос
+25-10-2022 19:21:43 INFO  StartConsoleApp:17 - Удалось предсказать
+25-10-2022 19:22:19 INFO  StartConsoleApp:17 - Удалось предсказать
+25-10-2022 19:28:24 INFO  StartConsoleApp:17 - Удалось предсказать
+25-10-2022 19:31:59 INFO  StartConsoleApp:17 - Удалось предсказать
+25-10-2022 19:32:18 INFO  StartConsoleApp:17 - Удалось предсказать
+25-10-2022 19:32:49 INFO  PredictionSender:42 - Успешно отправлено

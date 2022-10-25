@@ -1,28 +1,29 @@
 package org.ru.exchangerates.telegrambot;
 
-import org.ru.exchangerates.courseplot.GraphPrediction;
-import org.ru.exchangerates.domain.PredictionRequest;
-import org.ru.exchangerates.domain.PredictionResult;
-import org.ru.exchangerates.domain.RequestValidator;
-import org.ru.exchangerates.domain.ValidatorCreator;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-
-import java.util.ArrayList;
 
 
 public final class Bot extends TelegramLongPollingBot {
 
+    private final String bot_name;
+    private final String bot_token;
+
+    public Bot(String bot_name, String bot_token) {
+        this.bot_name = bot_name;
+        this.bot_token = bot_token;
+    }
+
     @Override
     public String getBotUsername() {
-        return "ExchangeRates_TelegramBot";
+        return bot_name;
+        //"ExchangeRates_TelegramBot";
     }
 
     @Override
     public String getBotToken() {
-        return "5786769685:AAELRq6IpYfWXCh4mIFntNep2w138bjj1TY";
+        return bot_token;
+        //"5786769685:AAELRq6IpYfWXCh4mIFntNep2w138bjj1TY";
     }
 
     @Override

@@ -10,11 +10,11 @@ import java.util.Arrays;
  * Проверяет валидность входных аргументов из ридера
  */
 public class RequestValidator implements Validator {
-    private Logger logger = Logger.getLogger(RequestValidator.class);
-    private String input;
-    private ValidatorCreator validatorCreator;
+    private final Logger logger = Logger.getLogger(RequestValidator.class);
+    private final String input;
+    private final ValidatorCreator validatorCreator;
     private String predictionAlg;
-    private ArrayList<String> currenciesList = new ArrayList<>();
+    private final ArrayList<String> currenciesList = new ArrayList<>();
     private String predictionType;
     private String predictionDate;
     private String outputType;
@@ -72,7 +72,7 @@ public class RequestValidator implements Validator {
         if (predictionTypeInvalid(requestArgs)) {
             return false;
         }
-        if (!requestArgs[4].equals("-ALG")) {
+        if (requestArgs[4].equals("-ALG")) {
             switch (requestArgs[5]) {
                 case "MIST":
                 case "LINEREG":
@@ -81,7 +81,7 @@ public class RequestValidator implements Validator {
                 default:
                     return false;
             }
-        }
+        } else return false;
         return true;
     }
 
