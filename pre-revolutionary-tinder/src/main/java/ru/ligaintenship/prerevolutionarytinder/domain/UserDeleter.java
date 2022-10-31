@@ -1,8 +1,13 @@
 package ru.ligaintenship.prerevolutionarytinder.domain;
 
-import org.springframework.stereotype.Component;
+import ru.ligaintenship.prerevolutionarytinder.SpringJdbcConnectionProvider;
 
-public class UserDeleter implements UserService {
+public class UserDeleter {
+    private final SpringJdbcConnectionProvider provider;
+
+    public UserDeleter(SpringJdbcConnectionProvider provider) {
+        this.provider = provider;
+    }
     public void deleteById(Long id) {
     }
 }

@@ -1,8 +1,13 @@
 package ru.ligaintenship.prerevolutionarytinder.domain;
 
-import org.springframework.stereotype.Component;
+import ru.ligaintenship.prerevolutionarytinder.SpringJdbcConnectionProvider;
 
-public class UserUpdater implements UserService {
+public class UserUpdater {
+    private final SpringJdbcConnectionProvider provider;
+
+    public UserUpdater(SpringJdbcConnectionProvider provider) {
+        this.provider = provider;
+    }
     public void update(User resource) {
     }
 }

@@ -33,7 +33,7 @@ public class Controller {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Long create(@RequestBody User resource) {
+    public int create(@RequestBody User resource) {
         return creator.create(resource);
     }
 

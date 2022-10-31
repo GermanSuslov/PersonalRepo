@@ -44,27 +44,23 @@ public class ServerConfiguration {
     }
 
     @Bean
-    UserCreator userCreator() {
-        return new UserCreator();
+    UserCreator userCreator(SpringJdbcConnectionProvider provider) {
+        return new UserCreator(provider);
     }
 
     @Bean
-    UserDeleter userDeleter() {
-        return new UserDeleter();
+    UserDeleter userDeleter(SpringJdbcConnectionProvider provider) {
+        return new UserDeleter(provider);
     }
 
     @Bean
-    UserFinder userFinder() {
-        return new UserFinder();
+    UserFinder userFinder(SpringJdbcConnectionProvider provider) {
+        return new UserFinder(provider);
     }
 
     @Bean
-    UserUpdater userUpdater() {
-        return new UserUpdater();
+    UserUpdater userUpdater(SpringJdbcConnectionProvider provider) {
+        return new UserUpdater(provider);
     }
 
-/*    @Bean
-    PreRevolutionaryTinderApplication preRevolutionaryTinderApplication() {
-        return new PreRevolutionaryTinderApplication();
-    }*/
 }

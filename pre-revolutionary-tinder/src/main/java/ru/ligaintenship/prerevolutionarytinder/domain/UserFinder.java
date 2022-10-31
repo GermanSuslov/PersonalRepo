@@ -1,12 +1,17 @@
 package ru.ligaintenship.prerevolutionarytinder.domain;
 
-import org.springframework.stereotype.Component;
+import ru.ligaintenship.prerevolutionarytinder.SpringJdbcConnectionProvider;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-public class UserFinder implements UserService {
+
+public class UserFinder {
+    private final SpringJdbcConnectionProvider provider;
     private List<User> userList = new ArrayList<>();
+
+    public UserFinder(SpringJdbcConnectionProvider provider) {
+        this.provider = provider;
+    }
     public List<User> findAll() {
         return userList;
     }
