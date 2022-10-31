@@ -5,8 +5,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import ru.ligaintenship.prerevolutionarytinder.PreRevolutionaryTinderApplication;
 import ru.ligaintenship.prerevolutionarytinder.SpringJdbcConnectionProvider;
+import ru.ligaintenship.prerevolutionarytinder.domain.UserCreator;
+import ru.ligaintenship.prerevolutionarytinder.domain.UserDeleter;
+import ru.ligaintenship.prerevolutionarytinder.domain.UserFinder;
+import ru.ligaintenship.prerevolutionarytinder.domain.UserUpdater;
+import ru.ligaintenship.prerevolutionarytinder.rest.Controller;
 
 @Configuration
 public class ServerConfiguration {
@@ -37,6 +41,26 @@ public class ServerConfiguration {
     @Bean
     SpringJdbcConnectionProvider springJdbcConnectionProvider(JdbcTemplate jdbcTemplate) {
         return new SpringJdbcConnectionProvider(jdbcTemplate);
+    }
+
+    @Bean
+    UserCreator userCreator() {
+        return new UserCreator();
+    }
+
+    @Bean
+    UserDeleter userDeleter() {
+        return new UserDeleter();
+    }
+
+    @Bean
+    UserFinder userFinder() {
+        return new UserFinder();
+    }
+
+    @Bean
+    UserUpdater userUpdater() {
+        return new UserUpdater();
     }
 
 /*    @Bean

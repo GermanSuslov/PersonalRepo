@@ -19,10 +19,10 @@ public class SpringJdbcConnectionProvider {
 
     @PostConstruct
     public void printData() {
-        String sql = "select * from lab.exchange_rates where cost > ? and currency_code like ?";
+        String sql = "select * from tinder.tinder_users where user_id = ?";
+        long id = 2;
         ExchangeMapper mapper = new ExchangeMapper();
-        BigDecimal argBig = new BigDecimal(10);
-        List<User> resList = jdbcTemplate.query(sql, mapper, argBig, "P%");
+        List<User> resList = jdbcTemplate.query(sql, mapper, id);
 
         System.out.println("SpringJdbcConnectionProvider run");
         System.out.println(resList);
@@ -31,11 +31,11 @@ public class SpringJdbcConnectionProvider {
     private static class ExchangeMapper implements RowMapper<User> {
         @Override
         public User mapRow(ResultSet rs, int i) throws SQLException {
-            User user = new User();
-            user.setId(Long.parseLong(rs.getString(1)));
-            user.setSex(rs.getString("sex"));
-            user.setName(rs.getString("name"));
-            user.setStory(rs.getString("story"));
+            User user = new User(Long.parseLong(rs.getString(1)),
+                    rs.getString("sex"),
+                    rs.getString("name"),
+                    rs.getString("story"),
+                    rs.getString("looking_for"));
             return user;
         }
     }
