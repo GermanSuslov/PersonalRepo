@@ -3,12 +3,13 @@ package ru.prerev.tinderclient.telegrambot;
 import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.prerev.tinderclient.config.BotProperty;
+import ru.prerev.tinderclient.domain.Authorizer;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 
 @RequiredArgsConstructor
 public final class Bot extends TelegramLongPollingBot {
@@ -28,16 +29,17 @@ public final class Bot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            String message_text = update.getMessage().getText();
             Long chatId = update.getMessage().getChatId();
-            SendMessage message = new SendMessage(chatId.toString(), message_text);
+            String message_text = update.getMessage().getText();
+            Authorizer authorizer = new Authorizer(this);
             try {
-                execute(message);
-            } catch (TelegramApiException e) {
+                authorizer.authorize(chatId, message_text);
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
     }
+
 
     @PostConstruct
     public void init() {
