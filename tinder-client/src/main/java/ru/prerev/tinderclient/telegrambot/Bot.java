@@ -38,6 +38,15 @@ public final class Bot extends TelegramLongPollingBot {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        } else if (update.hasCallbackQuery()) {
+            Long chatId = update.getCallbackQuery().getMessage().getChatId();
+            String message_text = update.getCallbackQuery().getData();
+            authorizer.setBot(this);
+            try {
+                authorizer.authorize(chatId, message_text);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
