@@ -1,94 +1,101 @@
 package ru.prerev.tinderclient.domain;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.prerev.tinderclient.rest.PostService;
 import ru.prerev.tinderclient.telegrambot.Bot;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
-@Component
 @RequiredArgsConstructor
 public class Authorizer {
-    private final Bot bot;
+    private Bot bot;
+
     private ArrayList<String> userDataList = new ArrayList<>();
+    private final PostService postService;
+    private User user;
+
+    public void setBot(Bot bot) {
+        this.bot = bot;
+    }
 
     public void authorize(Long chatId, String message) throws IOException {
         message.trim();
         String fileName = "src/main/resources/" + chatId + "_user_data.txt";
-        //BufferedReader testReader = null;
-        try (BufferedReader authorizeReader = new BufferedReader(new FileReader(fileName))) {
-            while (authorizeReader.ready()) {
-                userDataList.add(authorizeReader.readLine());
-            }
-        } catch (FileNotFoundException e) {
-            new File(fileName).createNewFile();
+        if (user == null) {
+            user = new User();
         }
-        registration(chatId, message, fileName);
+        if (!user.initiated()) {
+            registration(chatId, message, fileName);
+        } else {
+            postService.post(user);
+        }
+        deleteUserData(message, fileName);
+        showUserData(chatId, message);
     }
 
     private void registration(Long chatId, String message, String fileName) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
+            initiateUserData(chatId, message, writer);
+        } catch (IOException e) {
+            System.out.println("Файл не найден");
+        } catch (TelegramApiException e) {
+            System.out.println("Ошибка отправки сообщения при регистрации");
+        }
+    }
+
+
+    private void initiateUserData(Long chatId, String message, BufferedWriter writer)
+            throws IOException, TelegramApiException {
         String ready = "Если вы хотите изменить анкету напишите: изменить анкету\n" +
                 "Если вы хотите посмотреть анкету напишите: показать анкету";
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName));
-             BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
-            switch (userDataList.size()) {
-                case 0:
-                    writer.write(chatId.toString());//chatId
-                    writer.newLine();
-                    SendMessage sexMessage = new SendMessage(chatId.toString(), "Вы сударь иль сударыня?");
-                    bot.execute(sexMessage);
-                    break;
-                case 1:
-                    if (message.equalsIgnoreCase("сударъ") || message.equalsIgnoreCase("сударыня")) {
-                        writer.write(message);//Пол
-                        writer.newLine();
-                    } else {
-                        SendMessage sexMessageRepeat = new SendMessage(chatId.toString(), "Вы сударь иль сударыня?");
-                        bot.execute(sexMessageRepeat);
-                        bot.execute(sexMessageRepeat);
-                        break;
-                    }
-                    SendMessage nameMessage = new SendMessage(chatId.toString(), "Как вас зовут?");
-                    bot.execute(nameMessage);
-                    break;
-                case 2:
-                    writer.write(message);//имя
-                    writer.newLine();
-                    SendMessage storyMessage = new SendMessage(chatId.toString(), "Опишите себя.");
-                    bot.execute(storyMessage);
-                    break;
-                case 3:
-                    writer.write(message);//история
-                    writer.newLine();
-                    SendMessage lookingForMessage = new SendMessage(chatId.toString(), "Кого вы ищите?");
-                    bot.execute(lookingForMessage);
-                    break;
-                case 4:
-                    writer.write(message);//кого ищет
-                    SendMessage welcomeMessage = new SendMessage(chatId.toString(),
-                            "Вы успешно зарегистрированы. " + ready);
-                    bot.execute(welcomeMessage);
-                    break;
-                case 5:
-                    if (!message.equalsIgnoreCase("изменить анкету") &&
-                            !message.equalsIgnoreCase("Показать анкету")) {
-                        SendMessage refactorMessage = new SendMessage(chatId.toString(), ready);
-                        bot.execute(refactorMessage);
-                    }
-                    break;
+        if (user.getId() == null) {
+            SendMessage sexMessage = new SendMessage(chatId.toString(), "Вы сударь иль сударыня?");
+            bot.execute(sexMessage);
+            user.setId(chatId);
+        } else if (user.getSex() == null) {
+            if (message.equalsIgnoreCase("сударъ") || message.equalsIgnoreCase("сударыня")) {
+                user.setSex(message);
+                SendMessage nameMessage = new SendMessage(chatId.toString(), "Как вас зовут?");
+                bot.execute(nameMessage);
+            } else {
+                SendMessage sexMessageRepeat = new SendMessage(chatId.toString(), "Вы сударь иль сударыня?");
+                bot.execute(sexMessageRepeat);
             }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
+        } else if (user.getName() == null) {
+            SendMessage storyMessage = new SendMessage(chatId.toString(), "Опишите себя.");
+            bot.execute(storyMessage);
+            user.setName(message);
+        } else if (user.getStory() == null) {
+            SendMessage lookingForMessage = new SendMessage(chatId.toString(), "Кого вы ищите?");
+            bot.execute(lookingForMessage);
+            user.setStory(message);
+        } else if (user.getLooking_for() == null) {
+            SendMessage welcomeMessage = new SendMessage(chatId.toString(),
+                    "Вы успешно зарегистрированы. " + ready);
+            bot.execute(welcomeMessage);
+            user.setLooking_for(message);
         }
+    }
+
+    private void showUserData(Long chatId, String message) {
+        if (message.equalsIgnoreCase("Показать анкету")) {
+            SendMessage data = new SendMessage(chatId.toString(), user.toString());
+            try {
+                bot.execute(data);
+            } catch (TelegramApiException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private void deleteUserData(String message, String fileName) {
         if (message.equalsIgnoreCase("изменить анкету")) {
             try {
                 Files.delete(Path.of(fileName));
@@ -96,15 +103,6 @@ public class Authorizer {
                 throw new RuntimeException(e);
             }
         }
-        if (message.equalsIgnoreCase("Показать анкету")) {
-            for (String str : userDataList) {
-                SendMessage row = new SendMessage(chatId.toString(), str);
-                try {
-                    bot.execute(row);
-                } catch (TelegramApiException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
     }
+
 }

@@ -1,3 +1,5 @@
 bot:
   botName: ${TBOT_NAME}
   botToken: ${TBOT_TOKEN}
+server:
+  url: http://localhost:8090.html

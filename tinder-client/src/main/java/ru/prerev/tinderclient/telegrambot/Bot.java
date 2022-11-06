@@ -15,6 +15,7 @@ import java.io.IOException;
 public final class Bot extends TelegramLongPollingBot {
     private final BotProperty property;
     private final TelegramBotsApi botsApi;
+    private final Authorizer authorizer;
 
     @Override
     public String getBotUsername() {
@@ -31,7 +32,7 @@ public final class Bot extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
             Long chatId = update.getMessage().getChatId();
             String message_text = update.getMessage().getText();
-            Authorizer authorizer = new Authorizer(this);
+            authorizer.setBot(this);
             try {
                 authorizer.authorize(chatId, message_text);
             } catch (IOException e) {
