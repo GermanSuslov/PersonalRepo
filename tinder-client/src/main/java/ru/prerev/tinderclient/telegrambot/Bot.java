@@ -32,12 +32,20 @@ public final class Bot extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
             Long chatId = update.getMessage().getChatId();
             String message_text = update.getMessage().getText();
-            authorizer.setBot(this);
-            try {
-                authorizer.authorize(chatId, message_text);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            authorizeUser(chatId, message_text);
+        } else if (update.hasCallbackQuery()) {
+            Long chatId = update.getCallbackQuery().getMessage().getChatId();
+            String message_text = update.getCallbackQuery().getData();
+            authorizeUser(chatId, message_text);
+        }
+    }
+
+    private void authorizeUser(Long chatId, String message_text) {
+        authorizer.setBot(this);
+        try {
+            authorizer.authorize(chatId, message_text);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

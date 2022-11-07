@@ -5,6 +5,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.prerev.tinderclient.rest.PostService;
 import ru.prerev.tinderclient.telegrambot.Bot;
+import ru.prerev.tinderclient.telegrambot.keyboard.InlineKeyboardMaker;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -19,6 +20,7 @@ public class Authorizer {
 
     private ArrayList<String> userDataList = new ArrayList<>();
     private final PostService postService;
+    private final InlineKeyboardMaker inlineKeyboardMaker;
     private User user;
 
     public void setBot(Bot bot) {
@@ -57,6 +59,7 @@ public class Authorizer {
                 "Если вы хотите посмотреть анкету напишите: показать анкету";
         if (user.getId() == null) {
             SendMessage sexMessage = new SendMessage(chatId.toString(), "Вы сударь иль сударыня?");
+            sexMessage.setReplyMarkup(inlineKeyboardMaker.getInlineMessageSexButtons());
             bot.execute(sexMessage);
             user.setId(chatId);
         } else if (user.getSex() == null) {
@@ -66,6 +69,7 @@ public class Authorizer {
                 bot.execute(nameMessage);
             } else {
                 SendMessage sexMessageRepeat = new SendMessage(chatId.toString(), "Вы сударь иль сударыня?");
+                sexMessageRepeat.setReplyMarkup(inlineKeyboardMaker.getInlineMessageSexButtons());
                 bot.execute(sexMessageRepeat);
             }
         } else if (user.getName() == null) {
@@ -74,6 +78,7 @@ public class Authorizer {
             user.setName(message);
         } else if (user.getStory() == null) {
             SendMessage lookingForMessage = new SendMessage(chatId.toString(), "Кого вы ищите?");
+            lookingForMessage.setReplyMarkup(inlineKeyboardMaker.getInlineMessageLookingForButtons());
             bot.execute(lookingForMessage);
             user.setStory(message);
         } else if (user.getLooking_for() == null) {

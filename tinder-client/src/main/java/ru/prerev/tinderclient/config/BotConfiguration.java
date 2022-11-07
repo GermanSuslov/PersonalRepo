@@ -10,6 +10,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import ru.prerev.tinderclient.domain.Authorizer;
 import ru.prerev.tinderclient.rest.PostService;
 import ru.prerev.tinderclient.telegrambot.Bot;
+import ru.prerev.tinderclient.telegrambot.keyboard.InlineKeyboardMaker;
 
 @Component
 @RequiredArgsConstructor
@@ -39,11 +40,15 @@ public class BotConfiguration {
     }
     @Bean
     Authorizer authorizer() {
-        return new Authorizer(postService());
+        return new Authorizer(postService(), keyboardMaker());
     }
     @Bean
     PostService postService() {
         return new PostService(restTemplate(), serverProperty());
+    }
+    @Bean
+    InlineKeyboardMaker keyboardMaker() {
+        return new InlineKeyboardMaker();
     }
     /*
     @Bean

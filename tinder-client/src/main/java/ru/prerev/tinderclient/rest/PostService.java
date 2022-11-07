@@ -17,7 +17,7 @@ public class PostService {
     private final ServerProperty property;
 
     public User post(User user) {
-        String url = "http://localhost:8090";
+        String url = "http://localhost:8090/users";
         //String url = property.getUrl();
         // create headers
         HttpHeaders headers = new HttpHeaders();
