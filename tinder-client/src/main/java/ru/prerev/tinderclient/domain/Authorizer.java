@@ -12,13 +12,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 
 @RequiredArgsConstructor
 public class Authorizer {
     private Bot bot;
-
-    private ArrayList<String> userDataList = new ArrayList<>();
     private final PostService postService;
     private final InlineKeyboardMaker inlineKeyboardMaker;
     private User user;
@@ -27,22 +24,23 @@ public class Authorizer {
         this.bot = bot;
     }
 
-    public void authorize(Integer chatId, String message) throws IOException {
+    public void authorize(Long chatId, String message) throws IOException {
         message.trim();
+        if (message.equalsIgnoreCase("reg")) {
+            postService.post(user);
+        }
         String fileName = "src/main/resources/" + chatId + "_user_data.txt";
         if (user == null) {
             user = new User();
         }
         if (!user.initiated()) {
             registration(chatId, message, fileName);
-        } else {
-            postService.post(user);
         }
         deleteUserData(message, fileName);
         showUserData(chatId, message);
     }
 
-    private void registration(Integer chatId, String message, String fileName) {
+    private void registration(Long chatId, String message, String fileName) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
             initiateUserData(chatId, message, writer);
         } catch (IOException e) {
@@ -53,15 +51,15 @@ public class Authorizer {
     }
 
 
-    private void initiateUserData(Integer chatId, String message, BufferedWriter writer)
+    private void initiateUserData(Long chatId, String message, BufferedWriter writer)
             throws IOException, TelegramApiException {
         String ready = "Если вы хотите изменить анкету напишите: изменить анкету\n" +
                 "Если вы хотите посмотреть анкету напишите: показать анкету";
-        if (user.getId() == null) {
+        if (user.getUser_id() == null) {
+            user.setUser_id(chatId);
             SendMessage sexMessage = new SendMessage(chatId.toString(), "Вы сударь иль сударыня?");
             sexMessage.setReplyMarkup(inlineKeyboardMaker.getInlineMessageSexButtons());
             bot.execute(sexMessage);
-            user.setId(chatId);
         } else if (user.getSex() == null) {
             if (message.equalsIgnoreCase("сударъ") || message.equalsIgnoreCase("сударыня")) {
                 user.setSex(message);
@@ -86,10 +84,11 @@ public class Authorizer {
                     "Вы успешно зарегистрированы. " + ready);
             bot.execute(welcomeMessage);
             user.setLooking_for(message);
+            postService.post(user);
         }
     }
 
-    private void showUserData(Integer chatId, String message) {
+    private void showUserData(Long chatId, String message) {
         if (message.equalsIgnoreCase("Показать анкету")) {
             SendMessage data = new SendMessage(chatId.toString(), user.toString());
             try {
