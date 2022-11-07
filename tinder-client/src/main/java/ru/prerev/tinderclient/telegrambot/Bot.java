@@ -32,23 +32,6 @@ public final class Bot extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
             Long chatId = update.getMessage().getChatId();
             String message_text = update.getMessage().getText();
-<<<<<<< HEAD
-            authorizer.setBot(this);
-            try {
-                authorizer.authorize(chatId, message_text);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        } else if (update.hasCallbackQuery()) {
-            Long chatId = update.getCallbackQuery().getMessage().getChatId();
-            String message_text = update.getCallbackQuery().getData();
-            authorizer.setBot(this);
-            try {
-                authorizer.authorize(chatId, message_text);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-=======
             authorizeUser(chatId, message_text);
         } else if (update.hasCallbackQuery()) {
             Long chatId = update.getCallbackQuery().getMessage().getChatId();
@@ -63,7 +46,6 @@ public final class Bot extends TelegramLongPollingBot {
             authorizer.authorize(chatId, message_text);
         } catch (IOException e) {
             throw new RuntimeException(e);
->>>>>>> 9b4b75b9aead8563802327dbca857a59f71fde4a
         }
     }
 
