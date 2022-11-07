@@ -32,7 +32,7 @@ public class SpringJdbcConnectionProvider {
     private static class ExchangeMapper implements RowMapper<User> {
         @Override
         public User mapRow(ResultSet rs, int i) throws SQLException {
-            User user = new User(rs.getLong(1),
+            User user = new User(rs.getInt(1),
                     rs.getString("sex"),
                     rs.getString("name"),
                     rs.getString("story"),

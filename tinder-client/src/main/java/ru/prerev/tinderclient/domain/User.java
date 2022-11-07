@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 @Data
 public class User implements Serializable {
-    private Long id;
+    private Integer id;
     private String sex;
     private String name;
     private String story;

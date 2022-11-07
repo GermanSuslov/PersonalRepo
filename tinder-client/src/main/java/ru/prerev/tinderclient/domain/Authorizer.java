@@ -27,7 +27,7 @@ public class Authorizer {
         this.bot = bot;
     }
 
-    public void authorize(Long chatId, String message) throws IOException {
+    public void authorize(Integer chatId, String message) throws IOException {
         message.trim();
         String fileName = "src/main/resources/" + chatId + "_user_data.txt";
         if (user == null) {
@@ -42,7 +42,7 @@ public class Authorizer {
         showUserData(chatId, message);
     }
 
-    private void registration(Long chatId, String message, String fileName) {
+    private void registration(Integer chatId, String message, String fileName) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
             initiateUserData(chatId, message, writer);
         } catch (IOException e) {
@@ -53,7 +53,7 @@ public class Authorizer {
     }
 
 
-    private void initiateUserData(Long chatId, String message, BufferedWriter writer)
+    private void initiateUserData(Integer chatId, String message, BufferedWriter writer)
             throws IOException, TelegramApiException {
         String ready = "Если вы хотите изменить анкету напишите: изменить анкету\n" +
                 "Если вы хотите посмотреть анкету напишите: показать анкету";
@@ -89,7 +89,7 @@ public class Authorizer {
         }
     }
 
-    private void showUserData(Long chatId, String message) {
+    private void showUserData(Integer chatId, String message) {
         if (message.equalsIgnoreCase("Показать анкету")) {
             SendMessage data = new SendMessage(chatId.toString(), user.toString());
             try {
