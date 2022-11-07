@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class SpringJdbcConnectionProvider {
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public SpringJdbcConnectionProvider(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -23,8 +23,7 @@ public class SpringJdbcConnectionProvider {
     }
 
     public int putData(String sql) {
-        ExchangeMapper mapper = new ExchangeMapper();
-        int resCode = jdbcTemplate.update(sql, mapper);
+        int resCode = jdbcTemplate.update(sql);
         System.out.println("SpringJdbcConnectionProvider run : " + resCode);
         return resCode;
     }
@@ -32,7 +31,7 @@ public class SpringJdbcConnectionProvider {
     private static class ExchangeMapper implements RowMapper<User> {
         @Override
         public User mapRow(ResultSet rs, int i) throws SQLException {
-            User user = new User(rs.getInt(1),
+            User user = new User(rs.getLong("user_id"),
                     rs.getString("sex"),
                     rs.getString("name"),
                     rs.getString("story"),
