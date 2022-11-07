@@ -22,6 +22,7 @@ public class Authorizer {
     private final PostService postService;
     private final InlineKeyboardMaker inlineKeyboardMaker;
     private User user;
+    private final InlineKeyboardMaker inlineKeyboardMaker = new InlineKeyboardMaker();
 
     public void setBot(Bot bot) {
         this.bot = bot;
