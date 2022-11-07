@@ -5,12 +5,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import ru.ligaintenship.prerevolutionarytinder.SpringJdbcConnectionProvider;
+import ru.ligaintenship.prerevolutionarytinder.rest.SpringJdbcConnectionProvider;
 import ru.ligaintenship.prerevolutionarytinder.domain.UserCreator;
 import ru.ligaintenship.prerevolutionarytinder.domain.UserDeleter;
 import ru.ligaintenship.prerevolutionarytinder.domain.UserFinder;
 import ru.ligaintenship.prerevolutionarytinder.domain.UserUpdater;
-import ru.ligaintenship.prerevolutionarytinder.rest.Controller;
 
 @Configuration
 public class ServerConfiguration {

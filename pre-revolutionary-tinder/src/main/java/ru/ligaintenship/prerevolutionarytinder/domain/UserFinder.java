@@ -1,25 +1,25 @@
 package ru.ligaintenship.prerevolutionarytinder.domain;
 
-import ru.ligaintenship.prerevolutionarytinder.SpringJdbcConnectionProvider;
+import ru.ligaintenship.prerevolutionarytinder.rest.SpringJdbcConnectionProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserFinder {
     private final SpringJdbcConnectionProvider provider;
-    private List<User> userList = new ArrayList<>();
+
 
     public UserFinder(SpringJdbcConnectionProvider provider) {
         this.provider = provider;
     }
     public List<User> findAll() {
-        return userList;
+        String sql = "select * from tinder.tinder_users";
+        List<User> list = provider.getData(sql);
+        return list;
     }
     public User findById(Long id) {
-        User foundedUser = userList.stream()
-                .filter(user -> user.getId().equals(id))
-                .findFirst()
-                .get();
-        return foundedUser;
+        String sql = "select * from tinder.tinder_users where user_id = " + id.toString();
+        List<User> foundedUser = provider.getData(sql);
+        return foundedUser.stream().findFirst().get();
     }
 }
