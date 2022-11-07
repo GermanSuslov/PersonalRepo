@@ -20,6 +20,7 @@ public class Authorizer {
 
     private ArrayList<String> userDataList = new ArrayList<>();
     private final PostService postService;
+    private final InlineKeyboardMaker inlineKeyboardMaker;
     private User user;
     private final InlineKeyboardMaker inlineKeyboardMaker = new InlineKeyboardMaker();
 
