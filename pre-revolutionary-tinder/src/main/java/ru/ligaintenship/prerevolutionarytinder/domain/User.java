@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class User {
-    private final Long id;
+    private final Long user_id;
     private final String sex;
     private final String name;
     private final String story;

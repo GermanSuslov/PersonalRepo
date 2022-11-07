@@ -3,7 +3,7 @@ create schema tinder authorization admin;
 
 --Создаем таблицу
 create table tinder.tinder_users (
-  user_id       bigint as identity primary key,
+  user_id       bigint primary key,
   sex           varchar,
   name          varchar,
   story         text,
