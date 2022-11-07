@@ -1,6 +1,6 @@
 package ru.ligaintenship.prerevolutionarytinder.domain;
 
-import ru.ligaintenship.prerevolutionarytinder.SpringJdbcConnectionProvider;
+import ru.ligaintenship.prerevolutionarytinder.rest.SpringJdbcConnectionProvider;
 
 public class UserUpdater {
     private final SpringJdbcConnectionProvider provider;
