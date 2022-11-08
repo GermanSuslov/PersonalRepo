@@ -12,6 +12,10 @@ public class User implements Serializable {
     private String story;
     private String looking_for;
 
+    public User(Long user_id) {
+        this.user_id = user_id;
+    }
+
     public boolean initiated() {
         boolean initiated = true;
         if (this.user_id == null) {
@@ -30,5 +34,11 @@ public class User implements Serializable {
             return false;
         }
         return initiated;
+    }
+
+    @Override
+    public String toString() {
+        String form = name + " \n" + sex + " \n" + story + " \n";
+        return form;
     }
 }

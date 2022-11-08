@@ -1,11 +1,11 @@
 package ru.prerev.tinderclient.telegrambot;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.prerev.tinderclient.config.BotProperty;
 import ru.prerev.tinderclient.domain.Authorizer;
 
 import javax.annotation.PostConstruct;
@@ -13,18 +13,22 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 public final class Bot extends TelegramLongPollingBot {
-    private final BotProperty property;
+    //private final BotProperty property;
     private final TelegramBotsApi botsApi;
     private final Authorizer authorizer;
+    @Value("${botName}")
+    private String botName;
+    @Value("${botToken}")
+    private String botToken;
 
     @Override
     public String getBotUsername() {
-        return property.getBotName();
+        return botName;
     }
 
     @Override
     public String getBotToken() {
-        return property.getBotToken();
+        return botToken;
     }
 
     @Override

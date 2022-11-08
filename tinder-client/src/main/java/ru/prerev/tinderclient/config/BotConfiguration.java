@@ -1,6 +1,7 @@
 package ru.prerev.tinderclient.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -8,6 +9,7 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import ru.prerev.tinderclient.domain.Authorizer;
+import ru.prerev.tinderclient.rest.GetService;
 import ru.prerev.tinderclient.rest.PostService;
 import ru.prerev.tinderclient.telegrambot.Bot;
 import ru.prerev.tinderclient.telegrambot.keyboard.InlineKeyboardMaker;
@@ -17,34 +19,40 @@ import ru.prerev.tinderclient.telegrambot.keyboard.InlineKeyboardMaker;
 public class BotConfiguration {
 
     @Bean
-    Bot bot(BotProperty property, TelegramBotsApi botsApi){
+    Bot bot(TelegramBotsApi botsApi){
         System.out.println("bot");
-        return new Bot(property, botsApi, authorizer());
+        return new Bot(botsApi, authorizer());
     }
     @Bean
     TelegramBotsApi botsApi() throws TelegramApiException {
         System.out.println("TelegramBotsApi");
         return new TelegramBotsApi(DefaultBotSession.class);
     }
-    @Bean
-    BotProperty property() {
+/*    @Bean
+    @ConfigurationProperties(prefix = "bot")
+    BotProperty botProperty() {
         return new BotProperty();
-    }
+    }*/
+    /*@Bean
+    @ConfigurationProperties(prefix = "server")
+    ServerProperty serverProperty() {
+        return new ServerProperty();
+    }*/
     @Bean
     RestTemplate restTemplate() {
         return new RestTemplate();
     }
     @Bean
-    ServerProperty serverProperty() {
-        return new ServerProperty();
+    GetService getService() {
+        return new GetService(restTemplate());
     }
     @Bean
     Authorizer authorizer() {
-        return new Authorizer(postService(), keyboardMaker());
+        return new Authorizer(postService(), restTemplate(), getService(), keyboardMaker());
     }
     @Bean
     PostService postService() {
-        return new PostService(restTemplate(), serverProperty());
+        return new PostService(restTemplate());
     }
     @Bean
     InlineKeyboardMaker keyboardMaker() {

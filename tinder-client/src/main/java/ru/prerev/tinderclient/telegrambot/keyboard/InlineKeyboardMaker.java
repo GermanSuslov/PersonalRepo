@@ -39,4 +39,15 @@ public class InlineKeyboardMaker {
         keyboardButtonsRow.add(button);
         return keyboardButtonsRow;
     }
+
+    public InlineKeyboardMarkup getFormButton() {
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
+
+        rowList.add(getButton("Изменить анкету"));
+        rowList.add(getButton("Показать анкету"));
+
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        inlineKeyboardMarkup.setKeyboard(rowList);
+        return inlineKeyboardMarkup;
+    }
 }

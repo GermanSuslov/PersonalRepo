@@ -1,22 +1,29 @@
 package ru.prerev.tinderclient.domain;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.FileUtils;
+import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.prerev.tinderclient.rest.GetService;
 import ru.prerev.tinderclient.rest.PostService;
 import ru.prerev.tinderclient.telegrambot.Bot;
 import ru.prerev.tinderclient.telegrambot.keyboard.InlineKeyboardMaker;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 public class Authorizer {
     private Bot bot;
+    private Map<Long, User> userMap;
     private final PostService postService;
+    private final RestTemplate restTemplate;
+    private final GetService getService;
     private final InlineKeyboardMaker inlineKeyboardMaker;
     private User user;
 
@@ -25,44 +32,63 @@ public class Authorizer {
     }
 
     public void authorize(Long chatId, String message) throws IOException {
+        if (userMap == null) {
+            userMap = new HashMap<>();
+        }
         message.trim();
-        if (message.equalsIgnoreCase("reg")) {
-            postService.post(user);
+        if (!userMap.containsKey(chatId)) {
+            userMap.put(chatId, new User(chatId));
         }
-        String fileName = "src/main/resources/" + chatId + "_user_data.txt";
-        if (user == null) {
-            user = new User();
+        try {
+            userMap.replace(chatId, getService.get(chatId));
+            //user = getService.get(chatId);
+        } catch (Exception ignored) {
         }
-        if (!user.initiated()) {
-            registration(chatId, message, fileName);
+        if (userMap.get(chatId) == null || !userMap.get(chatId).initiated()) {
+            registration(chatId, message);
         }
-        deleteUserData(message, fileName);
+        /*if (user == null || !user.initiated()) {
+            registration(chatId, message);
+        }*/
+        deleteUserData();
         showUserData(chatId, message);
     }
 
-    private void registration(Long chatId, String message, String fileName) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
-            initiateUserData(chatId, message, writer);
+    private void registration(Long chatId, String message) {
+        /*if (user == null) {
+            user = new User();
+        }*/
+        try {
+            initiateUserData(chatId, message);
         } catch (IOException e) {
-            System.out.println("Файл не найден");
+            throw new RuntimeException(e);
         } catch (TelegramApiException e) {
-            System.out.println("Ошибка отправки сообщения при регистрации");
+            throw new RuntimeException(e);
         }
+        if (userMap.get(chatId).initiated()) {
+            //System.out.println(userMap.get(chatId).toString());
+            //postService.post(userMap.get(chatId));
+        }
+        /*if (user.initiated()) {
+            System.out.println(user.toString());
+            //postService.post(user);
+        }*/
     }
 
 
-    private void initiateUserData(Long chatId, String message, BufferedWriter writer)
+    private void initiateUserData(Long chatId, String message)
             throws IOException, TelegramApiException {
         String ready = "Если вы хотите изменить анкету напишите: изменить анкету\n" +
                 "Если вы хотите посмотреть анкету напишите: показать анкету";
-        if (user.getUser_id() == null) {
-            user.setUser_id(chatId);
+        /*if (userMap.get(chatId).getUser_id() == null) {
+            userMap.get(chatId).setUser_id(chatId);
             SendMessage sexMessage = new SendMessage(chatId.toString(), "Вы сударь иль сударыня?");
             sexMessage.setReplyMarkup(inlineKeyboardMaker.getInlineMessageSexButtons());
             bot.execute(sexMessage);
-        } else if (user.getSex() == null) {
+        } else */
+        if (userMap.get(chatId).getSex() == null) {
             if (message.equalsIgnoreCase("сударъ") || message.equalsIgnoreCase("сударыня")) {
-                user.setSex(message);
+                userMap.get(chatId).setSex(message);
                 SendMessage nameMessage = new SendMessage(chatId.toString(), "Как вас зовут?");
                 bot.execute(nameMessage);
             } else {
@@ -70,43 +96,54 @@ public class Authorizer {
                 sexMessageRepeat.setReplyMarkup(inlineKeyboardMaker.getInlineMessageSexButtons());
                 bot.execute(sexMessageRepeat);
             }
-        } else if (user.getName() == null) {
+        } else if (userMap.get(chatId).getName() == null) {
             SendMessage storyMessage = new SendMessage(chatId.toString(), "Опишите себя.");
             bot.execute(storyMessage);
-            user.setName(message);
-        } else if (user.getStory() == null) {
+            userMap.get(chatId).setName(message);
+        } else if (userMap.get(chatId).getStory() == null) {
             SendMessage lookingForMessage = new SendMessage(chatId.toString(), "Кого вы ищите?");
             lookingForMessage.setReplyMarkup(inlineKeyboardMaker.getInlineMessageLookingForButtons());
             bot.execute(lookingForMessage);
-            user.setStory(message);
-        } else if (user.getLooking_for() == null) {
+            userMap.get(chatId).setStory(message);
+        } else if (userMap.get(chatId).getLooking_for() == null) {
             SendMessage welcomeMessage = new SendMessage(chatId.toString(),
                     "Вы успешно зарегистрированы. " + ready);
+            welcomeMessage.setReplyMarkup(inlineKeyboardMaker.getFormButton());
             bot.execute(welcomeMessage);
-            user.setLooking_for(message);
-            postService.post(user);
+            userMap.get(chatId).setLooking_for(message);
         }
     }
 
     private void showUserData(Long chatId, String message) {
         if (message.equalsIgnoreCase("Показать анкету")) {
-            SendMessage data = new SendMessage(chatId.toString(), user.toString());
+            String urlTranslate = "http://localhost:5006/translate?resource=" + userMap.get(chatId).getStory();
+            String translate = this.restTemplate.getForObject(urlTranslate, String.class);
+            String urlPng = "http://localhost:5005/internal/image/from/text/?description=" + translate;
+            byte[] png = this.restTemplate.getForObject(urlPng, byte[].class);
+            File filePng;
+            String fileName = chatId + "_form.png";
             try {
-                bot.execute(data);
+                FileUtils.writeByteArrayToFile(filePng = new File(fileName), png);
+                Thread.sleep(1000);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            InputFile pngFile = new InputFile(filePng, fileName);
+            SendPhoto formPng = new SendPhoto(chatId.toString(), pngFile);
+            SendMessage translatedMessage = new SendMessage(chatId.toString(),  userMap.get(chatId).getSex() + ", "+ userMap.get(chatId).getName());
+            try {
+                bot.execute(translatedMessage);
+                bot.execute(formPng);
             } catch (TelegramApiException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    private void deleteUserData(String message, String fileName) {
-        if (message.equalsIgnoreCase("изменить анкету")) {
-            try {
-                Files.delete(Path.of(fileName));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
+    private void deleteUserData() {
+
     }
 
 }
