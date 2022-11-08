@@ -25,6 +25,16 @@ public class Controller {
         return finder.findById(id);
     }
 
+    @GetMapping(value = "/users/{id}/search")
+    public List<User> search(@PathVariable("id") Long id) {
+        return finder.search(id);
+    }
+
+    @GetMapping(value = "/users/{id}/matches")
+    public List<List<User>> findMatch(@PathVariable("id") Long id) {
+        return finder.findMatch(id);
+    }
+
     @PostMapping(value = "/users")
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody User resource) {
