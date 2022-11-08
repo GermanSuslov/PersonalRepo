@@ -9,7 +9,7 @@ import ru.ligaintenship.prerevolutionarytinder.rest.SpringJdbcConnectionProvider
 import ru.ligaintenship.prerevolutionarytinder.domain.UserCreator;
 import ru.ligaintenship.prerevolutionarytinder.domain.UserDeleter;
 import ru.ligaintenship.prerevolutionarytinder.domain.UserFinder;
-import ru.ligaintenship.prerevolutionarytinder.domain.UserUpdater;
+import ru.ligaintenship.prerevolutionarytinder.domain.UserMatcher;
 
 @Configuration
 public class ServerConfiguration {
@@ -58,8 +58,8 @@ public class ServerConfiguration {
     }
 
     @Bean
-    UserUpdater userUpdater(SpringJdbcConnectionProvider provider) {
-        return new UserUpdater(provider);
+    UserMatcher userUpdater(SpringJdbcConnectionProvider provider) {
+        return new UserMatcher(provider);
     }
 
 }

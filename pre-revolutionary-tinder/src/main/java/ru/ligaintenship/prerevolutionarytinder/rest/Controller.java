@@ -12,7 +12,7 @@ import java.util.List;
 public class Controller {
     private final UserFinder finder;
     private final UserCreator creator;
-    private final UserUpdater updater;
+    private final UserMatcher updater;
     //private final UserDeleter deleter;
 
     @GetMapping(value = "/users")
@@ -41,10 +41,10 @@ public class Controller {
         creator.create(resource);
     }
 
-    @PutMapping(value = "/users/{id}")
+    @PutMapping(value = "/matches/{id}/{id_matched}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@PathVariable("id") Long id, @RequestBody User resource) {
-        updater.update(resource);
+    public void update(@PathVariable("id") Long id, @PathVariable("id_matched") Long id_matched) {
+        updater.update(id, id_matched);
     }
 
     /*@DeleteMapping(value = "/users/{id}")
