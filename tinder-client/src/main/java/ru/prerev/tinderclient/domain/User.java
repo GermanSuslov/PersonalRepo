@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 @Data
 public class User implements Serializable {
-    private Integer id;
+    private Long user_id;
     private String sex;
     private String name;
     private String story;
@@ -14,7 +14,7 @@ public class User implements Serializable {
 
     public boolean initiated() {
         boolean initiated = true;
-        if (this.id == null) {
+        if (this.user_id == null) {
             return false;
         }
         if (this.sex == null) {
