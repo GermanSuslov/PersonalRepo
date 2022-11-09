@@ -26,14 +26,10 @@ public class Menu {
 
         }
         if (message.equalsIgnoreCase("Анкета")) {
-            SendMessage menuMessage = new SendMessage();
-            menuMessage.setChatId(id);
-            menuMessage.setReplyMarkup(inlineKeyboardMaker.getMenuButton());
+
         }
         if (message.equalsIgnoreCase("Любимцы")) {
-            SendMessage menuMessage = new SendMessage();
-            menuMessage.setChatId(id);
-            menuMessage.setReplyMarkup(inlineKeyboardMaker.getMenuButton());
+
         }
     }
 }
