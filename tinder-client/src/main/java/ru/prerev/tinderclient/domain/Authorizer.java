@@ -1,8 +1,6 @@
 package ru.prerev.tinderclient.domain;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.io.FileUtils;
-import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -24,7 +22,7 @@ public class Authorizer {
     private Bot bot;
     private Map<Long, User> userMap;
     private final PostService postService;
-    private final RestTemplate restTemplate;
+    private final FormPictureCreator pictureCreator;
     private final DeleteService deleteService;
     private final GetService getService;
     private final InlineKeyboardMaker inlineKeyboardMaker;
@@ -62,7 +60,9 @@ public class Authorizer {
             deleteUserData(chatId);
         }
         if (message.equalsIgnoreCase("Показать анкету")) {
-            showUserData(chatId, message);
+            pictureCreator.setBot(bot);
+            pictureCreator.showUserData(userMap.get(chatId));
+            //showUserData(chatId);
         }
     }
 
@@ -111,30 +111,27 @@ public class Authorizer {
         }
     }
 
-    private void showUserData(Long chatId, String message) {
-        String urlTranslate = "http://localhost:5006/translate?resource=" + userMap.get(chatId).getStory();
+/*    private void showUserData(Long chatId) {
+        *//*String urlTranslate = "http://localhost:5006/translate?resource=" + userMap.get(chatId).getStory();
         String translate = this.restTemplate.getForObject(urlTranslate, String.class);
         String urlPng = "http://localhost:5005/internal/image/from/text/?description=" + translate;
-        byte[] png = this.restTemplate.getForObject(urlPng, byte[].class);
-        File filePng;
-        String fileName = chatId + "_form.png";
-        try {
-            FileUtils.writeByteArrayToFile(filePng = new File(fileName), png);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        InputFile pngFile = new InputFile(filePng, fileName);
+        byte[] png = this.restTemplate.getForObject(urlPng, byte[].class);*//*
+        File filePng = getService.getTranslatedPicture(userMap.get(chatId));
+        InputFile pngFile = new InputFile(filePng,  userMap.get(chatId).getUser_id() + "_form.png");
         SendPhoto formPng = new SendPhoto(chatId.toString(), pngFile);
         SendMessage translatedMessage = new SendMessage(chatId.toString(), userMap.get(chatId).getSex() + ", " + userMap.get(chatId).getName());
         formPng.setReplyMarkup(replyKeyboardMaker.getMenuKeyboard());
         try {
             bot.execute(translatedMessage);
             bot.execute(formPng);
+            SendMessage showMessage = new SendMessage(chatId.toString(), "Ваша анкета");
+            showMessage.setReplyMarkup(inlineKeyboardMaker.getFormButton());
+            bot.execute(showMessage);
         } catch (TelegramApiException e) {
             throw new RuntimeException(e);
         }
 
-    }
+    }*/
 
     private void deleteUserData(Long chatId) {
         deleteService.delete(chatId);

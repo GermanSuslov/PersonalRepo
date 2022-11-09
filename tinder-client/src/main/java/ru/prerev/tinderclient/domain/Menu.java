@@ -7,6 +7,7 @@ import ru.prerev.tinderclient.search.GenderSearcher;
 import ru.prerev.tinderclient.search.MatchSearcher;
 import ru.prerev.tinderclient.telegrambot.Bot;
 import ru.prerev.tinderclient.telegrambot.keyboard.InlineKeyboardMaker;
+
 import ru.prerev.tinderclient.telegrambot.keyboard.ReplyKeyboardMaker;
 
 @RequiredArgsConstructor
@@ -22,8 +23,14 @@ public class Menu {
     }
 
     public void showMenu(Long id, String message) {
-        if (message.equalsIgnoreCase("Перейти в меню")) {
-
+        if (message.equalsIgnoreCase("Показать анкету")) {
+            SendMessage menuMessage = new SendMessage(id.toString(), "Добро пожаловать");
+            menuMessage.setReplyMarkup(replyKeyboardMaker.getMenuKeyboard());
+            try {
+                bot.execute(menuMessage);
+            } catch (TelegramApiException e) {
+                throw new RuntimeException(e);
+            }
         }
         if (message.equalsIgnoreCase("Поиск")) {
 

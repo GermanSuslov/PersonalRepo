@@ -2,8 +2,15 @@ package ru.prerev.tinderclient.rest;
 
 import lombok.RequiredArgsConstructor;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.web.client.RestTemplate;
 import ru.prerev.tinderclient.domain.User;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class GetService {
@@ -13,5 +20,29 @@ public class GetService {
         String url = "http://localhost:8090/users";
         String urlUser = url + "/" + user_id;
         return this.restTemplate.getForObject(urlUser, User.class);
+    }
+
+    public List<User> getList(Long user_id) {
+        String url = "http://localhost:8090/users";
+        String urlUser = url + "/" + user_id;
+        User[] userArray = this.restTemplate.getForEntity(urlUser, User[].class).getBody();
+        return Arrays.stream(userArray).toList();
+        //return this.restTemplate.getForObject(urlUser, List<User>.class);
+        //ArrayList<User>
+    }
+
+    public File getTranslatedPicture(User user) {
+        String urlTranslate = "http://localhost:5006/translate?resource=" + user.getStory();
+        String translate = this.restTemplate.getForObject(urlTranslate, String.class);
+        String urlPng = "http://localhost:5005/internal/image/from/text/?description=" + translate;
+        byte[] png = this.restTemplate.getForObject(urlPng, byte[].class);
+        File filePng;
+        String fileName = user.getUser_id() + "_form.png";
+        try {
+            FileUtils.writeByteArrayToFile(filePng = new File(fileName), png);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return filePng;
     }
 }

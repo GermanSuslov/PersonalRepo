@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import ru.prerev.tinderclient.domain.Authorizer;
+import ru.prerev.tinderclient.domain.FormPictureCreator;
 import ru.prerev.tinderclient.search.MatchSearcher;
 import ru.prerev.tinderclient.domain.Menu;
 import ru.prerev.tinderclient.search.GenderSearcher;
@@ -51,7 +52,7 @@ public class BotConfiguration {
 
     @Bean
     Authorizer authorizer() {
-        return new Authorizer(postService(), restTemplate(), deleteService(), getService(), inlineKeyboardMaker(), replyKeyboardMaker());
+        return new Authorizer(postService(), pictureCreator(), deleteService(), getService(), inlineKeyboardMaker(), replyKeyboardMaker());
     }
 
     @Bean
@@ -81,6 +82,10 @@ public class BotConfiguration {
 
     @Bean
     MatchSearcher lovers() {
-        return new MatchSearcher();
+        return new MatchSearcher(getService());
+    }
+    @Bean
+    FormPictureCreator pictureCreator() {
+        return new FormPictureCreator(getService());
     }
 }
