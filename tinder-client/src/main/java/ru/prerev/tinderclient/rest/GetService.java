@@ -24,11 +24,9 @@ public class GetService {
 
     public List<User> getList(Long user_id) {
         String url = "http://localhost:8090/users";
-        String urlUser = url + "/" + user_id;
+        String urlUser = url + "/" + user_id + "/search";
         User[] userArray = this.restTemplate.getForEntity(urlUser, User[].class).getBody();
         return Arrays.stream(userArray).toList();
-        //return this.restTemplate.getForObject(urlUser, List<User>.class);
-        //ArrayList<User>
     }
 
     public File getTranslatedPicture(User user) {

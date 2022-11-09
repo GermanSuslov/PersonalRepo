@@ -14,7 +14,7 @@ public class MatchSearcher {
         this.bot = bot;
     }
 
-    public void search() {
+    public void search(Long id) {
 
     }
 }

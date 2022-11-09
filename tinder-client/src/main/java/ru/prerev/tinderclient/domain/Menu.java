@@ -33,13 +33,15 @@ public class Menu {
             }
         }
         if (message.equalsIgnoreCase("Поиск")) {
-
+            genderSearcher.setBot(bot);
+            genderSearcher.search(id);
         }
         if (message.equalsIgnoreCase("Анкета")) {
 
         }
         if (message.equalsIgnoreCase("Любимцы")) {
-
+            matchSearcher.setBot(bot);
+            matchSearcher.search(id);
         }
     }
 }
