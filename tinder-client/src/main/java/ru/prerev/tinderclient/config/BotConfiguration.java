@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import ru.prerev.tinderclient.domain.Authorizer;
 import ru.prerev.tinderclient.domain.FormPictureCreator;
+import ru.prerev.tinderclient.rest.MatchService;
 import ru.prerev.tinderclient.search.MatchSearcher;
 import ru.prerev.tinderclient.domain.Menu;
 import ru.prerev.tinderclient.search.GenderSearcher;
@@ -32,6 +33,10 @@ public class BotConfiguration {
     @Bean
     Menu menu() {
         return new Menu(replyKeyboardMaker(), genderSearcher(), authorizer(), lovers());
+    }
+    @Bean
+    MatchService matchService() {
+        return new MatchService(restTemplate());
     }
 
     @Bean
