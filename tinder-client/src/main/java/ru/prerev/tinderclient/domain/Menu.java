@@ -2,15 +2,17 @@ package ru.prerev.tinderclient.domain;
 
 import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import ru.prerev.tinderclient.search.GenderSearcher;
+import ru.prerev.tinderclient.search.MatchSearcher;
 import ru.prerev.tinderclient.telegrambot.Bot;
 import ru.prerev.tinderclient.telegrambot.keyboard.InlineKeyboardMaker;
 @RequiredArgsConstructor
 public class Menu {
     private Bot bot;
     private final InlineKeyboardMaker inlineKeyboardMaker;
-    private final Search search;
+    private final GenderSearcher genderSearcher;
     private final Authorizer authorizer;
-    private final Lovers lovers;
+    private final MatchSearcher matchSearcher;
     public void setBot(Bot bot) {
         this.bot = bot;
     }

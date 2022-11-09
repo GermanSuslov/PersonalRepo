@@ -8,9 +8,9 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import ru.prerev.tinderclient.domain.Authorizer;
-import ru.prerev.tinderclient.domain.Lovers;
+import ru.prerev.tinderclient.search.MatchSearcher;
 import ru.prerev.tinderclient.domain.Menu;
-import ru.prerev.tinderclient.domain.Search;
+import ru.prerev.tinderclient.search.GenderSearcher;
 import ru.prerev.tinderclient.rest.DeleteService;
 import ru.prerev.tinderclient.rest.GetService;
 import ru.prerev.tinderclient.rest.PostService;
@@ -29,7 +29,7 @@ public class BotConfiguration {
 
     @Bean
     Menu menu() {
-        return new Menu(keyboardMaker(), search(), authorizer(), lovers());
+        return new Menu(keyboardMaker(), genderSearcher(), authorizer(), lovers());
     }
 
     @Bean
@@ -69,12 +69,12 @@ public class BotConfiguration {
     }
 
     @Bean
-    Search search() {
-        return new Search(getService());
+    GenderSearcher genderSearcher() {
+        return new GenderSearcher(getService());
     }
 
     @Bean
-    Lovers lovers() {
-        return new Lovers();
+    MatchSearcher lovers() {
+        return new MatchSearcher();
     }
 }
