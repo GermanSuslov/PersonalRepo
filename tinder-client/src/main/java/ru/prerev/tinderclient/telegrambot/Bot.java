@@ -43,14 +43,15 @@ public final class Bot extends TelegramLongPollingBot {
             chatId = update.getCallbackQuery().getMessage().getChatId();
             message_text = update.getCallbackQuery().getData();
         }
-        authorizeUser(chatId, message_text);
-        menu.setBot(this);
+        setBot();
+        authorizer.authorize(chatId, message_text);
         menu.showMenu(chatId, message_text);
     }
 
-    private void authorizeUser(Long chatId, String message_text) {
+    private void setBot() {
         authorizer.setBot(this);
-        authorizer.authorize(chatId, message_text);
+        menu.setBot(this);
+
     }
 
 

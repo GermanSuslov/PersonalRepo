@@ -104,8 +104,8 @@ public class Authorizer {
             userMap.get(chatId).setLooking_for(message);
             SendMessage successMessage = new SendMessage(chatId.toString(),
                     "Вы успешно зарегистрированы.");
-            bot.execute(successMessage);
             successMessage.setReplyMarkup(inlineKeyboardMaker.getFormButton());
+            bot.execute(successMessage);
         }
     }
 

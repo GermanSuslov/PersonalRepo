@@ -51,4 +51,16 @@ public class InlineKeyboardMaker {
         inlineKeyboardMarkup.setKeyboard(rowList);
         return inlineKeyboardMarkup;
     }
+
+    public InlineKeyboardMarkup getMenuButton() {
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
+
+        rowList.add(getButton("Поиск"));
+        rowList.add(getButton("Анкета"));
+        rowList.add(getButton("Любимцы"));
+
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        inlineKeyboardMarkup.setKeyboard(rowList);
+        return inlineKeyboardMarkup;
+    }
 }
