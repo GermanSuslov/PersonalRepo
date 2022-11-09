@@ -12,6 +12,7 @@ import ru.prerev.tinderclient.rest.GetService;
 import ru.prerev.tinderclient.rest.PostService;
 import ru.prerev.tinderclient.telegrambot.Bot;
 import ru.prerev.tinderclient.telegrambot.keyboard.InlineKeyboardMaker;
+import ru.prerev.tinderclient.telegrambot.keyboard.ReplyKeyboardMaker;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +28,7 @@ public class Authorizer {
     private final DeleteService deleteService;
     private final GetService getService;
     private final InlineKeyboardMaker inlineKeyboardMaker;
+    private final ReplyKeyboardMaker replyKeyboardMaker;
 
     public void setBot(Bot bot) {
         this.bot = bot;
@@ -84,7 +86,7 @@ public class Authorizer {
             if (message.equalsIgnoreCase("сударъ") || message.equalsIgnoreCase("сударыня")) {
                 userMap.get(chatId).setUser_id(chatId);
                 userMap.get(chatId).setSex(message);
-                SendMessage nameMessage = new SendMessage(chatId.toString(), "Как вас зовут?");
+                SendMessage nameMessage = new SendMessage(chatId.toString(), "Как вас величать?");
                 bot.execute(nameMessage);
             } else {
                 SendMessage sexMessageRepeat = new SendMessage(chatId.toString(), "Вы сударь иль сударыня?");
@@ -124,6 +126,7 @@ public class Authorizer {
         InputFile pngFile = new InputFile(filePng, fileName);
         SendPhoto formPng = new SendPhoto(chatId.toString(), pngFile);
         SendMessage translatedMessage = new SendMessage(chatId.toString(), userMap.get(chatId).getSex() + ", " + userMap.get(chatId).getName());
+        formPng.setReplyMarkup(replyKeyboardMaker.getMenuKeyboard());
         try {
             bot.execute(translatedMessage);
             bot.execute(formPng);

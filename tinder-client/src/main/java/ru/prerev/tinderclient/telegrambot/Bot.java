@@ -45,13 +45,12 @@ public final class Bot extends TelegramLongPollingBot {
         }
         setBot();
         authorizer.authorize(chatId, message_text);
-        menu.showMenu(chatId, message_text);
+        //menu.showMenu(chatId, message_text);
     }
 
     private void setBot() {
         authorizer.setBot(this);
         menu.setBot(this);
-
     }
 
 

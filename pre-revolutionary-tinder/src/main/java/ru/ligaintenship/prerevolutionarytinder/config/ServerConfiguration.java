@@ -58,7 +58,7 @@ public class ServerConfiguration {
     }
 
     @Bean
-    UserMatcher userUpdater(SpringJdbcConnectionProvider provider) {
+    UserMatcher userMatcher(SpringJdbcConnectionProvider provider) {
         return new UserMatcher(provider);
     }
 

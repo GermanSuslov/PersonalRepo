@@ -16,6 +16,7 @@ import ru.prerev.tinderclient.rest.GetService;
 import ru.prerev.tinderclient.rest.PostService;
 import ru.prerev.tinderclient.telegrambot.Bot;
 import ru.prerev.tinderclient.telegrambot.keyboard.InlineKeyboardMaker;
+import ru.prerev.tinderclient.telegrambot.keyboard.ReplyKeyboardMaker;
 
 @Component
 @RequiredArgsConstructor
@@ -29,7 +30,7 @@ public class BotConfiguration {
 
     @Bean
     Menu menu() {
-        return new Menu(keyboardMaker(), genderSearcher(), authorizer(), lovers());
+        return new Menu(replyKeyboardMaker(), genderSearcher(), authorizer(), lovers());
     }
 
     @Bean
@@ -50,7 +51,7 @@ public class BotConfiguration {
 
     @Bean
     Authorizer authorizer() {
-        return new Authorizer(postService(), restTemplate(), deleteService(), getService(), keyboardMaker());
+        return new Authorizer(postService(), restTemplate(), deleteService(), getService(), inlineKeyboardMaker(), replyKeyboardMaker());
     }
 
     @Bean
@@ -59,8 +60,13 @@ public class BotConfiguration {
     }
 
     @Bean
-    InlineKeyboardMaker keyboardMaker() {
+    InlineKeyboardMaker inlineKeyboardMaker() {
         return new InlineKeyboardMaker();
+    }
+
+    @Bean
+    ReplyKeyboardMaker replyKeyboardMaker() {
+        return new ReplyKeyboardMaker();
     }
 
     @Bean

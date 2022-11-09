@@ -30,16 +30,6 @@ public class InlineKeyboardMaker {
         return inlineKeyboardMarkup;
     }
 
-    private List<InlineKeyboardButton> getButton(String buttonName) {
-        InlineKeyboardButton button = new InlineKeyboardButton();
-        button.setText(buttonName);
-        button.setCallbackData(buttonName);
-
-        List<InlineKeyboardButton> keyboardButtonsRow = new ArrayList<>();
-        keyboardButtonsRow.add(button);
-        return keyboardButtonsRow;
-    }
-
     public InlineKeyboardMarkup getFormButton() {
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
 
@@ -52,15 +42,13 @@ public class InlineKeyboardMaker {
         return inlineKeyboardMarkup;
     }
 
-    public InlineKeyboardMarkup getMenuButton() {
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
+    private List<InlineKeyboardButton> getButton(String buttonName) {
+        InlineKeyboardButton button = new InlineKeyboardButton();
+        button.setText(buttonName);
+        button.setCallbackData(buttonName);
 
-        rowList.add(getButton("Поиск"));
-        rowList.add(getButton("Анкета"));
-        rowList.add(getButton("Любимцы"));
-
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        inlineKeyboardMarkup.setKeyboard(rowList);
-        return inlineKeyboardMarkup;
+        List<InlineKeyboardButton> keyboardButtonsRow = new ArrayList<>();
+        keyboardButtonsRow.add(button);
+        return keyboardButtonsRow;
     }
 }
