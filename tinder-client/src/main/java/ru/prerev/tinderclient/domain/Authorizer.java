@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.prerev.tinderclient.rest.DeleteService;
 import ru.prerev.tinderclient.rest.GetService;
 import ru.prerev.tinderclient.rest.PostService;
 import ru.prerev.tinderclient.telegrambot.Bot;
@@ -23,41 +24,47 @@ public class Authorizer {
     private Map<Long, User> userMap;
     private final PostService postService;
     private final RestTemplate restTemplate;
+    private final DeleteService deleteService;
     private final GetService getService;
     private final InlineKeyboardMaker inlineKeyboardMaker;
-    private User user;
 
     public void setBot(Bot bot) {
         this.bot = bot;
     }
 
-    public void authorize(Long chatId, String message) throws IOException {
+    public void authorize(Long chatId, String message) {
+        String ready = "Если вы хотите изменить анкету напишите: изменить анкету\n" +
+                "Если вы хотите посмотреть анкету напишите: показать анкету";
         if (userMap == null) {
             userMap = new HashMap<>();
         }
         message.trim();
         if (!userMap.containsKey(chatId)) {
-            userMap.put(chatId, new User(chatId));
+            userMap.put(chatId, new User());
         }
         try {
-            userMap.replace(chatId, getService.get(chatId));
-            //user = getService.get(chatId);
+            if(!userMap.get(chatId).initiated()) {
+                userMap.replace(chatId, getService.get(chatId));
+                SendMessage welcomeMessage = new SendMessage(chatId.toString(),
+                        "Вы успешно авторизированы. " + ready);
+                welcomeMessage.setReplyMarkup(inlineKeyboardMaker.getFormButton());
+                bot.execute(welcomeMessage);
+            }
         } catch (Exception ignored) {
+
         }
         if (userMap.get(chatId) == null || !userMap.get(chatId).initiated()) {
             registration(chatId, message);
         }
-        /*if (user == null || !user.initiated()) {
-            registration(chatId, message);
-        }*/
-        deleteUserData();
-        showUserData(chatId, message);
+        if (message.equalsIgnoreCase("Изменить анкету")) {
+            deleteUserData(chatId);
+        }
+        if (message.equalsIgnoreCase("Показать анкету")) {
+            showUserData(chatId, message);
+        }
     }
 
     private void registration(Long chatId, String message) {
-        /*if (user == null) {
-            user = new User();
-        }*/
         try {
             initiateUserData(chatId, message);
         } catch (IOException e) {
@@ -66,28 +73,16 @@ public class Authorizer {
             throw new RuntimeException(e);
         }
         if (userMap.get(chatId).initiated()) {
-            //System.out.println(userMap.get(chatId).toString());
-            //postService.post(userMap.get(chatId));
+            postService.post(userMap.get(chatId));
         }
-        /*if (user.initiated()) {
-            System.out.println(user.toString());
-            //postService.post(user);
-        }*/
     }
 
 
     private void initiateUserData(Long chatId, String message)
             throws IOException, TelegramApiException {
-        String ready = "Если вы хотите изменить анкету напишите: изменить анкету\n" +
-                "Если вы хотите посмотреть анкету напишите: показать анкету";
-        /*if (userMap.get(chatId).getUser_id() == null) {
-            userMap.get(chatId).setUser_id(chatId);
-            SendMessage sexMessage = new SendMessage(chatId.toString(), "Вы сударь иль сударыня?");
-            sexMessage.setReplyMarkup(inlineKeyboardMaker.getInlineMessageSexButtons());
-            bot.execute(sexMessage);
-        } else */
         if (userMap.get(chatId).getSex() == null) {
             if (message.equalsIgnoreCase("сударъ") || message.equalsIgnoreCase("сударыня")) {
+                userMap.get(chatId).setUser_id(chatId);
                 userMap.get(chatId).setSex(message);
                 SendMessage nameMessage = new SendMessage(chatId.toString(), "Как вас зовут?");
                 bot.execute(nameMessage);
@@ -106,44 +101,47 @@ public class Authorizer {
             bot.execute(lookingForMessage);
             userMap.get(chatId).setStory(message);
         } else if (userMap.get(chatId).getLooking_for() == null) {
-            SendMessage welcomeMessage = new SendMessage(chatId.toString(),
-                    "Вы успешно зарегистрированы. " + ready);
-            welcomeMessage.setReplyMarkup(inlineKeyboardMaker.getFormButton());
-            bot.execute(welcomeMessage);
             userMap.get(chatId).setLooking_for(message);
+            SendMessage successMessage = new SendMessage(chatId.toString(),
+                    "Вы успешно зарегистрированы.");
+            bot.execute(successMessage);
+            successMessage.setReplyMarkup(inlineKeyboardMaker.getFormButton());
         }
     }
 
     private void showUserData(Long chatId, String message) {
-        if (message.equalsIgnoreCase("Показать анкету")) {
-            String urlTranslate = "http://localhost:5006/translate?resource=" + userMap.get(chatId).getStory();
-            String translate = this.restTemplate.getForObject(urlTranslate, String.class);
-            String urlPng = "http://localhost:5005/internal/image/from/text/?description=" + translate;
-            byte[] png = this.restTemplate.getForObject(urlPng, byte[].class);
-            File filePng;
-            String fileName = chatId + "_form.png";
-            try {
-                FileUtils.writeByteArrayToFile(filePng = new File(fileName), png);
-                Thread.sleep(1000);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            InputFile pngFile = new InputFile(filePng, fileName);
-            SendPhoto formPng = new SendPhoto(chatId.toString(), pngFile);
-            SendMessage translatedMessage = new SendMessage(chatId.toString(),  userMap.get(chatId).getSex() + ", "+ userMap.get(chatId).getName());
-            try {
-                bot.execute(translatedMessage);
-                bot.execute(formPng);
-            } catch (TelegramApiException e) {
-                throw new RuntimeException(e);
-            }
+        String urlTranslate = "http://localhost:5006/translate?resource=" + userMap.get(chatId).getStory();
+        String translate = this.restTemplate.getForObject(urlTranslate, String.class);
+        String urlPng = "http://localhost:5005/internal/image/from/text/?description=" + translate;
+        byte[] png = this.restTemplate.getForObject(urlPng, byte[].class);
+        File filePng;
+        String fileName = chatId + "_form.png";
+        try {
+            FileUtils.writeByteArrayToFile(filePng = new File(fileName), png);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        InputFile pngFile = new InputFile(filePng, fileName);
+        SendPhoto formPng = new SendPhoto(chatId.toString(), pngFile);
+        SendMessage translatedMessage = new SendMessage(chatId.toString(), userMap.get(chatId).getSex() + ", " + userMap.get(chatId).getName());
+        try {
+            bot.execute(translatedMessage);
+            bot.execute(formPng);
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private void deleteUserData(Long chatId) {
+        deleteService.delete(chatId);
+        SendMessage deleteMessage = new SendMessage(chatId.toString(), "Анкета успешно удалена");
+        try {
+            bot.execute(deleteMessage);
+            userMap.remove(chatId);
+            authorize(chatId, "Рандом");
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
         }
     }
-
-    private void deleteUserData() {
-
-    }
-
 }

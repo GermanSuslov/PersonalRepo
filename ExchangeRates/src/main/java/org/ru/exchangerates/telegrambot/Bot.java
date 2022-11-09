@@ -35,5 +35,4 @@ public final class Bot extends TelegramLongPollingBot {
             sender.sendResult();
         }
     }
-
 }

@@ -12,8 +12,6 @@ import java.util.Collections;
 public class PostService {
     private final RestTemplate restTemplate;
 
-/*    @Value("${server.url}")
-    String url;*/
     public User post(User user) {
         String url = "http://localhost:8090/users";
         HttpHeaders headers = new HttpHeaders();

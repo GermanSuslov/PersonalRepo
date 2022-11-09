@@ -1,20 +1,23 @@
 package ru.prerev.tinderclient.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
 public class User implements Serializable {
+    @JsonProperty("user_id")
     private Long user_id;
+    @JsonProperty("sex")
     private String sex;
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("story")
     private String story;
+    @JsonProperty("looking_for")
     private String looking_for;
 
-    public User(Long user_id) {
-        this.user_id = user_id;
-    }
 
     public boolean initiated() {
         boolean initiated = true;

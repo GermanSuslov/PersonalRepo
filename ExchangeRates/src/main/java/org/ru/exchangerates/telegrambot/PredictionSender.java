@@ -21,7 +21,6 @@ public class PredictionSender {
     private final Long chatId;
 
     public PredictionSender(String message_text, Long chatId, Bot bot) {
-
         this.message_text = message_text;
         this.bot = bot;
         this.chatId = chatId;

@@ -13,7 +13,7 @@ public class Controller {
     private final UserFinder finder;
     private final UserCreator creator;
     private final UserMatcher updater;
-    //private final UserDeleter deleter;
+    private final UserDeleter deleter;
 
     @GetMapping(value = "/users")
     public List<User> findAll() {
@@ -22,16 +22,19 @@ public class Controller {
 
     @GetMapping(value = "/users/{id}")
     public User findById(@PathVariable("id") Long id) {
+        System.out.println("findById");
         return finder.findById(id);
     }
 
     @GetMapping(value = "/users/{id}/search")
     public List<User> search(@PathVariable("id") Long id) {
+        System.out.println("search");
         return finder.search(id);
     }
 
     @GetMapping(value = "/users/{id}/matches")
     public List<List<User>> findMatch(@PathVariable("id") Long id) {
+        System.out.println("findMatch");
         return finder.findMatch(id);
     }
 
@@ -47,9 +50,9 @@ public class Controller {
         updater.update(id, id_matched);
     }
 
-    /*@DeleteMapping(value = "/users/{id}")
+    @DeleteMapping(value = "/users/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable("id") Long id) {
         deleter.deleteById(id);
-    }*/
+    }
 }

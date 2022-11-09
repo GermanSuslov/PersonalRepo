@@ -20,3 +20,13 @@
 25-10-2022 19:31:59 INFO  StartConsoleApp:17 - Удалось предсказать
 25-10-2022 19:32:18 INFO  StartConsoleApp:17 - Удалось предсказать
 25-10-2022 19:32:49 INFO  PredictionSender:42 - Успешно отправлено
+28-10-2022 12:02:49 INFO  RequestValidator:40 - Неправильный запрос
+28-10-2022 12:03:04 INFO  RequestValidator:40 - Неправильный запрос
+28-10-2022 12:03:18 INFO  RequestValidator:40 - Неправильный запрос
+28-10-2022 12:03:49 INFO  PredictionSender:42 - Успешно отправлено
+28-10-2022 12:04:06 INFO  RequestValidator:40 - Неправильный запрос
+28-10-2022 12:04:24 INFO  PredictionSender:42 - Успешно отправлено
+28-10-2022 12:05:01 INFO  PredictionSender:42 - Успешно отправлено
+30-10-2022 18:27:46 INFO  PredictionSender:42 - Успешно отправлено
+30-10-2022 18:28:10 INFO  PredictionSender:42 - Успешно отправлено
+30-10-2022 18:28:27 INFO  RequestValidator:40 - Неправильный запрос

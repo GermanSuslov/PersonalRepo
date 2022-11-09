@@ -7,15 +7,16 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.prerev.tinderclient.domain.Authorizer;
+import ru.prerev.tinderclient.domain.Menu;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
 
 @RequiredArgsConstructor
 public final class Bot extends TelegramLongPollingBot {
     //private final BotProperty property;
     private final TelegramBotsApi botsApi;
     private final Authorizer authorizer;
+    private final Menu menu;
     @Value("${botName}")
     private String botName;
     @Value("${botToken}")
@@ -33,24 +34,23 @@ public final class Bot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+        Long chatId = null;
+        String message_text = null;
         if (update.hasMessage() && update.getMessage().hasText()) {
-            Long chatId = update.getMessage().getChatId();
-            String message_text = update.getMessage().getText();
-            authorizeUser(chatId, message_text);
+            chatId = update.getMessage().getChatId();
+            message_text = update.getMessage().getText();
         } else if (update.hasCallbackQuery()) {
-            Long chatId = update.getCallbackQuery().getMessage().getChatId();
-            String message_text = update.getCallbackQuery().getData();
-            authorizeUser(chatId, message_text);
+            chatId = update.getCallbackQuery().getMessage().getChatId();
+            message_text = update.getCallbackQuery().getData();
         }
+        authorizeUser(chatId, message_text);
+        menu.setBot(this);
+        menu.showMenu(chatId, message_text);
     }
 
     private void authorizeUser(Long chatId, String message_text) {
         authorizer.setBot(this);
-        try {
-            authorizer.authorize(chatId, message_text);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        authorizer.authorize(chatId, message_text);
     }
 
 

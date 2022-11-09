@@ -28,6 +28,10 @@ public class SpringJdbcConnectionProvider {
         return resCode;
     }
 
+    public void deleteData(String sql) {
+        jdbcTemplate.update(sql);
+    }
+
     private static class ExchangeMapper implements RowMapper<User> {
         @Override
         public User mapRow(ResultSet rs, int i) throws SQLException {
