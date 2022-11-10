@@ -30,4 +30,24 @@ public class ReplyKeyboardMaker {
 
         return replyKeyboardMarkup;
     }
+
+    public ReplyKeyboardMarkup getScrollKeyboard() {
+        KeyboardRow row1 = new KeyboardRow();
+        row1.add(new KeyboardButton("Вправо"));
+        row1.add(new KeyboardButton("Влево"));
+
+        KeyboardRow row2 = new KeyboardRow();
+        row2.add(new KeyboardButton("Меню"));
+
+        List<KeyboardRow> keyboard = new ArrayList<>();
+        keyboard.add(row1);
+        keyboard.add(row2);
+
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        replyKeyboardMarkup.setKeyboard(keyboard);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(true);
+
+        return replyKeyboardMarkup;
+    }
 }

@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import ru.prerev.tinderclient.domain.Authorizer;
 import ru.prerev.tinderclient.domain.FormPictureCreator;
+import ru.prerev.tinderclient.domain.Profile;
 import ru.prerev.tinderclient.rest.MatchService;
 import ru.prerev.tinderclient.search.MatchSearcher;
 import ru.prerev.tinderclient.domain.Menu;
@@ -32,7 +33,7 @@ public class BotConfiguration {
 
     @Bean
     Menu menu() {
-        return new Menu(replyKeyboardMaker(), genderSearcher(), authorizer(), lovers());
+        return new Menu(replyKeyboardMaker(), genderSearcher(), lovers(), profile());
     }
     @Bean
     MatchService matchService() {
@@ -57,7 +58,7 @@ public class BotConfiguration {
 
     @Bean
     Authorizer authorizer() {
-        return new Authorizer(postService(), pictureCreator(), deleteService(), getService(), inlineKeyboardMaker(), replyKeyboardMaker());
+        return new Authorizer(postService(), pictureCreator(), deleteService(), getService(), inlineKeyboardMaker());
     }
 
     @Bean
@@ -82,7 +83,7 @@ public class BotConfiguration {
 
     @Bean
     GenderSearcher genderSearcher() {
-        return new GenderSearcher(getService());
+        return new GenderSearcher(getService(), pictureCreator(), replyKeyboardMaker());
     }
 
     @Bean
@@ -91,6 +92,10 @@ public class BotConfiguration {
     }
     @Bean
     FormPictureCreator pictureCreator() {
-        return new FormPictureCreator(getService());
+        return new FormPictureCreator(getService(), inlineKeyboardMaker());
+    }
+
+    Profile profile() {
+        return new Profile(pictureCreator(), getService(), inlineKeyboardMaker());
     }
 }

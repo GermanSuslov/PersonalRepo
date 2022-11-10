@@ -2,8 +2,6 @@ package ru.prerev.tinderclient.domain;
 
 import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
-import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.prerev.tinderclient.rest.DeleteService;
 import ru.prerev.tinderclient.rest.GetService;
@@ -26,7 +24,6 @@ public class Authorizer {
     private final DeleteService deleteService;
     private final GetService getService;
     private final InlineKeyboardMaker inlineKeyboardMaker;
-    private final ReplyKeyboardMaker replyKeyboardMaker;
 
     public void setBot(Bot bot) {
         this.bot = bot;
@@ -45,10 +42,12 @@ public class Authorizer {
         try {
             if(!userMap.get(chatId).initiated()) {
                 userMap.replace(chatId, getService.get(chatId));
-                SendMessage welcomeMessage = new SendMessage(chatId.toString(),
+                /*SendMessage welcomeMessage = new SendMessage(chatId.toString(),
                         "Вы успешно авторизированы. " + ready);
                 welcomeMessage.setReplyMarkup(inlineKeyboardMaker.getFormButton());
-                bot.execute(welcomeMessage);
+                bot.execute(welcomeMessage);*/
+                pictureCreator.setBot(bot);
+                pictureCreator.showUserData(userMap.get(chatId), inlineKeyboardMaker.getFormButton());
             }
         } catch (Exception ignored) {
 
@@ -61,7 +60,7 @@ public class Authorizer {
         }
         if (message.equalsIgnoreCase("Показать анкету")) {
             pictureCreator.setBot(bot);
-            pictureCreator.showUserData(userMap.get(chatId));
+            pictureCreator.showUserData(userMap.get(chatId), null);
             //showUserData(chatId);
         }
     }
@@ -106,8 +105,9 @@ public class Authorizer {
             userMap.get(chatId).setLooking_for(message);
             SendMessage successMessage = new SendMessage(chatId.toString(),
                     "Вы успешно зарегистрированы.");
-            successMessage.setReplyMarkup(inlineKeyboardMaker.getFormButton());
+            //successMessage.setReplyMarkup(inlineKeyboardMaker.getFormButton());
             bot.execute(successMessage);
+            pictureCreator.showUserData(userMap.get(chatId), inlineKeyboardMaker.getFormButton());
         }
     }
 

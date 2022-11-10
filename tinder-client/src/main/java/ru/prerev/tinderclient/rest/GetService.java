@@ -29,10 +29,17 @@ public class GetService {
         return Arrays.stream(userArray).toList();
     }
 
+    public String getTranslate(String text) {
+        String urlTranslate = "http://localhost:5006/translate?resource=" + text;
+        return this.restTemplate.getForObject(urlTranslate, String.class);
+    }
+
     public File getTranslatedPicture(User user) {
-        String urlTranslate = "http://localhost:5006/translate?resource=" + user.getStory();
-        String translate = this.restTemplate.getForObject(urlTranslate, String.class);
-        String urlPng = "http://localhost:5005/internal/image/from/text/?description=" + translate;
+        /*String urlTranslate = "http://localhost:5006/translate?resource=" + user.getStory();
+        String translate = this.restTemplate.getForObject(urlTranslate, String.class);*/
+
+        String urlPng = "http://localhost:5005/internal/image/from/text/?description="
+                + getTranslate(user.getStory());
         byte[] png = this.restTemplate.getForObject(urlPng, byte[].class);
         File filePng;
         String fileName = user.getUser_id() + "_form.png";

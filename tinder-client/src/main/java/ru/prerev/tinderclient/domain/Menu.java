@@ -15,8 +15,8 @@ public class Menu {
     private Bot bot;
     private final ReplyKeyboardMaker replyKeyboardMaker;
     private final GenderSearcher genderSearcher;
-    private final Authorizer authorizer;
     private final MatchSearcher matchSearcher;
+    private final Profile profile;
 
     public void setBot(Bot bot) {
         this.bot = bot;
@@ -37,11 +37,22 @@ public class Menu {
             genderSearcher.search(id);
         }
         if (message.equalsIgnoreCase("Анкета")) {
-
+            profile.setBot(bot);
+            profile.showProfile(id);
         }
         if (message.equalsIgnoreCase("Любимцы")) {
             matchSearcher.setBot(bot);
             matchSearcher.search(id);
+        }
+
+        if (message.equalsIgnoreCase("Вправо")) {
+
+        }
+        if (message.equalsIgnoreCase("Влево")) {
+
+        }
+        if (message.equalsIgnoreCase("Меню")) {
+
         }
     }
 }
