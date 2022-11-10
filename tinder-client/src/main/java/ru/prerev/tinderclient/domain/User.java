@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.LinkedHashMap;
 
 @Data
-public class User extends LinkedHashMap<String, String> implements Serializable {
+public class User implements Serializable {
     @JsonProperty("user_id")
     private Long user_id;
     @JsonProperty("sex")

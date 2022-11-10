@@ -93,6 +93,9 @@ public class Lovers {
         User user = new User();
         user.setUser_id(Long.parseLong(userHashMap.get("user_id")));
         user.setSex(userHashMap.get("sex"));
+        user.setName(userHashMap.get("name"));
+        user.setStory(userHashMap.get("story"));
+        user.setLooking_for(userHashMap.get("looking_for"));
         return user;
     }
 }
