@@ -16,7 +16,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class Lovers {
     @Getter
-    private Map<Long, ArrayList<ArrayList<User>>> userMatchesMap;
+    private Map<Long, ArrayList<ArrayList<LinkedHashMap<String, String>>>> userMatchesMap;
     private final FormPictureCreator formPictureCreator;
     private Map<Long, Integer> userCountMap;
     @Setter
@@ -26,12 +26,12 @@ public class Lovers {
 
     public void showLovers(Long id, String message) {
         if (message.equalsIgnoreCase("Вправо")) {
-            ArrayList<ArrayList<User>> userMatches = userMatchesMap.get(id);
+            ArrayList<ArrayList<LinkedHashMap<String, String>>> userMatches = userMatchesMap.get(id);
             boolean pictureSended = false;
 
-            ArrayList<User> whoUserLiked = userMatches.get(0);
-            ArrayList<User> whoLikedUser = userMatches.get(1);
-            ArrayList<User> mutualLiking = userMatches.get(2);
+            ArrayList<LinkedHashMap<String, String>> whoUserLiked = userMatches.get(0);
+            ArrayList<LinkedHashMap<String, String>> whoLikedUser = userMatches.get(1);
+            ArrayList<LinkedHashMap<String, String>> mutualLiking = userMatches.get(2);
 
             if (!pictureSended) {
                 pictureSended = sendForm(id, whoUserLiked);
@@ -54,7 +54,7 @@ public class Lovers {
         }
     }
 
-    private boolean sendForm(Long id, ArrayList<User> userForms) {
+    private boolean sendForm(Long id, ArrayList<LinkedHashMap<String, String>> userForms) {
         boolean pictureSended = false;
         if (userCountMap.get(id) < userForms.size() && !userForms.isEmpty()) {
             //User liked = userForms.get(userCountMap.get(id));
@@ -67,7 +67,7 @@ public class Lovers {
         return pictureSended;
     }
 
-    public void setUserMatchesMap(Long id, ArrayList<ArrayList<User>> userMatches) {
+    public void setUserMatchesMap(Long id, ArrayList<ArrayList<LinkedHashMap<String, String>>> userMatches) {
         if (userMatchesMap == null) {
             userMatchesMap = new HashMap<>();
         }
@@ -88,7 +88,7 @@ public class Lovers {
         }
     }
 
-    private User decryptUser(ArrayList<User> userForms, Integer count) {
+    private User decryptUser(ArrayList<LinkedHashMap<String, String>> userForms, Integer count) {
         LinkedHashMap<String, String> userHashMap = userForms.get(count);
         User user = new User();
         user.setUser_id(Long.parseLong(userHashMap.get("user_id")));

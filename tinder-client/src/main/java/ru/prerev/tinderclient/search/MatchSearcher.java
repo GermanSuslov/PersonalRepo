@@ -6,6 +6,7 @@ import ru.prerev.tinderclient.rest.GetService;
 import ru.prerev.tinderclient.telegrambot.Bot;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -18,9 +19,9 @@ public class MatchSearcher {
         this.bot = bot;
     }
 
-    public ArrayList<ArrayList<User>> search(Long id) {
+    public ArrayList<ArrayList<LinkedHashMap<String, String>>> search(Long id) {
         List userList = getService.getMatchesList(id);
-        ArrayList<ArrayList<User>> userArrayLists = (ArrayList<ArrayList<User>>) userList;
+        ArrayList<ArrayList<LinkedHashMap<String, String>>> userArrayLists = (ArrayList<ArrayList<LinkedHashMap<String, String>>>) userList;
         return userArrayLists;
     }
 }

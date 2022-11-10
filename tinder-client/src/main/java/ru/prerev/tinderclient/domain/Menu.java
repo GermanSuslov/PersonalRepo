@@ -10,6 +10,7 @@ import ru.prerev.tinderclient.telegrambot.Bot;
 import ru.prerev.tinderclient.telegrambot.keyboard.ReplyKeyboardMaker;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 @RequiredArgsConstructor
 public class Menu {
@@ -38,7 +39,7 @@ public class Menu {
         }
         else if (message.equalsIgnoreCase("Любимцы")) {
             matchSearcher.setBot(bot);
-            ArrayList<ArrayList<User>> loversList = matchSearcher.search(id);
+            ArrayList<ArrayList<LinkedHashMap<String, String>>> loversList = matchSearcher.search(id);
             lovers.setBot(bot);
             lovers.setUserMatchesMap(id, loversList);
             bot.setLovers(lovers);
