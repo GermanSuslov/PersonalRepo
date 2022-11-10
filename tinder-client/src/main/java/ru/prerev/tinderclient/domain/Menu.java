@@ -3,11 +3,9 @@ package ru.prerev.tinderclient.domain;
 import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.prerev.tinderclient.rest.MatchService;
 import ru.prerev.tinderclient.search.GenderSearcher;
 import ru.prerev.tinderclient.search.MatchSearcher;
 import ru.prerev.tinderclient.telegrambot.Bot;
-import ru.prerev.tinderclient.telegrambot.keyboard.InlineKeyboardMaker;
 
 import ru.prerev.tinderclient.telegrambot.keyboard.ReplyKeyboardMaker;
 
@@ -41,8 +39,8 @@ public class Menu {
         if (message.equalsIgnoreCase("Любимцы")) {
             matchSearcher.setBot(bot);
             ArrayList<ArrayList<User>> loversList = matchSearcher.search(id);
-            lovers.setUserArrayLists(loversList);
             lovers.setBot(bot);
+            lovers.setUserMatchesMap(id, loversList);
         }
 
         if (message.equalsIgnoreCase("Вправо")) {

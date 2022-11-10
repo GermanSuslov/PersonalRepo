@@ -93,7 +93,7 @@ public class BotConfiguration {
     }
     @Bean
     Lovers lovers() {
-        return new Lovers(replyKeyboardMaker());
+        return new Lovers(pictureCreator(), replyKeyboardMaker());
     }
 
     Profile profile() {

@@ -48,7 +48,7 @@ public final class Bot extends TelegramLongPollingBot {
         setBot();
         authorizer.authorize(chatId, message_text);
         menu.showMenu(chatId, message_text);
-        if (!lovers.getUserArrayLists().isEmpty()) {
+        if (lovers.getUserMatchesMap() != null && lovers.getUserMatchesMap().containsKey(chatId)) {
             lovers.showLovers(chatId, message_text);
         }
     }
