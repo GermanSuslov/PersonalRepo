@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.prerev.tinderclient.domain.Authorizer;
+import ru.prerev.tinderclient.domain.Lovers;
 import ru.prerev.tinderclient.domain.Menu;
 
 import javax.annotation.PostConstruct;
@@ -16,6 +17,7 @@ public final class Bot extends TelegramLongPollingBot {
     //private final BotProperty property;
     private final TelegramBotsApi botsApi;
     private final Authorizer authorizer;
+    private final Lovers lovers;
     private final Menu menu;
     @Value("${botName}")
     private String botName;
@@ -46,6 +48,9 @@ public final class Bot extends TelegramLongPollingBot {
         setBot();
         authorizer.authorize(chatId, message_text);
         menu.showMenu(chatId, message_text);
+        if (!lovers.getUserArrayLists().isEmpty()) {
+            lovers.showLovers(chatId, message_text);
+        }
     }
 
     private void setBot() {

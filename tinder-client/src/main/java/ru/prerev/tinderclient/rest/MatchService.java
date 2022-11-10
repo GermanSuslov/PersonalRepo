@@ -12,12 +12,14 @@ public class MatchService {
     private final RestTemplate restTemplate;
 
     public void match(Long id_user, Long liked_id) {
-        /*String url = "http://localhost:8090/matches/" + id_user + "/" + liked_id;
+        String url = "http://localhost:8090/matches/" + id_user + "/" + liked_id;
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        HttpEntity<User> entity = new HttpEntity<>(id, headers);
-        ResponseEntity<User> response = this.restTemplate.postForEntity(url, entity, User.class);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        this.restTemplate.put(url, entity);
+        //this.restTemplate.postForObject(url, entity, Long.class);
+        /*ResponseEntity<User> response = this.restTemplate.postForEntity(url, entity, User.class);
         if (response.getStatusCode() == HttpStatus.CREATED) {
             return response.getBody();
         } else {

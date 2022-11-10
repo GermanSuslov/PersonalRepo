@@ -12,7 +12,7 @@ import java.util.List;
 public class Controller {
     private final UserFinder finder;
     private final UserCreator creator;
-    private final UserMatcher updater;
+    private final UserMatcher matcher;
     private final UserDeleter deleter;
 
     @GetMapping(value = "/users")
@@ -28,7 +28,7 @@ public class Controller {
 
     @GetMapping(value = "/users/{id}/search")
     public List<User> search(@PathVariable("id") Long id) {
-        System.out.println("search");
+        System.out.println("search: " + id);
         return finder.search(id);
     }
 
@@ -46,8 +46,8 @@ public class Controller {
 
     @PutMapping(value = "/matches/{id}/{id_matched}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@PathVariable("id") Long id, @PathVariable("id_matched") Long id_matched) {
-        updater.update(id, id_matched);
+    public void match(@PathVariable("id") Long id, @PathVariable("id_matched") Long id_matched) {
+        matcher.match(id, id_matched);
     }
 
     @DeleteMapping(value = "/users/{id}")

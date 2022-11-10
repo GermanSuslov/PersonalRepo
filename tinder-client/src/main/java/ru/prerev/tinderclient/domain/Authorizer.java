@@ -17,6 +17,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 public class Authorizer {
+
     private Bot bot;
     private Map<Long, User> userMap;
     private final PostService postService;
@@ -46,7 +47,6 @@ public class Authorizer {
                         "Вы успешно авторизированы. " + ready);
                 welcomeMessage.setReplyMarkup(inlineKeyboardMaker.getFormButton());
                 bot.execute(welcomeMessage);*/
-                pictureCreator.setBot(bot);
                 pictureCreator.showUserData(userMap.get(chatId), inlineKeyboardMaker.getFormButton());
             }
         } catch (Exception ignored) {
@@ -59,7 +59,9 @@ public class Authorizer {
             deleteUserData(chatId);
         }
         if (message.equalsIgnoreCase("Показать анкету")) {
-            pictureCreator.setBot(bot);
+            if (pictureCreator.getBot() == null) {
+                pictureCreator.setBot(bot);
+            }
             pictureCreator.showUserData(userMap.get(chatId), null);
             //showUserData(chatId);
         }
@@ -107,6 +109,7 @@ public class Authorizer {
                     "Вы успешно зарегистрированы.");
             //successMessage.setReplyMarkup(inlineKeyboardMaker.getFormButton());
             bot.execute(successMessage);
+            pictureCreator.setBot(bot);
             pictureCreator.showUserData(userMap.get(chatId), inlineKeyboardMaker.getFormButton());
         }
     }

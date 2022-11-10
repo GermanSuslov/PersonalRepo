@@ -8,7 +8,6 @@ import ru.prerev.tinderclient.domain.User;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,6 +27,18 @@ public class GetService {
         User[] userArray = this.restTemplate.getForEntity(urlUser, User[].class).getBody();
         return Arrays.stream(userArray).toList();
     }
+
+    public List getMatchesList(Long user_id) {
+        String url = "http://localhost:8090/users/"+ user_id + "/matches";
+        return this.restTemplate.getForEntity(url, List.class).getBody();
+    }
+/*
+
+    @GetMapping(value = "/users/{id}/matches")
+    public List<List<User>> findMatch(@PathVariable("id") Long id) {
+        System.out.println("findMatch");
+        return finder.findMatch(id);
+    }*/
 
     public String getTranslate(String text) {
         String urlTranslate = "http://localhost:5006/translate?resource=" + text;

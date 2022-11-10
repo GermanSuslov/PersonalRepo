@@ -1,5 +1,6 @@
 package ru.prerev.tinderclient.domain;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
@@ -11,11 +12,12 @@ import ru.prerev.tinderclient.telegrambot.Bot;
 import ru.prerev.tinderclient.telegrambot.keyboard.InlineKeyboardMaker;
 
 import java.io.File;
+
 @RequiredArgsConstructor
 public class FormPictureCreator {
     private final GetService getService;
     private final InlineKeyboardMaker inlineKeyboardMaker;
-
+    @Getter
     private Bot bot;
 
     public void setBot(Bot bot) {
@@ -24,7 +26,7 @@ public class FormPictureCreator {
 
     public void showUserData(User user, ReplyKeyboard keyboard) {
         File filePng = getService.getTranslatedPicture(user);
-        InputFile pngFile = new InputFile(filePng,  user.getUser_id() + "_form.png");
+        InputFile pngFile = new InputFile(filePng, user.getUser_id() + "_form.png");
         SendPhoto formPng = new SendPhoto(user.getUser_id().toString(), pngFile);
         formPng.setReplyMarkup(keyboard);
         SendMessage translatedMessage = new SendMessage(user.getUser_id().toString(), user.getSex() +

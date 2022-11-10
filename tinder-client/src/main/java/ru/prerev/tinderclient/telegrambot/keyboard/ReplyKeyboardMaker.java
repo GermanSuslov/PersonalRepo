@@ -33,8 +33,8 @@ public class ReplyKeyboardMaker {
 
     public ReplyKeyboardMarkup getScrollKeyboard() {
         KeyboardRow row1 = new KeyboardRow();
-        row1.add(new KeyboardButton("Вправо"));
         row1.add(new KeyboardButton("Влево"));
+        row1.add(new KeyboardButton("Вправо"));
 
         KeyboardRow row2 = new KeyboardRow();
         row2.add(new KeyboardButton("Меню"));

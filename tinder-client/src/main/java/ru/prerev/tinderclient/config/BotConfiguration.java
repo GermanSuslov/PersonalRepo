@@ -7,12 +7,9 @@ import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
-import ru.prerev.tinderclient.domain.Authorizer;
-import ru.prerev.tinderclient.domain.FormPictureCreator;
-import ru.prerev.tinderclient.domain.Profile;
+import ru.prerev.tinderclient.domain.*;
 import ru.prerev.tinderclient.rest.MatchService;
 import ru.prerev.tinderclient.search.MatchSearcher;
-import ru.prerev.tinderclient.domain.Menu;
 import ru.prerev.tinderclient.search.GenderSearcher;
 import ru.prerev.tinderclient.rest.DeleteService;
 import ru.prerev.tinderclient.rest.GetService;
@@ -28,12 +25,12 @@ public class BotConfiguration {
     @Bean
     Bot bot(TelegramBotsApi botsApi) {
         System.out.println("bot");
-        return new Bot(botsApi, authorizer(), menu());
+        return new Bot(botsApi, authorizer(), lovers(), menu());
     }
 
     @Bean
     Menu menu() {
-        return new Menu(replyKeyboardMaker(), genderSearcher(), lovers(), profile());
+        return new Menu(replyKeyboardMaker(), lovers(), genderSearcher(), matchSearcher(), profile());
     }
     @Bean
     MatchService matchService() {
@@ -83,16 +80,20 @@ public class BotConfiguration {
 
     @Bean
     GenderSearcher genderSearcher() {
-        return new GenderSearcher(getService(), pictureCreator(), replyKeyboardMaker());
+        return new GenderSearcher(getService(), matchService(), replyKeyboardMaker());
     }
 
     @Bean
-    MatchSearcher lovers() {
+    MatchSearcher matchSearcher() {
         return new MatchSearcher(getService());
     }
     @Bean
     FormPictureCreator pictureCreator() {
         return new FormPictureCreator(getService(), inlineKeyboardMaker());
+    }
+    @Bean
+    Lovers lovers() {
+        return new Lovers(replyKeyboardMaker());
     }
 
     Profile profile() {
