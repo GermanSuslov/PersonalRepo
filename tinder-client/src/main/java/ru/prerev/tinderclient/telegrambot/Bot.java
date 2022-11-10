@@ -1,6 +1,7 @@
 package ru.prerev.tinderclient.telegrambot;
 
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -17,7 +18,8 @@ public final class Bot extends TelegramLongPollingBot {
     //private final BotProperty property;
     private final TelegramBotsApi botsApi;
     private final Authorizer authorizer;
-    private final Lovers lovers;
+    @Setter
+    private Lovers lovers;
     private final Menu menu;
     @Value("${botName}")
     private String botName;
@@ -47,9 +49,15 @@ public final class Bot extends TelegramLongPollingBot {
         }
         setBot();
         authorizer.authorize(chatId, message_text);
-        menu.showMenu(chatId, message_text);
-        if (lovers.getUserMatchesMap() != null && lovers.getUserMatchesMap().containsKey(chatId)) {
+        /*if (lovers.getUserMatchesMap() == null || !lovers.getUserMatchesMap().containsKey(chatId)) {
+            menu.showMenu(chatId, message_text);
+        } else {
             lovers.showLovers(chatId, message_text);
+        }*/
+        if (lovers != null && lovers.getUserMatchesMap().containsKey(chatId)) {
+            lovers.showLovers(chatId, message_text);
+        } else {
+            menu.showMenu(chatId, message_text);
         }
     }
 

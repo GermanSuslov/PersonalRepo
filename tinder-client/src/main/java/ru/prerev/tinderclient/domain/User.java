@@ -4,9 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
 
 @Data
-public class User implements Serializable {
+public class User extends LinkedHashMap<String, String> implements Serializable {
     @JsonProperty("user_id")
     private Long user_id;
     @JsonProperty("sex")

@@ -32,25 +32,25 @@ public class Menu {
             genderSearcher.setBot(bot);
             genderSearcher.search(id);
         }
-        if (message.equalsIgnoreCase("Анкета")) {
+        else if (message.equalsIgnoreCase("Анкета")) {
             profile.setBot(bot);
             profile.showProfile(id);
         }
-        if (message.equalsIgnoreCase("Любимцы")) {
+        else if (message.equalsIgnoreCase("Любимцы")) {
             matchSearcher.setBot(bot);
             ArrayList<ArrayList<User>> loversList = matchSearcher.search(id);
             lovers.setBot(bot);
             lovers.setUserMatchesMap(id, loversList);
+            bot.setLovers(lovers);
         }
-
-        if (message.equalsIgnoreCase("Вправо")) {
+        else if (message.equalsIgnoreCase("Вправо")) {
             genderSearcher.match(id);
             genderSearcher.search(id);
         }
-        if (message.equalsIgnoreCase("Влево")) {
+        else if (message.equalsIgnoreCase("Влево")) {
             genderSearcher.search(id);
         }
-        if (message.equalsIgnoreCase("Меню")) {
+        else if (message.equalsIgnoreCase("Меню")) {
             menuButtons(id);
         }
     }

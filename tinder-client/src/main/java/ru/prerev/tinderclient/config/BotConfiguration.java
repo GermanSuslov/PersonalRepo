@@ -25,7 +25,7 @@ public class BotConfiguration {
     @Bean
     Bot bot(TelegramBotsApi botsApi) {
         System.out.println("bot");
-        return new Bot(botsApi, authorizer(), lovers(), menu());
+        return new Bot(botsApi, authorizer(), /*lovers(),*/ menu());
     }
 
     @Bean

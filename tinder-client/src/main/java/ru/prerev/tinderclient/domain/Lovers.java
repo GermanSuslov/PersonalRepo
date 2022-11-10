@@ -10,6 +10,7 @@ import ru.prerev.tinderclient.telegrambot.keyboard.ReplyKeyboardMaker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -30,7 +31,7 @@ public class Lovers {
 
             ArrayList<User> whoUserLiked = userMatches.get(0);
             ArrayList<User> whoLikedUser = userMatches.get(1);
-            ArrayList<User> mutualLiking = userMatches.get(3);
+            ArrayList<User> mutualLiking = userMatches.get(2);
 
             if (!pictureSended) {
                 pictureSended = sendForm(id, whoUserLiked);
@@ -56,7 +57,8 @@ public class Lovers {
     private boolean sendForm(Long id, ArrayList<User> userForms) {
         boolean pictureSended = false;
         if (userCountMap.get(id) < userForms.size() && !userForms.isEmpty()) {
-            User liked = userForms.get(userCountMap.get(id));
+            //User liked = userForms.get(userCountMap.get(id));
+            User liked = decryptUser(userForms, userCountMap.get(id));
             formPictureCreator.showUserData(liked, null);
             pictureSended = true;
         } else {
@@ -84,5 +86,13 @@ public class Lovers {
         } catch (TelegramApiException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private User decryptUser(ArrayList<User> userForms, Integer count) {
+        LinkedHashMap<String, String> userHashMap = userForms.get(count);
+        User user = new User();
+        user.setUser_id(Long.parseLong(userHashMap.get("user_id")));
+        user.setSex(userHashMap.get("sex"));
+        return user;
     }
 }
