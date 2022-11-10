@@ -28,9 +28,9 @@ public class GetService {
         return Arrays.stream(userArray).toList();
     }
 
-    public List getMatchesList(Long user_id) {
+    public List[] getMatchesList(Long user_id) {
         String url = "http://localhost:8090/users/"+ user_id + "/matches";
-        return this.restTemplate.getForEntity(url, List.class).getBody();
+        return this.restTemplate.getForEntity(url, List[].class).getBody();
     }
 /*
 

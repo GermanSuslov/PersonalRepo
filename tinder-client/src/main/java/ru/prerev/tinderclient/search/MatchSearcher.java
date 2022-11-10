@@ -19,9 +19,33 @@ public class MatchSearcher {
         this.bot = bot;
     }
 
-    public ArrayList<ArrayList<LinkedHashMap<String, String>>> search(Long id) {
-        List userList = getService.getMatchesList(id);
-        ArrayList<ArrayList<LinkedHashMap<String, String>>> userArrayLists = (ArrayList<ArrayList<LinkedHashMap<String, String>>>) userList;
-        return userArrayLists;
+    public ArrayList<ArrayList<User>> search(Long id) {
+        List[] userList = getService.getMatchesList(id);
+        ArrayList<LinkedHashMap<String, Object>> listHashUserLiked = (ArrayList<LinkedHashMap<String, Object>>) userList[0];
+        ArrayList<LinkedHashMap<String, Object>> listHashLikedUser = (ArrayList<LinkedHashMap<String, Object>>) userList[1];
+        ArrayList<LinkedHashMap<String, Object>> listHashMutualLiking = (ArrayList<LinkedHashMap<String, Object>>) userList[2];
+        ArrayList<User> userLiked = getUserArrayList(listHashUserLiked);
+        ArrayList<User> likedUser = getUserArrayList(listHashLikedUser);
+        ArrayList<User> mutualLiking = getUserArrayList(listHashMutualLiking);
+        ArrayList<ArrayList<User>> lists = new ArrayList<>();
+        lists.add(userLiked);
+        lists.add(likedUser);
+        lists.add(mutualLiking);
+        return lists;
+    }
+
+    private ArrayList<User> getUserArrayList(ArrayList<LinkedHashMap<String, Object>> listHash1) {
+        ArrayList<User> listUsers = new ArrayList<>();
+        User user = new User();
+        for(LinkedHashMap<String, Object> hashMap : listHash1) {
+            Long user_id = Long.parseLong(hashMap.get("user_id").toString());
+            user.setUser_id(user_id);
+            user.setSex((String) hashMap.get("sex"));
+            user.setName((String) hashMap.get("name"));
+            user.setStory((String) hashMap.get("story"));
+            user.setLooking_for((String) hashMap.get("looking_for"));
+            listUsers.add(user);
+        }
+        return listUsers;
     }
 }

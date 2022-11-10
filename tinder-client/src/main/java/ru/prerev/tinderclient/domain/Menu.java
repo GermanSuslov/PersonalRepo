@@ -39,7 +39,7 @@ public class Menu {
         }
         else if (message.equalsIgnoreCase("Любимцы")) {
             matchSearcher.setBot(bot);
-            ArrayList<ArrayList<LinkedHashMap<String, String>>> loversList = matchSearcher.search(id);
+            ArrayList<ArrayList<User>> loversList = matchSearcher.search(id);
             lovers.setBot(bot);
             lovers.setUserMatchesMap(id, loversList);
             bot.setLovers(lovers);

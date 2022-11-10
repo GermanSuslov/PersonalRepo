@@ -16,7 +16,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class Lovers {
     @Getter
-    private Map<Long, ArrayList<ArrayList<LinkedHashMap<String, String>>>> userMatchesMap;
+    private Map<Long, ArrayList<ArrayList<User>>> userMatchesMap;
     private final FormPictureCreator formPictureCreator;
     private Map<Long, Integer> userCountMap;
     @Setter
@@ -26,15 +26,16 @@ public class Lovers {
 
     public void showLovers(Long id, String message) {
         if (message.equalsIgnoreCase("Вправо")) {
-            ArrayList<ArrayList<LinkedHashMap<String, String>>> userMatches = userMatchesMap.get(id);
-            boolean pictureSended = false;
+            ArrayList<ArrayList<User>> userMatches = userMatchesMap.get(id);
 
-            ArrayList<LinkedHashMap<String, String>> whoUserLiked = userMatches.get(0);
-            ArrayList<LinkedHashMap<String, String>> whoLikedUser = userMatches.get(1);
-            ArrayList<LinkedHashMap<String, String>> mutualLiking = userMatches.get(2);
+            ArrayList<User> whoUserLiked = userMatches.get(0);
+            ArrayList<User> whoLikedUser = userMatches.get(1);
+            ArrayList<User> mutualLiking = userMatches.get(2);
+            boolean pictureSended = false;
 
             if (!pictureSended) {
                 pictureSended = sendForm(id, whoUserLiked);
+                userCountMap.replace(id, userCountMap.get(id) + 1);
             }
             if (!pictureSended) {
                 pictureSended = sendForm(id, whoLikedUser);
@@ -44,7 +45,7 @@ public class Lovers {
             }
 
         }
-        if (message.equalsIgnoreCase("Влево")) {
+        else if (message.equalsIgnoreCase("Влево")) {
 
         }
         if (message.equalsIgnoreCase("Меню")) {
@@ -54,20 +55,23 @@ public class Lovers {
         }
     }
 
-    private boolean sendForm(Long id, ArrayList<LinkedHashMap<String, String>> userForms) {
+    private boolean sendForm(Long id, ArrayList<User> userForms) {
         boolean pictureSended = false;
         if (userCountMap.get(id) < userForms.size() && !userForms.isEmpty()) {
-            //User liked = userForms.get(userCountMap.get(id));
-            User liked = decryptUser(userForms, userCountMap.get(id));
-            formPictureCreator.showUserData(liked, null);
+            if (formPictureCreator.getBot() == null) {
+                formPictureCreator.setBot(bot);
+            }
+            User liked = userForms.get(userCountMap.get(id));
+            //User liked = decryptUser(userForms, userCountMap.get(id));
+            formPictureCreator.showMatchedUserData(id, liked);
             pictureSended = true;
         } else {
-            userForms.clear();
+            userCountMap.replace(id, 0);
         }
         return pictureSended;
     }
 
-    public void setUserMatchesMap(Long id, ArrayList<ArrayList<LinkedHashMap<String, String>>> userMatches) {
+    public void setUserMatchesMap(Long id, ArrayList<ArrayList<User>> userMatches) {
         if (userMatchesMap == null) {
             userMatchesMap = new HashMap<>();
         }
@@ -88,14 +92,9 @@ public class Lovers {
         }
     }
 
-    private User decryptUser(ArrayList<LinkedHashMap<String, String>> userForms, Integer count) {
-        LinkedHashMap<String, String> userHashMap = userForms.get(count);
-        User user = new User();
-        user.setUser_id(Long.parseLong(userHashMap.get("user_id")));
-        user.setSex(userHashMap.get("sex"));
-        user.setName(userHashMap.get("name"));
-        user.setStory(userHashMap.get("story"));
-        user.setLooking_for(userHashMap.get("looking_for"));
+    private User decryptUser(ArrayList<User> userForms, Integer count) {
+        User user= userForms.get(count);
+        //User user = userHashMap.get(1);
         return user;
     }
 }
