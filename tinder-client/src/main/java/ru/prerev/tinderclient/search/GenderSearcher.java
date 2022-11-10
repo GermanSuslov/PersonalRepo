@@ -39,7 +39,6 @@ public class GenderSearcher {
             InputFile pngFile = new InputFile(filePng, user.getUser_id() + "_form.png");
             SendPhoto formPng = new SendPhoto(id.toString(), pngFile);
             formPng.setReplyMarkup(replyKeyboardMaker.getScrollKeyboard());
-            formPng.setReplyMarkup(null);
             SendMessage translatedMessage = new SendMessage(id.toString(), user.getSex()
                     + ", " + getService.getTranslate(user.getName()));
             try {
