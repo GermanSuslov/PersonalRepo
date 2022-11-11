@@ -32,13 +32,6 @@ public class GetService {
         String url = "http://localhost:8090/users/"+ user_id + "/matches";
         return this.restTemplate.getForEntity(url, List[].class).getBody();
     }
-/*
-
-    @GetMapping(value = "/users/{id}/matches")
-    public List<List<User>> findMatch(@PathVariable("id") Long id) {
-        System.out.println("findMatch");
-        return finder.findMatch(id);
-    }*/
 
     public String getTranslate(String text) {
         String urlTranslate = "http://localhost:5006/translate?resource=" + text;
@@ -46,18 +39,16 @@ public class GetService {
     }
 
     public File getTranslatedPicture(User user) {
-        /*String urlTranslate = "http://localhost:5006/translate?resource=" + user.getStory();
-        String translate = this.restTemplate.getForObject(urlTranslate, String.class);*/
 
         String urlPng = "http://localhost:5005/internal/image/from/text/?description="
                 + getTranslate(user.getStory());
         byte[] png = this.restTemplate.getForObject(urlPng, byte[].class);
-        File filePng;
+        File filePng = null;
         String fileName = user.getUser_id() + "_form.png";
         try {
             FileUtils.writeByteArrayToFile(filePng = new File(fileName), png);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("Не удалось отправить сообщение :" + getClass());
         }
         return filePng;
     }

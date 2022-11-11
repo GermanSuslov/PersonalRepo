@@ -43,10 +43,6 @@ public class Authorizer {
         try {
             if(!userMap.get(chatId).initiated()) {
                 userMap.replace(chatId, getService.get(chatId));
-                /*SendMessage welcomeMessage = new SendMessage(chatId.toString(),
-                        "Вы успешно авторизированы. " + ready);
-                welcomeMessage.setReplyMarkup(inlineKeyboardMaker.getFormButton());
-                bot.execute(welcomeMessage);*/
                 pictureCreator.showUserData(chatId, userMap.get(chatId), inlineKeyboardMaker.getFormButton());
             }
         } catch (Exception ignored) {
@@ -63,7 +59,6 @@ public class Authorizer {
                 pictureCreator.setBot(bot);
             }
             pictureCreator.showUserData(chatId, userMap.get(chatId), null);
-            //showUserData(chatId);
         }
     }
 
@@ -107,34 +102,11 @@ public class Authorizer {
             userMap.get(chatId).setLooking_for(message);
             SendMessage successMessage = new SendMessage(chatId.toString(),
                     "Вы успешно зарегистрированы.");
-            //successMessage.setReplyMarkup(inlineKeyboardMaker.getFormButton());
             bot.execute(successMessage);
             pictureCreator.setBot(bot);
             pictureCreator.showUserData(chatId, userMap.get(chatId), inlineKeyboardMaker.getFormButton());
         }
     }
-
-/*    private void showUserData(Long chatId) {
-        *//*String urlTranslate = "http://localhost:5006/translate?resource=" + userMap.get(chatId).getStory();
-        String translate = this.restTemplate.getForObject(urlTranslate, String.class);
-        String urlPng = "http://localhost:5005/internal/image/from/text/?description=" + translate;
-        byte[] png = this.restTemplate.getForObject(urlPng, byte[].class);*//*
-        File filePng = getService.getTranslatedPicture(userMap.get(chatId));
-        InputFile pngFile = new InputFile(filePng,  userMap.get(chatId).getUser_id() + "_form.png");
-        SendPhoto formPng = new SendPhoto(chatId.toString(), pngFile);
-        SendMessage translatedMessage = new SendMessage(chatId.toString(), userMap.get(chatId).getSex() + ", " + userMap.get(chatId).getName());
-        formPng.setReplyMarkup(replyKeyboardMaker.getMenuKeyboard());
-        try {
-            bot.execute(translatedMessage);
-            bot.execute(formPng);
-            SendMessage showMessage = new SendMessage(chatId.toString(), "Ваша анкета");
-            showMessage.setReplyMarkup(inlineKeyboardMaker.getFormButton());
-            bot.execute(showMessage);
-        } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
-        }
-
-    }*/
 
     private void deleteUserData(Long chatId) {
         deleteService.delete(chatId);
@@ -144,7 +116,7 @@ public class Authorizer {
             userMap.remove(chatId);
             authorize(chatId, "Рандом");
         } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
+            System.out.println("Не удалось отправить сообщение :" + getClass());
         }
     }
 }

@@ -36,8 +36,8 @@ public class MatchSearcher {
 
     private ArrayList<User> getUserArrayList(ArrayList<LinkedHashMap<String, Object>> listHash1) {
         ArrayList<User> listUsers = new ArrayList<>();
-        User user = new User();
         for(LinkedHashMap<String, Object> hashMap : listHash1) {
+            User user = new User();
             Long user_id = Long.parseLong(hashMap.get("user_id").toString());
             user.setUser_id(user_id);
             user.setSex((String) hashMap.get("sex"));

@@ -34,7 +34,6 @@ public class InlineKeyboardMaker {
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
 
         rowList.add(getButton("Изменить анкету"));
-        //rowList.add(getButton("Показать анкету"));
         rowList.add(getButton("Перейти в меню"));
 
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();

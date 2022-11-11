@@ -16,11 +16,8 @@ import javax.annotation.PostConstruct;
 
 @RequiredArgsConstructor
 public final class Bot extends TelegramLongPollingBot {
-    //private final BotProperty property;
     private final TelegramBotsApi botsApi;
     private final Authorizer authorizer;
-    @Setter
-    private Lovers lovers;
     private final Menu menu;
     @Value("${botName}")
     private String botName;
@@ -50,16 +47,6 @@ public final class Bot extends TelegramLongPollingBot {
         }
         setBot();
         authorizer.authorize(chatId, message_text);
-        /*if (lovers.getUserMatchesMap() == null || !lovers.getUserMatchesMap().containsKey(chatId)) {
-            menu.showMenu(chatId, message_text);
-        } else {
-            lovers.showLovers(chatId, message_text);
-        }*/
-        /*if (lovers != null && lovers.getUserMatchesMap().containsKey(chatId)) {
-            lovers.showLovers(chatId, message_text);
-        } else {
-            menu.showMenu(chatId, message_text);
-        }*/
         menu.showMenu(chatId, message_text);
     }
 
@@ -74,7 +61,7 @@ public final class Bot extends TelegramLongPollingBot {
         try {
             botsApi.registerBot(this);
         } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
+            System.out.println("Не зарегестрировать бота :" + getClass());
         }
     }
 }

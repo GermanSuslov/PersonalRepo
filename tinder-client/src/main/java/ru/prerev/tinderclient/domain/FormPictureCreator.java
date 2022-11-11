@@ -34,7 +34,7 @@ public class FormPictureCreator {
             bot.execute(translatedMessage);
             bot.execute(formPng);
         } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
+            System.out.println("Не удалось отправить изображение :" + getClass());
         }
     }
 }

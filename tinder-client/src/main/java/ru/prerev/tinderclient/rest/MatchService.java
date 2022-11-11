@@ -18,12 +18,5 @@ public class MatchService {
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         HttpEntity<String> entity = new HttpEntity<>(headers);
         this.restTemplate.put(url, entity);
-        //this.restTemplate.postForObject(url, entity, Long.class);
-        /*ResponseEntity<User> response = this.restTemplate.postForEntity(url, entity, User.class);
-        if (response.getStatusCode() == HttpStatus.CREATED) {
-            return response.getBody();
-        } else {
-            return null;
-        }*/
     }
 }

@@ -52,43 +52,24 @@ public class GenderSearcher {
         try {
             bot.execute(translatedMessage);
             bot.execute(formPng);
-            countMap.replace(id, countMap.get(id) + 1);
-            if (countMap.get(id) == userListsMap.get(id).size()) {
+            if (countMap.get(id) + 1 == userListsMap.get(id).size()) {
                 countMap.replace(id, 0);
+            } else {
+                countMap.replace(id, countMap.get(id) + 1);
             }
         } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
+            System.out.println("Не удалось отправить сообщение :" + getClass());
         }
     }
     public void match(Long user_id) {
+        int matchCount = 1;
         ArrayList<User> userList = userListsMap.get(user_id);
-        Integer count = countMap.get(user_id) - 1;
+        Integer count = countMap.get(user_id) - matchCount;
+        if (countMap.get(user_id) == 0) {
+            count = userList.size() - 1;
+        }
         Long liked_id = userList.get(count).getUser_id();
         //Long liked_id =  userList.get(count - 1).getUser_id();
         matchService.match(user_id, liked_id);
     }
-
-/*    public void search(Long id) {
-        if (userList == null || userList.isEmpty()) {
-            userList = new ArrayList<>(getService.getList(id));
-            int count = 0;
-        }
-
-        File filePng = getService.getTranslatedPicture(userList.get(count));
-        InputFile pngFile = new InputFile(filePng, userList.get(count).getUser_id() + "_form.png");
-        SendPhoto formPng = new SendPhoto(id.toString(), pngFile);
-        formPng.setReplyMarkup(replyKeyboardMaker.getScrollKeyboard());
-        SendMessage translatedMessage = new SendMessage(id.toString(), userList.get(count).getSex()
-                + ", " + getService.getTranslate(userList.get(count).getName()));
-        try {
-            bot.execute(translatedMessage);
-            bot.execute(formPng);
-            count++;
-            if (count == userList.size()) {
-                count = 0;
-            }
-        } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
-        }
-    }*/
 }

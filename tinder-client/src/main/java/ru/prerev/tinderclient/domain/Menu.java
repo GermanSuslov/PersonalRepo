@@ -10,7 +10,6 @@ import ru.prerev.tinderclient.telegrambot.Bot;
 import ru.prerev.tinderclient.telegrambot.keyboard.ReplyKeyboardMaker;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 @RequiredArgsConstructor
 public class Menu {
@@ -37,10 +36,10 @@ public class Menu {
             profile.showProfile(id);
         } else if (message.equalsIgnoreCase("Любимцы")) {
             matchSearcher.setBot(bot);
-            ArrayList<ArrayList<User>> loversList = matchSearcher.search(id);
             lovers.setBot(bot);
+            ArrayList<ArrayList<User>> loversList = matchSearcher.search(id);
             lovers.setUserMatchesMap(id, loversList);
-            bot.setLovers(lovers);
+            //bot.setLovers(lovers);
             lovers.showLovers(id, "Вправо");
         } else if (message.equalsIgnoreCase("Вправо")) {
             if (lovers.getUserMatchesMap() == null) {
@@ -69,7 +68,7 @@ public class Menu {
         try {
             bot.execute(menuMessage);
         } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
+            System.out.println("Не отобразить кнопки :" + getClass());
         }
     }
 }
