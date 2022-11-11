@@ -32,26 +32,33 @@ public class Menu {
         if (message.equalsIgnoreCase("Поиск")) {
             genderSearcher.setBot(bot);
             genderSearcher.search(id);
-        }
-        else if (message.equalsIgnoreCase("Анкета")) {
+        } else if (message.equalsIgnoreCase("Анкета")) {
             profile.setBot(bot);
             profile.showProfile(id);
-        }
-        else if (message.equalsIgnoreCase("Любимцы")) {
+        } else if (message.equalsIgnoreCase("Любимцы")) {
             matchSearcher.setBot(bot);
             ArrayList<ArrayList<User>> loversList = matchSearcher.search(id);
             lovers.setBot(bot);
             lovers.setUserMatchesMap(id, loversList);
             bot.setLovers(lovers);
-        }
-        else if (message.equalsIgnoreCase("Вправо")) {
-            genderSearcher.match(id);
-            genderSearcher.search(id);
-        }
-        else if (message.equalsIgnoreCase("Влево")) {
-            genderSearcher.search(id);
-        }
-        else if (message.equalsIgnoreCase("Меню")) {
+            lovers.showLovers(id, "Вправо");
+        } else if (message.equalsIgnoreCase("Вправо")) {
+            if (lovers.getUserMatchesMap() == null) {
+                genderSearcher.match(id);
+                genderSearcher.search(id);
+            } else {
+                lovers.showLovers(id, "Вправо");
+            }
+        } else if (message.equalsIgnoreCase("Влево")) {
+            if (lovers.getUserMatchesMap() == null) {
+                genderSearcher.search(id);
+            } else {
+                lovers.showLovers(id, "Влево");
+            }
+        } else if (message.equalsIgnoreCase("Меню")) {
+            if (lovers.getUserMatchesMap() != null) {
+                lovers.showLovers(id, "Меню");
+            }
             menuButtons(id);
         }
     }

@@ -16,7 +16,6 @@ import java.io.File;
 @RequiredArgsConstructor
 public class FormPictureCreator {
     private final GetService getService;
-    private final InlineKeyboardMaker inlineKeyboardMaker;
     @Getter
     private Bot bot;
 
@@ -24,26 +23,11 @@ public class FormPictureCreator {
         this.bot = bot;
     }
 
-    public void showUserData(User user, ReplyKeyboard keyboard) {
-        File filePng = getService.getTranslatedPicture(user);
-        InputFile pngFile = new InputFile(filePng, user.getUser_id() + "_form.png");
-        SendPhoto formPng = new SendPhoto(user.getUser_id().toString(), pngFile);
-        formPng.setReplyMarkup(keyboard);
-        SendMessage translatedMessage = new SendMessage(user.getUser_id().toString(), user.getSex() +
-                ", " + getService.getTranslate(user.getName()));
-        try {
-            bot.execute(translatedMessage);
-            bot.execute(formPng);
-        } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void showMatchedUserData(Long id, User user) {
+    public void showUserData(Long id, User user, ReplyKeyboard keyboard) {
         File filePng = getService.getTranslatedPicture(user);
         InputFile pngFile = new InputFile(filePng, user.getUser_id() + "_form.png");
         SendPhoto formPng = new SendPhoto(id.toString(), pngFile);
-        //formPng.setReplyMarkup(keyboard);
+        formPng.setReplyMarkup(keyboard);
         SendMessage translatedMessage = new SendMessage(id.toString(), user.getSex() +
                 ", " + getService.getTranslate(user.getName()));
         try {

@@ -57,13 +57,16 @@ public class UserFinder {
     }
 
     public List<User> search(Long id) {
-        String sql = "select tu2.*\n" +
+        String sql = String.format("select tu2.*\n" +
                 "from tinder.tinder_users tu\n" +
                 "join tinder.tinder_users tu2\n" +
                 "  on (tu.looking_for = tu2.sex or tu.looking_for = 'Всех' and tu2.sex in ('Сударъ', 'Сударыня'))\n" +
                 "     and (tu.sex = tu2.looking_for or tu2.looking_for = 'Всех')\n" +
                 "     and tu.user_id <> tu2.user_id\n" +
-                "where tu.user_id = " + id.toString();
+                "where tu.user_id = %d\n" +
+                "      and tu2.user_id not in (select um.liked_id\n" +
+                "                              from tinder.user_matches um\n" +
+                "                              where um.user_id = %d)", id, id);
         return provider.getData(sql);
     }
 }

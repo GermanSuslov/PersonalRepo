@@ -44,7 +44,6 @@ public class GenderSearcher {
         }
         User currentUser = userListsMap.get(id).get(countMap.get(id));
         File filePng = getService.getTranslatedPicture(currentUser);
-        //File filePng = getService.getTranslatedPicture(userList.get(count));
         InputFile pngFile = new InputFile(filePng, currentUser.getUser_id() + "_form.png");
         SendPhoto formPng = new SendPhoto(id.toString(), pngFile);
         formPng.setReplyMarkup(replyKeyboardMaker.getScrollKeyboard());

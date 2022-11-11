@@ -47,7 +47,7 @@ public class Authorizer {
                         "Вы успешно авторизированы. " + ready);
                 welcomeMessage.setReplyMarkup(inlineKeyboardMaker.getFormButton());
                 bot.execute(welcomeMessage);*/
-                pictureCreator.showUserData(userMap.get(chatId), inlineKeyboardMaker.getFormButton());
+                pictureCreator.showUserData(chatId, userMap.get(chatId), inlineKeyboardMaker.getFormButton());
             }
         } catch (Exception ignored) {
 
@@ -62,7 +62,7 @@ public class Authorizer {
             if (pictureCreator.getBot() == null) {
                 pictureCreator.setBot(bot);
             }
-            pictureCreator.showUserData(userMap.get(chatId), null);
+            pictureCreator.showUserData(chatId, userMap.get(chatId), null);
             //showUserData(chatId);
         }
     }
@@ -110,7 +110,7 @@ public class Authorizer {
             //successMessage.setReplyMarkup(inlineKeyboardMaker.getFormButton());
             bot.execute(successMessage);
             pictureCreator.setBot(bot);
-            pictureCreator.showUserData(userMap.get(chatId), inlineKeyboardMaker.getFormButton());
+            pictureCreator.showUserData(chatId, userMap.get(chatId), inlineKeyboardMaker.getFormButton());
         }
     }
 

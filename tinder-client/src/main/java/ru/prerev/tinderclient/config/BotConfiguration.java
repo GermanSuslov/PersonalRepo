@@ -89,7 +89,7 @@ public class BotConfiguration {
     }
     @Bean
     FormPictureCreator pictureCreator() {
-        return new FormPictureCreator(getService(), inlineKeyboardMaker());
+        return new FormPictureCreator(getService());
     }
     @Bean
     Lovers lovers() {

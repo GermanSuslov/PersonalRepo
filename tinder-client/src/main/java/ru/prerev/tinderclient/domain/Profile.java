@@ -18,6 +18,6 @@ public class Profile {
 
     public void showProfile(Long id) {
         formPictureCreator.setBot(bot);
-        formPictureCreator.showUserData(getService.get(id), inlineKeyboardMaker.getFormButton());
+        formPictureCreator.showUserData(id, getService.get(id), inlineKeyboardMaker.getFormButton());
     }
 }

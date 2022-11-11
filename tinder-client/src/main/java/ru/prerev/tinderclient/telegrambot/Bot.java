@@ -55,11 +55,12 @@ public final class Bot extends TelegramLongPollingBot {
         } else {
             lovers.showLovers(chatId, message_text);
         }*/
-        if (lovers != null && lovers.getUserMatchesMap().containsKey(chatId)) {
+        /*if (lovers != null && lovers.getUserMatchesMap().containsKey(chatId)) {
             lovers.showLovers(chatId, message_text);
         } else {
             menu.showMenu(chatId, message_text);
-        }
+        }*/
+        menu.showMenu(chatId, message_text);
     }
 
     private void setBot() {
