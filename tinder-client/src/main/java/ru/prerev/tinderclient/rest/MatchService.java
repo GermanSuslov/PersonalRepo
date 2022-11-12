@@ -3,7 +3,6 @@ package ru.prerev.tinderclient.rest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
-import ru.prerev.tinderclient.domain.User;
 
 import java.util.Collections;
 

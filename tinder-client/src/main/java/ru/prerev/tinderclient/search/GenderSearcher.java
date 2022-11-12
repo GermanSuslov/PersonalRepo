@@ -19,17 +19,11 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class GenderSearcher {
     private Bot bot;
-    private final GetService getService;
-    private final MatchService matchService;
     private Map<Long, ArrayList<User>> userListsMap;
     private Map<Long, Integer> countMap;
-    //private ArrayList<User> userList;
-    //private int count;
+    private final GetService getService;
+    private final MatchService matchService;
     private final ReplyKeyboardMaker replyKeyboardMaker;
-
-    public void setBot(Bot bot) {
-        this.bot = bot;
-    }
 
     public void search(Long id) {
         if (userListsMap == null) {
@@ -69,7 +63,15 @@ public class GenderSearcher {
             count = userList.size() - 1;
         }
         Long liked_id = userList.get(count).getUser_id();
-        //Long liked_id =  userList.get(count - 1).getUser_id();
         matchService.match(user_id, liked_id);
+    }
+
+    public void resetAddParameters() {
+        userListsMap = null;
+        countMap = null;
+    }
+
+    public void setBot(Bot bot) {
+        this.bot = bot;
     }
 }

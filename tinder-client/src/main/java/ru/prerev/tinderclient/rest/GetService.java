@@ -29,7 +29,7 @@ public class GetService {
     }
 
     public List[] getMatchesList(Long user_id) {
-        String url = "http://localhost:8090/users/"+ user_id + "/matches";
+        String url = "http://localhost:8090/users/" + user_id + "/matches";
         return this.restTemplate.getForEntity(url, List[].class).getBody();
     }
 
@@ -39,7 +39,6 @@ public class GetService {
     }
 
     public File getTranslatedPicture(User user) {
-
         String urlPng = "http://localhost:5005/internal/image/from/text/?description="
                 + getTranslate(user.getStory());
         byte[] png = this.restTemplate.getForObject(urlPng, byte[].class);

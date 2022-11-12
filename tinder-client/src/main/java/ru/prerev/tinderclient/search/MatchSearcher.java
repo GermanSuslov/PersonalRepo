@@ -12,12 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MatchSearcher {
     private Bot bot;
-
     private final GetService getService;
-
-    public void setBot(Bot bot) {
-        this.bot = bot;
-    }
 
     public ArrayList<ArrayList<User>> search(Long id) {
         List[] userList = getService.getMatchesList(id);
@@ -36,7 +31,7 @@ public class MatchSearcher {
 
     private ArrayList<User> getUserArrayList(ArrayList<LinkedHashMap<String, Object>> listHash1) {
         ArrayList<User> listUsers = new ArrayList<>();
-        for(LinkedHashMap<String, Object> hashMap : listHash1) {
+        for (LinkedHashMap<String, Object> hashMap : listHash1) {
             User user = new User();
             Long user_id = Long.parseLong(hashMap.get("user_id").toString());
             user.setUser_id(user_id);
@@ -47,5 +42,9 @@ public class MatchSearcher {
             listUsers.add(user);
         }
         return listUsers;
+    }
+
+    public void setBot(Bot bot) {
+        this.bot = bot;
     }
 }

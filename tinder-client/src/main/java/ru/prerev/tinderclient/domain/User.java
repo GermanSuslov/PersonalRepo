@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.LinkedHashMap;
 
 @Data
 public class User implements Serializable {
@@ -18,7 +17,6 @@ public class User implements Serializable {
     private String story;
     @JsonProperty("looking_for")
     private String looking_for;
-
 
     public boolean initiated() {
         boolean initiated = true;
@@ -42,7 +40,6 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        String form = name + " \n" + sex + " \n" + story + " \n";
-        return form;
+        return name + " \n" + sex + " \n" + story + " \n";
     }
 }

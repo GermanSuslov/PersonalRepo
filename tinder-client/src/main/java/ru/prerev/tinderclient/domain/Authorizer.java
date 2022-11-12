@@ -3,36 +3,30 @@ package ru.prerev.tinderclient.domain;
 import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.prerev.tinderclient.constants.bot.ProfileButtonsEnum;
+import ru.prerev.tinderclient.constants.resources.GenderEnum;
+import ru.prerev.tinderclient.constants.resources.QuestionnaireEnum;
 import ru.prerev.tinderclient.rest.DeleteService;
 import ru.prerev.tinderclient.rest.GetService;
 import ru.prerev.tinderclient.rest.PostService;
 import ru.prerev.tinderclient.telegrambot.Bot;
 import ru.prerev.tinderclient.telegrambot.keyboard.InlineKeyboardMaker;
-import ru.prerev.tinderclient.telegrambot.keyboard.ReplyKeyboardMaker;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor
 public class Authorizer {
-
     private Bot bot;
     private Map<Long, User> userMap;
+    private final Profile profile;
     private final PostService postService;
-    private final FormPictureCreator pictureCreator;
     private final DeleteService deleteService;
     private final GetService getService;
     private final InlineKeyboardMaker inlineKeyboardMaker;
 
-    public void setBot(Bot bot) {
-        this.bot = bot;
-    }
-
     public void authorize(Long chatId, String message) {
-        String ready = "Если вы хотите изменить анкету напишите: изменить анкету\n" +
-                "Если вы хотите посмотреть анкету напишите: показать анкету";
         if (userMap == null) {
             userMap = new HashMap<>();
         }
@@ -41,9 +35,10 @@ public class Authorizer {
             userMap.put(chatId, new User());
         }
         try {
-            if(!userMap.get(chatId).initiated()) {
+            if (!userMap.get(chatId).initiated()) {
                 userMap.replace(chatId, getService.get(chatId));
-                pictureCreator.showUserData(chatId, userMap.get(chatId), inlineKeyboardMaker.getFormButton());
+                profile.setBot(bot);
+                profile.showProfile(chatId, userMap.get(chatId), inlineKeyboardMaker.getInlineMessageProfileButtons());
             }
         } catch (Exception ignored) {
 
@@ -51,14 +46,8 @@ public class Authorizer {
         if (userMap.get(chatId) == null || !userMap.get(chatId).initiated()) {
             registration(chatId, message);
         }
-        if (message.equalsIgnoreCase("Изменить анкету")) {
+        if (message.equalsIgnoreCase(ProfileButtonsEnum.EDIT_PROFILE_BUTTON.getButtonName())) {
             deleteUserData(chatId);
-        }
-        if (message.equalsIgnoreCase("Показать анкету")) {
-            if (pictureCreator.getBot() == null) {
-                pictureCreator.setBot(bot);
-            }
-            pictureCreator.showUserData(chatId, userMap.get(chatId), null);
         }
     }
 
@@ -75,26 +64,25 @@ public class Authorizer {
         }
     }
 
-
     private void initiateUserData(Long chatId, String message)
             throws IOException, TelegramApiException {
         if (userMap.get(chatId).getSex() == null) {
-            if (message.equalsIgnoreCase("сударъ") || message.equalsIgnoreCase("сударыня")) {
+            if (message.equalsIgnoreCase(GenderEnum.MALE.getGender()) || message.equalsIgnoreCase(GenderEnum.FEMALE.getGender())) {
                 userMap.get(chatId).setUser_id(chatId);
                 userMap.get(chatId).setSex(message);
-                SendMessage nameMessage = new SendMessage(chatId.toString(), "Как вас величать?");
+                SendMessage nameMessage = new SendMessage(chatId.toString(), QuestionnaireEnum.NAME_QUESTION.getQuestion());
                 bot.execute(nameMessage);
             } else {
-                SendMessage sexMessageRepeat = new SendMessage(chatId.toString(), "Вы сударь иль сударыня?");
+                SendMessage sexMessageRepeat = new SendMessage(chatId.toString(), QuestionnaireEnum.SEX_QUESTION.getQuestion());
                 sexMessageRepeat.setReplyMarkup(inlineKeyboardMaker.getInlineMessageSexButtons());
                 bot.execute(sexMessageRepeat);
             }
         } else if (userMap.get(chatId).getName() == null) {
-            SendMessage storyMessage = new SendMessage(chatId.toString(), "Опишите себя.");
+            SendMessage storyMessage = new SendMessage(chatId.toString(), QuestionnaireEnum.STORY_QUESTION.getQuestion());
             bot.execute(storyMessage);
             userMap.get(chatId).setName(message);
         } else if (userMap.get(chatId).getStory() == null) {
-            SendMessage lookingForMessage = new SendMessage(chatId.toString(), "Кого вы ищите?");
+            SendMessage lookingForMessage = new SendMessage(chatId.toString(), QuestionnaireEnum.LOOKING_FOR_QUESTION.getQuestion());
             lookingForMessage.setReplyMarkup(inlineKeyboardMaker.getInlineMessageLookingForButtons());
             bot.execute(lookingForMessage);
             userMap.get(chatId).setStory(message);
@@ -103,8 +91,8 @@ public class Authorizer {
             SendMessage successMessage = new SendMessage(chatId.toString(),
                     "Вы успешно зарегистрированы.");
             bot.execute(successMessage);
-            pictureCreator.setBot(bot);
-            pictureCreator.showUserData(chatId, userMap.get(chatId), inlineKeyboardMaker.getFormButton());
+            profile.setBot(bot);
+            profile.showProfile(chatId, userMap.get(chatId), inlineKeyboardMaker.getInlineMessageProfileButtons());
         }
     }
 
@@ -118,5 +106,9 @@ public class Authorizer {
         } catch (TelegramApiException e) {
             System.out.println("Не удалось отправить сообщение :" + getClass());
         }
+    }
+
+    public void setBot(Bot bot) {
+        this.bot = bot;
     }
 }

@@ -1,11 +1,10 @@
 package ru.prerev.tinderclient.telegrambot.keyboard;
 
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+import ru.prerev.tinderclient.constants.bot.MenuButtonsEnum;
+import ru.prerev.tinderclient.constants.bot.ScrollButtonsEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +12,11 @@ import java.util.List;
 public class ReplyKeyboardMaker {
     public ReplyKeyboardMarkup getMenuKeyboard() {
         KeyboardRow row1 = new KeyboardRow();
-        row1.add(new KeyboardButton("Поиск"));
-        row1.add(new KeyboardButton("Анкета"));
+        row1.add(new KeyboardButton(MenuButtonsEnum.SEARCH_BUTTON.getButtonName()));
+        row1.add(new KeyboardButton(MenuButtonsEnum.PROFILE_BUTTON.getButtonName()));
 
         KeyboardRow row2 = new KeyboardRow();
-        row2.add(new KeyboardButton("Любимцы"));
+        row2.add(new KeyboardButton(MenuButtonsEnum.LOVERS_BUTTON.getButtonName()));
 
         List<KeyboardRow> keyboard = new ArrayList<>();
         keyboard.add(row1);
@@ -33,11 +32,11 @@ public class ReplyKeyboardMaker {
 
     public ReplyKeyboardMarkup getScrollKeyboard() {
         KeyboardRow row1 = new KeyboardRow();
-        row1.add(new KeyboardButton("Влево"));
-        row1.add(new KeyboardButton("Вправо"));
+        row1.add(new KeyboardButton(ScrollButtonsEnum.LEFT_BUTTON.getButtonName()));
+        row1.add(new KeyboardButton(ScrollButtonsEnum.RIGHT_BUTTON.getButtonName()));
 
         KeyboardRow row2 = new KeyboardRow();
-        row2.add(new KeyboardButton("Меню"));
+        row2.add(new KeyboardButton(ScrollButtonsEnum.MENU_BUTTON.getButtonName()));
 
         List<KeyboardRow> keyboard = new ArrayList<>();
         keyboard.add(row1);

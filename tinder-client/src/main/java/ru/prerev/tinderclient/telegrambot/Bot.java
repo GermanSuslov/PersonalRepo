@@ -1,15 +1,12 @@
 package ru.prerev.tinderclient.telegrambot;
 
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.prerev.tinderclient.domain.Authorizer;
-import ru.prerev.tinderclient.domain.Lovers;
 import ru.prerev.tinderclient.domain.Menu;
 
 import javax.annotation.PostConstruct;
@@ -25,16 +22,6 @@ public final class Bot extends TelegramLongPollingBot {
     private String botToken;
 
     @Override
-    public String getBotUsername() {
-        return botName;
-    }
-
-    @Override
-    public String getBotToken() {
-        return botToken;
-    }
-
-    @Override
     public void onUpdateReceived(Update update) {
         Long chatId = null;
         String message_text = null;
@@ -48,6 +35,16 @@ public final class Bot extends TelegramLongPollingBot {
         setBot();
         authorizer.authorize(chatId, message_text);
         menu.showMenu(chatId, message_text);
+    }
+
+    @Override
+    public String getBotUsername() {
+        return botName;
+    }
+
+    @Override
+    public String getBotToken() {
+        return botToken;
     }
 
     private void setBot() {
