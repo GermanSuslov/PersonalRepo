@@ -1,6 +1,7 @@
 package ru.ligaintenship.prerevolutionarytinder.dao.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.ligaintenship.prerevolutionarytinder.dao.User;
 import ru.ligaintenship.prerevolutionarytinder.dao.repository.SpringJdbcConnectionProvider;
 
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
+@Service
 public class DataBaseService {
 
     private final SpringJdbcConnectionProvider provider;

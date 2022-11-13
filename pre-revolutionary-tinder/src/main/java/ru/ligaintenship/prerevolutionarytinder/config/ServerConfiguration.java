@@ -44,29 +44,5 @@ public class ServerConfiguration {
     SpringJdbcConnectionProvider springJdbcConnectionProvider(JdbcTemplate jdbcTemplate) {
         return new SpringJdbcConnectionProvider(jdbcTemplate);
     }
-    @Bean
-    DataBaseService dataBaseService(SpringJdbcConnectionProvider provider) {
-        return new DataBaseService(provider);
-    }
-
-/*    @Bean
-    UserCreator userCreator(SpringJdbcConnectionProvider provider) {
-        return new UserCreator(provider);
-    }
-
-    @Bean
-    UserDeleter userDeleter(SpringJdbcConnectionProvider provider) {
-        return new UserDeleter(provider);
-    }
-
-    @Bean
-    UserFinder userFinder(SpringJdbcConnectionProvider provider) {
-        return new UserFinder(provider);
-    }
-
-    @Bean
-    UserMatcher userMatcher(SpringJdbcConnectionProvider provider) {
-        return new UserMatcher(provider);
-    }*/
 
 }

@@ -1,6 +1,7 @@
 package ru.ligaintenship.prerevolutionarytinder.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.ligaintenship.prerevolutionarytinder.dao.User;
@@ -9,6 +10,7 @@ import ru.ligaintenship.prerevolutionarytinder.dao.service.DataBaseService;
 import java.util.List;
 
 @RestController
+@Slf4j
 @RequiredArgsConstructor
 public class Controller {
     private final DataBaseService dataBaseService;
@@ -24,7 +26,7 @@ public class Controller {
         try {
             user = dataBaseService.findById(id);
         } catch (Exception e) {
-            System.out.println("Пользователь с id: " + id + " не найден");
+            log.info("Пользователь с id: " + id + " не найден\n" + e);
         }
         return user;
     }

@@ -1,5 +1,6 @@
 package ru.ligaintenship.prerevolutionarytinder.dao.repository;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import ru.ligaintenship.prerevolutionarytinder.dao.User;
@@ -8,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-
+@Slf4j
 public class SpringJdbcConnectionProvider {
     private final JdbcTemplate jdbcTemplate;
 
@@ -19,13 +20,13 @@ public class SpringJdbcConnectionProvider {
     public List<User> getData(String sql) {
         ExchangeMapper mapper = new ExchangeMapper();
         List<User> resList = jdbcTemplate.query(sql, mapper);
-        System.out.println("SpringJdbcConnectionProvider run");
+        log.debug("GetData method completed");
         return resList;
     }
 
     public int putData(String sql) {
         int resCode = jdbcTemplate.update(sql);
-        System.out.println("SpringJdbcConnectionProvider run : " + resCode);
+        log.debug("PutData method completed with code: " + resCode);
         return resCode;
     }
 
