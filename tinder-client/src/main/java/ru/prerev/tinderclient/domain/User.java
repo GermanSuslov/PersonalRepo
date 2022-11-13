@@ -3,24 +3,19 @@ package ru.prerev.tinderclient.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import java.io.Serializable;
-
 @Data
-public class User implements Serializable {
+public class User {
     @JsonProperty("user_id")
-    private Long user_id;
-    @JsonProperty("sex")
+    private Long id;
     private String sex;
-    @JsonProperty("name")
     private String name;
-    @JsonProperty("story")
     private String story;
     @JsonProperty("looking_for")
-    private String looking_for;
+    private String lookingFor;
 
     public boolean initiated() {
         boolean initiated = true;
-        if (this.user_id == null) {
+        if (this.id == null) {
             return false;
         }
         if (this.sex == null) {
@@ -32,7 +27,7 @@ public class User implements Serializable {
         if (this.story == null) {
             return false;
         }
-        if (this.looking_for == null) {
+        if (this.lookingFor == null) {
             return false;
         }
         return initiated;

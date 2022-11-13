@@ -7,9 +7,9 @@ import org.springframework.web.client.RestTemplate;
 public class DeleteService {
     private final RestTemplate restTemplate;
 
-    public void delete(Long user_id) {
+    public void delete(Long id) {
         String url = "http://localhost:8090/users";
-        String urlUser = url + "/" + user_id;
+        String urlUser = url + "/" + id;
         this.restTemplate.delete(urlUser);
     }
 }

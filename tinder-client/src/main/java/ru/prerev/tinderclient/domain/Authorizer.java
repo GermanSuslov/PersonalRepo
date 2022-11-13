@@ -68,7 +68,7 @@ public class Authorizer {
             throws IOException, TelegramApiException {
         if (userMap.get(chatId).getSex() == null) {
             if (message.equalsIgnoreCase(GenderEnum.MALE.getGender()) || message.equalsIgnoreCase(GenderEnum.FEMALE.getGender())) {
-                userMap.get(chatId).setUser_id(chatId);
+                userMap.get(chatId).setId(chatId);
                 userMap.get(chatId).setSex(message);
                 SendMessage nameMessage = new SendMessage(chatId.toString(), QuestionnaireEnum.NAME_QUESTION.getQuestion());
                 bot.execute(nameMessage);
@@ -86,8 +86,8 @@ public class Authorizer {
             lookingForMessage.setReplyMarkup(inlineKeyboardMaker.getInlineMessageLookingForButtons());
             bot.execute(lookingForMessage);
             userMap.get(chatId).setStory(message);
-        } else if (userMap.get(chatId).getLooking_for() == null) {
-            userMap.get(chatId).setLooking_for(message);
+        } else if (userMap.get(chatId).getLookingFor() == null) {
+            userMap.get(chatId).setLookingFor(message);
             SendMessage successMessage = new SendMessage(chatId.toString(),
                     "Вы успешно зарегистрированы.");
             bot.execute(successMessage);

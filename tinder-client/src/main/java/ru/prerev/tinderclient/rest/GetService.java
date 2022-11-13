@@ -14,23 +14,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GetService {
     private final RestTemplate restTemplate;
+    private final String url = "http://localhost:8090/users/";
 
-    public User get(Long user_id) {
-        String url = "http://localhost:8090/users";
-        String urlUser = url + "/" + user_id;
+    public User get(Long id) {
+        String urlUser = url + id;
         return this.restTemplate.getForObject(urlUser, User.class);
     }
 
-    public List<User> getList(Long user_id) {
-        String url = "http://localhost:8090/users";
-        String urlUser = url + "/" + user_id + "/search";
-        User[] userArray = this.restTemplate.getForEntity(urlUser, User[].class).getBody();
+    public List<User> getList(Long id) {
+        String urlSearch = url + id + "/search";
+        User[] userArray = this.restTemplate.getForEntity(urlSearch, User[].class).getBody();
         return Arrays.stream(userArray).toList();
     }
 
-    public List[] getMatchesList(Long user_id) {
-        String url = "http://localhost:8090/users/" + user_id + "/matches";
-        return this.restTemplate.getForEntity(url, List[].class).getBody();
+    public List[] getMatchesList(Long id) {
+        String urlMatch = url + id + "/matches";
+        return this.restTemplate.getForEntity(urlMatch, List[].class).getBody();
     }
 
     public String getTranslate(String text) {
@@ -43,7 +42,7 @@ public class GetService {
                 + getTranslate(user.getStory());
         byte[] png = this.restTemplate.getForObject(urlPng, byte[].class);
         File filePng = null;
-        String fileName = user.getUser_id() + "_form.png";
+        String fileName = user.getId() + "_form.png";
         try {
             FileUtils.writeByteArrayToFile(filePng = new File(fileName), png);
         } catch (IOException e) {

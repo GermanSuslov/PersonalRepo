@@ -20,11 +20,12 @@ public class Profile {
 
     public void showProfile(Long id, User user, ReplyKeyboard keyboard) {
         File filePng = getService.getTranslatedPicture(user);
-        InputFile pngFile = new InputFile(filePng, user.getUser_id() + "_form.png");
+        InputFile pngFile = new InputFile(filePng, user.getId() + "_form.png");
         SendPhoto formPng = new SendPhoto(id.toString(), pngFile);
         formPng.setReplyMarkup(keyboard);
         SendMessage translatedMessage = new SendMessage(id.toString(), user.getSex() + ", "
                 + getService.getTranslate(user.getName()));
+
         try {
             bot.execute(translatedMessage);
             bot.execute(formPng);

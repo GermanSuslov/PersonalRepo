@@ -24,17 +24,16 @@ public final class Bot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         Long chatId = null;
-        String message_text = null;
+        String message = null;
         if (update.hasMessage() && update.getMessage().hasText()) {
             chatId = update.getMessage().getChatId();
-            message_text = update.getMessage().getText();
+            message = update.getMessage().getText();
         } else if (update.hasCallbackQuery()) {
             chatId = update.getCallbackQuery().getMessage().getChatId();
-            message_text = update.getCallbackQuery().getData();
+            message = update.getCallbackQuery().getData();
         }
-        setBot();
-        authorizer.authorize(chatId, message_text);
-        menu.showMenu(chatId, message_text);
+        authorizer.authorize(chatId, message);
+        menu.showMenu(chatId, message);
     }
 
     @Override
@@ -57,6 +56,7 @@ public final class Bot extends TelegramLongPollingBot {
     public void init() {
         try {
             botsApi.registerBot(this);
+            setBot();
         } catch (TelegramApiException e) {
             System.out.println("Не зарегестрировать бота :" + getClass());
         }

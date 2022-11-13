@@ -30,7 +30,7 @@ public class BotConfiguration {
 
     @Bean
     Menu menu() {
-        return new Menu(getService(), replyKeyboardMaker(), inlineKeyboardMaker(), lovers(), genderSearcher(), matchSearcher(), profile());
+        return new Menu(getService(), replyKeyboardMaker(), inlineKeyboardMaker(), lovers(), genderSearcher(), profile());
     }
     @Bean
     MatchService matchService() {
@@ -80,7 +80,7 @@ public class BotConfiguration {
 
     @Bean
     GenderSearcher genderSearcher() {
-        return new GenderSearcher(getService(), matchService(), replyKeyboardMaker());
+        return new GenderSearcher(getService(), matchService(), replyKeyboardMaker(), profile());
     }
 
     @Bean
@@ -90,7 +90,7 @@ public class BotConfiguration {
 
     @Bean
     Lovers lovers() {
-        return new Lovers(profile(), replyKeyboardMaker());
+        return new Lovers(profile(), replyKeyboardMaker(), matchSearcher());
     }
 
     Profile profile() {
