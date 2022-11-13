@@ -1,4 +1,4 @@
-package ru.prerev.tinderclient.constants.bot;
+package ru.prerev.tinderclient.enums.bot;
 
 public enum MenuButtonsEnum {
     SEARCH_BUTTON("Поиск"),

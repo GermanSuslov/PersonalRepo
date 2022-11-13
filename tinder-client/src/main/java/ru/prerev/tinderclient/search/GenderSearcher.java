@@ -1,5 +1,6 @@
 package ru.prerev.tinderclient.search;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import ru.prerev.tinderclient.domain.Profile;
 import ru.prerev.tinderclient.domain.User;
@@ -15,12 +16,14 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 public class GenderSearcher {
-    private Map<Long, List<User>> userListsMap;
-    private Map<Long, Integer> indexMap;
     private final GetService getService;
     private final MatchService matchService;
     private final ReplyKeyboardMaker replyKeyboardMaker;
     private final Profile profile;
+
+    @Getter
+    private Map<Long, List<User>> userListsMap;
+    private Map<Long, Integer> indexMap;
 
     public void search(Long id) {
         if (userListsMap == null || !userListsMap.containsKey(id)) {
@@ -36,6 +39,7 @@ public class GenderSearcher {
             indexMap.replace(id, indexMap.get(id) + 1);
         }
     }
+
     public void match(Long id) {
         List<User> userList = userListsMap.get(id);
         int index = indexMap.get(id) - 1;

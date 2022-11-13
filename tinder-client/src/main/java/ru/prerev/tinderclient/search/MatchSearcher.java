@@ -14,15 +14,16 @@ public class MatchSearcher {
 
     public List<List<User>> search(Long id) {
         List[] userList = getService.getMatchesList(id);
-        List<Map<String, Object>> listMapUserLiked = (List<Map<String, Object>>) userList[0];
-        List<Map<String, Object>> listMapLikedUser = (List<Map<String, Object>>) userList[1];
-        List<Map<String, Object>> listMapMutualLiking = (List<Map<String, Object>>) userList[2];
-        List<User> userLiked = getUserList(listMapUserLiked);
-        List<User> likedUser = getUserList(listMapLikedUser);
-        List<User> mutualLiking = getUserList(listMapMutualLiking);
+        List<Map<String, Object>> userLikedListMap = (List<Map<String, Object>>) userList[0];
+        List<Map<String, Object>> likedUserListMap = (List<Map<String, Object>>) userList[1];
+        List<Map<String, Object>> mutualLikingListMap = (List<Map<String, Object>>) userList[2];
+        List<User> userLiked = getUserList(userLikedListMap);
+        List<User> likedUser = getUserList(likedUserListMap);
+        List<User> mutualLiking = getUserList(mutualLikingListMap);
         List<List<User>> lists = new ArrayList<>();
         lists.add(userLiked);
         lists.add(likedUser);
+
         lists.add(mutualLiking);
         return lists;
     }
@@ -31,12 +32,12 @@ public class MatchSearcher {
         List<User> listUsers = new ArrayList<>();
         for (Map<String, Object> map : listMap) {
             User user = new User();
-            Long id = Long.parseLong(map.get("user_id").toString());
+            Long id = Long.parseLong(map.get("id").toString());
             user.setId(id);
             user.setSex((String) map.get("sex"));
             user.setName((String) map.get("name"));
             user.setStory((String) map.get("story"));
-            user.setLookingFor((String) map.get("looking_for"));
+            user.setLookingFor((String) map.get("lookingFor"));
             listUsers.add(user);
         }
         return listUsers;

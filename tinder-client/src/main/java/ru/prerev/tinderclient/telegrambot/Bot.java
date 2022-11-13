@@ -1,6 +1,7 @@
 package ru.prerev.tinderclient.telegrambot;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -11,11 +12,13 @@ import ru.prerev.tinderclient.domain.Menu;
 
 import javax.annotation.PostConstruct;
 
+@Slf4j
 @RequiredArgsConstructor
 public final class Bot extends TelegramLongPollingBot {
     private final TelegramBotsApi botsApi;
     private final Authorizer authorizer;
     private final Menu menu;
+
     @Value("${botName}")
     private String botName;
     @Value("${botToken}")
@@ -51,14 +54,13 @@ public final class Bot extends TelegramLongPollingBot {
         menu.setBot(this);
     }
 
-
     @PostConstruct
     public void init() {
         try {
             botsApi.registerBot(this);
             setBot();
         } catch (TelegramApiException e) {
-            System.out.println("Не зарегестрировать бота :" + getClass());
+            log.error("Не удалось зарегестрировать бота: ");
         }
     }
 }

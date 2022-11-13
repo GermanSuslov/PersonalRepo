@@ -2,21 +2,21 @@ package ru.prerev.tinderclient.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.prerev.tinderclient.constants.bot.ScrollButtonsEnum;
-import ru.prerev.tinderclient.constants.resources.MatchEnum;
+import ru.prerev.tinderclient.enums.bot.ScrollButtonsEnum;
+import ru.prerev.tinderclient.enums.resources.MatchEnum;
 import ru.prerev.tinderclient.search.MatchSearcher;
 import ru.prerev.tinderclient.telegrambot.Bot;
 import ru.prerev.tinderclient.telegrambot.keyboard.ReplyKeyboardMaker;
 
 import java.util.*;
 
+@Slf4j
 @RequiredArgsConstructor
 public class Lovers {
     private final Profile profile;
-    @Setter
     private final ReplyKeyboardMaker replyKeyboardMaker;
     private final MatchSearcher matchSearcher;
 
@@ -62,7 +62,7 @@ public class Lovers {
         try {
             bot.execute(matchMessage);
         } catch (TelegramApiException e) {
-            System.out.println("Не удалось отправить сообщение :" + getClass());
+            log.error("Не удалось отправить изображение: ");
         }
     }
 

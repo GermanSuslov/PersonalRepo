@@ -1,6 +1,7 @@
 package ru.prerev.tinderclient.config;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -18,13 +19,14 @@ import ru.prerev.tinderclient.telegrambot.Bot;
 import ru.prerev.tinderclient.telegrambot.keyboard.InlineKeyboardMaker;
 import ru.prerev.tinderclient.telegrambot.keyboard.ReplyKeyboardMaker;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class BotConfiguration {
 
     @Bean
     Bot bot(TelegramBotsApi botsApi) {
-        System.out.println("bot");
+        log.info("bot");
         return new Bot(botsApi, authorizer(), menu());
     }
 
@@ -39,7 +41,7 @@ public class BotConfiguration {
 
     @Bean
     TelegramBotsApi botsApi() throws TelegramApiException {
-        System.out.println("TelegramBotsApi");
+        log.info("TelegramBotsApi");
         return new TelegramBotsApi(DefaultBotSession.class);
     }
 

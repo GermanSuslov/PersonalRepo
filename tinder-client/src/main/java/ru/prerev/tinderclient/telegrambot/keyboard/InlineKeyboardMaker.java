@@ -2,8 +2,8 @@ package ru.prerev.tinderclient.telegrambot.keyboard;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import ru.prerev.tinderclient.constants.bot.ProfileButtonsEnum;
-import ru.prerev.tinderclient.constants.resources.GenderEnum;
+import ru.prerev.tinderclient.enums.bot.ProfileButtonsEnum;
+import ru.prerev.tinderclient.enums.resources.GenderEnum;
 
 import java.util.ArrayList;
 import java.util.List;

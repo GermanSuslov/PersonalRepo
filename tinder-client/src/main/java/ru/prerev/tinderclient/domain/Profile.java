@@ -2,6 +2,7 @@ package ru.prerev.tinderclient.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -12,11 +13,13 @@ import ru.prerev.tinderclient.telegrambot.Bot;
 
 import java.io.File;
 
+@Slf4j
 @RequiredArgsConstructor
 public class Profile {
+    private final GetService getService;
+
     @Getter
     private Bot bot;
-    private final GetService getService;
 
     public void showProfile(Long id, User user, ReplyKeyboard keyboard) {
         File filePng = getService.getTranslatedPicture(user);
@@ -25,12 +28,11 @@ public class Profile {
         formPng.setReplyMarkup(keyboard);
         SendMessage translatedMessage = new SendMessage(id.toString(), user.getSex() + ", "
                 + getService.getTranslate(user.getName()));
-
         try {
             bot.execute(translatedMessage);
             bot.execute(formPng);
         } catch (TelegramApiException e) {
-            System.out.println("Не удалось отправить изображение :" + getClass());
+            log.error("Не удалось отправить изображение: ");
         }
     }
 

@@ -1,4 +1,4 @@
-package ru.prerev.tinderclient.constants.resources;
+package ru.prerev.tinderclient.enums.resources;
 
 public enum MatchEnum {
     LIKE("Любим вами"),

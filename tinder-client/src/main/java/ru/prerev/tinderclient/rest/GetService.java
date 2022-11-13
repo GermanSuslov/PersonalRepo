@@ -2,8 +2,10 @@ package ru.prerev.tinderclient.rest;
 
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.web.client.RestTemplate;
+import ru.prerev.tinderclient.TinderClientApplication;
 import ru.prerev.tinderclient.domain.User;
 
 import java.io.File;
@@ -12,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RequiredArgsConstructor
+@Slf4j
 public class GetService {
     private final RestTemplate restTemplate;
     private final String url = "http://localhost:8090/users/";
@@ -46,7 +49,7 @@ public class GetService {
         try {
             FileUtils.writeByteArrayToFile(filePng = new File(fileName), png);
         } catch (IOException e) {
-            System.out.println("Не удалось отправить сообщение :" + getClass());
+            log.error("Не удалось отправить сообщение: ");
         }
         return filePng;
     }

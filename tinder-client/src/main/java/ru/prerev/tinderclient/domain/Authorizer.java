@@ -1,11 +1,12 @@
 package ru.prerev.tinderclient.domain;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.prerev.tinderclient.constants.bot.ProfileButtonsEnum;
-import ru.prerev.tinderclient.constants.resources.GenderEnum;
-import ru.prerev.tinderclient.constants.resources.QuestionnaireEnum;
+import ru.prerev.tinderclient.enums.bot.ProfileButtonsEnum;
+import ru.prerev.tinderclient.enums.resources.GenderEnum;
+import ru.prerev.tinderclient.enums.resources.QuestionnaireEnum;
 import ru.prerev.tinderclient.rest.DeleteService;
 import ru.prerev.tinderclient.rest.GetService;
 import ru.prerev.tinderclient.rest.PostService;
@@ -16,15 +17,17 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RequiredArgsConstructor
 public class Authorizer {
-    private Bot bot;
     private Map<Long, User> userMap;
     private final Profile profile;
     private final PostService postService;
     private final DeleteService deleteService;
     private final GetService getService;
     private final InlineKeyboardMaker inlineKeyboardMaker;
+
+    private Bot bot;
 
     public void authorize(Long chatId, String message) {
         if (userMap == null) {
@@ -34,16 +37,13 @@ public class Authorizer {
         if (!userMap.containsKey(chatId)) {
             userMap.put(chatId, new User());
         }
-        try {
-            if (!userMap.get(chatId).initiated()) {
+        if (getService.get(chatId) != null) {
+            if (!userInitiated(userMap.get(chatId))) {
                 userMap.replace(chatId, getService.get(chatId));
-                profile.setBot(bot);
                 profile.showProfile(chatId, userMap.get(chatId), inlineKeyboardMaker.getInlineMessageProfileButtons());
             }
-        } catch (Exception ignored) {
-
         }
-        if (userMap.get(chatId) == null || !userMap.get(chatId).initiated()) {
+        if (userMap.get(chatId) == null || !userInitiated(userMap.get(chatId))) {
             registration(chatId, message);
         }
         if (message.equalsIgnoreCase(ProfileButtonsEnum.EDIT_PROFILE_BUTTON.getButtonName())) {
@@ -55,11 +55,11 @@ public class Authorizer {
         try {
             initiateUserData(chatId, message);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log.error("Ошибка при обработке сообщения: ");
         } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
+            log.error("Не удалось отправить сообщение: ");
         }
-        if (userMap.get(chatId).initiated()) {
+        if (userInitiated(userMap.get(chatId))) {
             postService.post(userMap.get(chatId));
         }
     }
@@ -91,7 +91,6 @@ public class Authorizer {
             SendMessage successMessage = new SendMessage(chatId.toString(),
                     "Вы успешно зарегистрированы.");
             bot.execute(successMessage);
-            profile.setBot(bot);
             profile.showProfile(chatId, userMap.get(chatId), inlineKeyboardMaker.getInlineMessageProfileButtons());
         }
     }
@@ -104,11 +103,32 @@ public class Authorizer {
             userMap.remove(chatId);
             authorize(chatId, "Рандом");
         } catch (TelegramApiException e) {
-            System.out.println("Не удалось отправить сообщение :" + getClass());
+            log.error("Не удалось отправить сообщение: ");
         }
+    }
+
+    private boolean userInitiated(User user) {
+        boolean initiated = true;
+        if (user.getId() == null) {
+            return false;
+        }
+        if (user.getSex() == null) {
+            return false;
+        }
+        if (user.getName() == null) {
+            return false;
+        }
+        if (user.getStory() == null) {
+            return false;
+        }
+        if (user.getLookingFor() == null) {
+            return false;
+        }
+        return initiated;
     }
 
     public void setBot(Bot bot) {
         this.bot = bot;
+        profile.setBot(bot);
     }
 }

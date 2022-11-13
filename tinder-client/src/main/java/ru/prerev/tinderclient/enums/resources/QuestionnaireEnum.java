@@ -1,4 +1,4 @@
-package ru.prerev.tinderclient.constants.resources;
+package ru.prerev.tinderclient.enums.resources;
 
 public enum QuestionnaireEnum {
     SEX_QUESTION("Вы сударь иль сударыня?"),

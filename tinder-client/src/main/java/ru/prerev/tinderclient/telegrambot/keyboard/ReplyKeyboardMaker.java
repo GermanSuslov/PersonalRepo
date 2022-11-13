@@ -3,8 +3,8 @@ package ru.prerev.tinderclient.telegrambot.keyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
-import ru.prerev.tinderclient.constants.bot.MenuButtonsEnum;
-import ru.prerev.tinderclient.constants.bot.ScrollButtonsEnum;
+import ru.prerev.tinderclient.enums.bot.MenuButtonsEnum;
+import ru.prerev.tinderclient.enums.bot.ScrollButtonsEnum;
 
 import java.util.ArrayList;
 import java.util.List;
