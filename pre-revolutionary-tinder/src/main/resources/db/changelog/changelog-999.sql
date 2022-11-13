@@ -1,0 +1,1 @@
+create schema if not exists tinder authorization admin;
