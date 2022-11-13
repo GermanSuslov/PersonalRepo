@@ -3,48 +3,42 @@ package ru.prerev.tinderclient.search;
 import lombok.RequiredArgsConstructor;
 import ru.prerev.tinderclient.domain.User;
 import ru.prerev.tinderclient.rest.GetService;
-import ru.prerev.tinderclient.telegrambot.Bot;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 public class MatchSearcher {
-    private Bot bot;
     private final GetService getService;
 
-    public ArrayList<ArrayList<User>> search(Long id) {
+    public List<List<User>> search(Long id) {
         List[] userList = getService.getMatchesList(id);
-        ArrayList<LinkedHashMap<String, Object>> listHashUserLiked = (ArrayList<LinkedHashMap<String, Object>>) userList[0];
-        ArrayList<LinkedHashMap<String, Object>> listHashLikedUser = (ArrayList<LinkedHashMap<String, Object>>) userList[1];
-        ArrayList<LinkedHashMap<String, Object>> listHashMutualLiking = (ArrayList<LinkedHashMap<String, Object>>) userList[2];
-        ArrayList<User> userLiked = getUserArrayList(listHashUserLiked);
-        ArrayList<User> likedUser = getUserArrayList(listHashLikedUser);
-        ArrayList<User> mutualLiking = getUserArrayList(listHashMutualLiking);
-        ArrayList<ArrayList<User>> lists = new ArrayList<>();
+        List<Map<String, Object>> listMapUserLiked = (List<Map<String, Object>>) userList[0];
+        List<Map<String, Object>> listMapLikedUser = (List<Map<String, Object>>) userList[1];
+        List<Map<String, Object>> listMapMutualLiking = (List<Map<String, Object>>) userList[2];
+        List<User> userLiked = getUserList(listMapUserLiked);
+        List<User> likedUser = getUserList(listMapLikedUser);
+        List<User> mutualLiking = getUserList(listMapMutualLiking);
+        List<List<User>> lists = new ArrayList<>();
         lists.add(userLiked);
         lists.add(likedUser);
         lists.add(mutualLiking);
         return lists;
     }
 
-    private ArrayList<User> getUserArrayList(ArrayList<LinkedHashMap<String, Object>> listHash1) {
-        ArrayList<User> listUsers = new ArrayList<>();
-        for (LinkedHashMap<String, Object> hashMap : listHash1) {
+    private List<User> getUserList(List<Map<String, Object>> listMap) {
+        List<User> listUsers = new ArrayList<>();
+        for (Map<String, Object> map : listMap) {
             User user = new User();
-            Long user_id = Long.parseLong(hashMap.get("user_id").toString());
-            user.setUser_id(user_id);
-            user.setSex((String) hashMap.get("sex"));
-            user.setName((String) hashMap.get("name"));
-            user.setStory((String) hashMap.get("story"));
-            user.setLooking_for((String) hashMap.get("looking_for"));
+            Long id = Long.parseLong(map.get("user_id").toString());
+            user.setId(id);
+            user.setSex((String) map.get("sex"));
+            user.setName((String) map.get("name"));
+            user.setStory((String) map.get("story"));
+            user.setLookingFor((String) map.get("looking_for"));
             listUsers.add(user);
         }
         return listUsers;
-    }
-
-    public void setBot(Bot bot) {
-        this.bot = bot;
     }
 }
