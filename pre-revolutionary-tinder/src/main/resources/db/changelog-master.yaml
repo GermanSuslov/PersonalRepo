@@ -1,5 +1,7 @@
 databaseChangeLog:
   - include:
-      file: classpath:db/changelog/changelog-012.sql
+      file: classpath:db/changelog/changelog-020.sql
   - include:
-      file: classpath:db/changelog/changelog-013.sql
+      file: classpath:db/changelog/changelog-021.sql
+#  - include:
+#      file: classpath:db/changelog/changelog-999.sql

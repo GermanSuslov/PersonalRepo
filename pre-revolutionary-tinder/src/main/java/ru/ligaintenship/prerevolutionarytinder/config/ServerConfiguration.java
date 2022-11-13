@@ -1,18 +1,21 @@
 package ru.ligaintenship.prerevolutionarytinder.config;
 
 import liquibase.integration.spring.SpringLiquibase;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import ru.ligaintenship.prerevolutionarytinder.rest.SpringJdbcConnectionProvider;
-import ru.ligaintenship.prerevolutionarytinder.domain.UserCreator;
-import ru.ligaintenship.prerevolutionarytinder.domain.UserDeleter;
-import ru.ligaintenship.prerevolutionarytinder.domain.UserFinder;
-import ru.ligaintenship.prerevolutionarytinder.domain.UserMatcher;
+import ru.ligaintenship.prerevolutionarytinder.dao.service.DataBaseService;
+import ru.ligaintenship.prerevolutionarytinder.dao.repository.SpringJdbcConnectionProvider;
 
 @Configuration
+@PropertySource(value= {"classpath:application.properties"})
 public class ServerConfiguration {
+    @Autowired
+    private Environment environment;
 
     @Bean
     public JdbcTemplate jdbcTemplate(DriverManagerDataSource dataSource) {
@@ -22,10 +25,10 @@ public class ServerConfiguration {
     @Bean
     public DriverManagerDataSource dataSource() {
         DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setDriverClassName("org.postgresql.Driver");
-        ds.setUrl("jdbc:postgresql://localhost:5432/tinder_db");
-        ds.setUsername("admin");
-        ds.setPassword("qwertyJ4");
+        ds.setDriverClassName(environment.getProperty("spring.datasource.driver-class-name"));
+        ds.setUrl(environment.getProperty("spring.datasource.url"));
+        ds.setUsername(environment.getProperty("spring.datasource.username"));
+        ds.setPassword(environment.getProperty("spring.datasource.password"));
         return ds;
     }
 
@@ -41,8 +44,12 @@ public class ServerConfiguration {
     SpringJdbcConnectionProvider springJdbcConnectionProvider(JdbcTemplate jdbcTemplate) {
         return new SpringJdbcConnectionProvider(jdbcTemplate);
     }
-
     @Bean
+    DataBaseService dataBaseService(SpringJdbcConnectionProvider provider) {
+        return new DataBaseService(provider);
+    }
+
+/*    @Bean
     UserCreator userCreator(SpringJdbcConnectionProvider provider) {
         return new UserCreator(provider);
     }
@@ -60,6 +67,6 @@ public class ServerConfiguration {
     @Bean
     UserMatcher userMatcher(SpringJdbcConnectionProvider provider) {
         return new UserMatcher(provider);
-    }
+    }*/
 
 }
