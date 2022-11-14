@@ -2,13 +2,14 @@ package ru.prerev.tinderclient.domain;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.prerev.tinderclient.enums.bot.MenuButtonsEnum;
 import ru.prerev.tinderclient.enums.bot.ProfileButtonsEnum;
 import ru.prerev.tinderclient.enums.bot.ScrollButtonsEnum;
-import ru.prerev.tinderclient.rest.GetService;
-import ru.prerev.tinderclient.search.GenderSearcher;
+import ru.prerev.tinderclient.db.GetService;
+import ru.prerev.tinderclient.db.search.GenderSearcher;
 import ru.prerev.tinderclient.telegrambot.Bot;
 
 import ru.prerev.tinderclient.telegrambot.keyboard.InlineKeyboardMaker;
@@ -16,6 +17,7 @@ import ru.prerev.tinderclient.telegrambot.keyboard.ReplyKeyboardMaker;
 
 @Slf4j
 @RequiredArgsConstructor
+@Component
 public class Menu {
     private final GetService getService;
     private final ReplyKeyboardMaker replyKeyboardMaker;
@@ -31,6 +33,7 @@ public class Menu {
             menuButtons(id);
         } else if (message.equalsIgnoreCase(MenuButtonsEnum.SEARCH_BUTTON.getButtonName())) {
             genderSearcher.search(id);
+            checkUserLists(id);
         } else if (message.equalsIgnoreCase(MenuButtonsEnum.PROFILE_BUTTON.getButtonName())) {
             profile.showProfile(id, getService.get(id), inlineKeyboardMaker.getInlineMessageProfileButtons());
         } else if (message.equalsIgnoreCase(MenuButtonsEnum.LOVERS_BUTTON.getButtonName())) {
@@ -56,6 +59,17 @@ public class Menu {
                 lovers.resetAddParameters(id);
             }
             menuButtons(id);
+        }
+    }
+
+    private void checkUserLists(Long id) {
+        if (genderSearcher.getUserListsMap().get(id).size() == 0) {
+            SendMessage emptyListMessage = new SendMessage(id.toString(), "Нет подходящего кандидата");
+            try {
+                bot.execute(emptyListMessage);
+            } catch (TelegramApiException e) {
+                log.error("Не удалось отправить сообщение" + e);
+            }
         }
     }
 

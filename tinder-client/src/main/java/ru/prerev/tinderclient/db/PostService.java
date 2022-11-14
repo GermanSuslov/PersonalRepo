@@ -1,14 +1,16 @@
-package ru.prerev.tinderclient.rest;
+package ru.prerev.tinderclient.db;
 
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.*;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ru.prerev.tinderclient.domain.User;
 
 import java.util.Collections;
 
 @RequiredArgsConstructor
+@Service
 public class PostService {
     private final RestTemplate restTemplate;
 

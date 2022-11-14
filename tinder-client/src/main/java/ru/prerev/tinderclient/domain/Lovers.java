@@ -3,11 +3,12 @@ package ru.prerev.tinderclient.domain;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.prerev.tinderclient.enums.bot.ScrollButtonsEnum;
 import ru.prerev.tinderclient.enums.resources.MatchEnum;
-import ru.prerev.tinderclient.search.MatchSearcher;
+import ru.prerev.tinderclient.db.search.MatchSearcher;
 import ru.prerev.tinderclient.telegrambot.Bot;
 import ru.prerev.tinderclient.telegrambot.keyboard.ReplyKeyboardMaker;
 
@@ -15,6 +16,7 @@ import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
+@Component
 public class Lovers {
     private final Profile profile;
     private final ReplyKeyboardMaker replyKeyboardMaker;

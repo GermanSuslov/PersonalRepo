@@ -1,8 +1,9 @@
-package ru.prerev.tinderclient.rest;
+package ru.prerev.tinderclient.db;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ru.prerev.tinderclient.domain.User;
 
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Slf4j
+@Service
 public class GetService {
     private final RestTemplate restTemplate;
     private final String url = "http://localhost:8090/users/";

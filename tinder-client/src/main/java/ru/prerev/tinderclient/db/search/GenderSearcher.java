@@ -1,11 +1,15 @@
-package ru.prerev.tinderclient.search;
+package ru.prerev.tinderclient.db.search;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.prerev.tinderclient.domain.Profile;
 import ru.prerev.tinderclient.domain.User;
-import ru.prerev.tinderclient.rest.GetService;
-import ru.prerev.tinderclient.rest.MatchService;
+import ru.prerev.tinderclient.db.GetService;
+import ru.prerev.tinderclient.db.MatchService;
 import ru.prerev.tinderclient.telegrambot.Bot;
 import ru.prerev.tinderclient.telegrambot.keyboard.ReplyKeyboardMaker;
 
@@ -15,6 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
+@Service
+@Slf4j
 public class GenderSearcher {
     private final GetService getService;
     private final MatchService matchService;
@@ -30,9 +36,10 @@ public class GenderSearcher {
             setGenderParameters(id);
         }
 
-        User currentUser = userListsMap.get(id).get(indexMap.get(id));
-        profile.showProfile(id, currentUser, replyKeyboardMaker.getScrollKeyboard());
-
+        if (userListsMap.get(id).size() != 0) {
+            User currentUser = userListsMap.get(id).get(indexMap.get(id));
+            profile.showProfile(id, currentUser, replyKeyboardMaker.getScrollKeyboard());
+        }
         if (indexMap.get(id) + 1 == userListsMap.get(id).size()) {
             indexMap.replace(id, 0);
         } else {

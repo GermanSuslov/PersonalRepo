@@ -2,14 +2,15 @@ package ru.prerev.tinderclient.domain;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.prerev.tinderclient.enums.bot.ProfileButtonsEnum;
 import ru.prerev.tinderclient.enums.resources.GenderEnum;
 import ru.prerev.tinderclient.enums.resources.QuestionnaireEnum;
-import ru.prerev.tinderclient.rest.DeleteService;
-import ru.prerev.tinderclient.rest.GetService;
-import ru.prerev.tinderclient.rest.PostService;
+import ru.prerev.tinderclient.db.DeleteService;
+import ru.prerev.tinderclient.db.GetService;
+import ru.prerev.tinderclient.db.PostService;
 import ru.prerev.tinderclient.telegrambot.Bot;
 import ru.prerev.tinderclient.telegrambot.keyboard.InlineKeyboardMaker;
 
@@ -19,6 +20,7 @@ import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
+@Component
 public class Authorizer {
     private Map<Long, User> userMap;
     private Map<Long, Boolean> authorizedMap;
@@ -97,6 +99,7 @@ public class Authorizer {
                     "Вы успешно зарегистрированы.");
             bot.execute(successMessage);
             profile.showProfile(chatId, userMap.get(chatId), inlineKeyboardMaker.getInlineMessageProfileButtons());
+            authorizedMap.put(chatId, true);
         }
     }
 

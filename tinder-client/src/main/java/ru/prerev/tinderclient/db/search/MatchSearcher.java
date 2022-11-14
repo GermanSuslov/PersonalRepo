@@ -1,14 +1,16 @@
-package ru.prerev.tinderclient.search;
+package ru.prerev.tinderclient.db.search;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.prerev.tinderclient.domain.User;
-import ru.prerev.tinderclient.rest.GetService;
+import ru.prerev.tinderclient.db.GetService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
+@Service
 public class MatchSearcher {
     private final GetService getService;
 
