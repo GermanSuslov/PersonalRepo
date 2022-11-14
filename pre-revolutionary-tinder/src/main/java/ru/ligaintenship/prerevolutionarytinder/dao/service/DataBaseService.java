@@ -1,6 +1,9 @@
 package ru.ligaintenship.prerevolutionarytinder.dao.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import ru.ligaintenship.prerevolutionarytinder.dao.User;
 import ru.ligaintenship.prerevolutionarytinder.dao.repository.SpringJdbcConnectionProvider;
@@ -10,11 +13,65 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
+@PropertySource(value = {"classpath:application.properties"})
 public class DataBaseService {
+
+    @Autowired
+    private Environment environment;
 
     private final SpringJdbcConnectionProvider provider;
 
     public void create(User resource) {
+        String sql = environment.getProperty("database.create")
+                .formatted(resource.getId(), resource.getSex(), resource.getName(), resource.getStory(), resource.getLookingFor());
+        int responseCode = provider.putData(sql);
+        System.out.println(responseCode);
+    }
+
+    public void deleteById(Long id) {
+        String sqlUsers = environment.getProperty("database.delete-by-id.users") + id;
+        String sqlMatches = environment.getProperty("database.delete-by-id.matches") + id + " and liked_id = " + id;
+        provider.deleteData(sqlUsers);
+        provider.deleteData(sqlMatches);
+    }
+
+    public List<User> findAll() {
+        String sql = environment.getProperty("database.find-all");
+        List<User> list = provider.getData(sql);
+        return list;
+    }
+
+    public User findById(Long id) {
+        String sql = environment.getProperty("database.find-by-id") + id.toString();
+        List<User> foundedUser = provider.getData(sql);
+        return foundedUser.stream().findFirst().get();
+    }
+
+    public List<List<User>> findMatch(Long id) {
+        String sqlLike = String.format(environment.getProperty("database.find-match.user-liked"), id, id);
+
+        String sqlLiked = String.format(environment.getProperty("database.find-match.liked-user"), id, id);
+
+        String sqlEachOther = environment.getProperty("database.find-match.mutual-liked") + id.toString();
+        List<List<User>> resList = new ArrayList<>();
+        resList.add(provider.getData(sqlLike));
+        resList.add(provider.getData(sqlLiked));
+        resList.add(provider.getData(sqlEachOther));
+        return resList;
+    }
+
+    public List<User> search(Long id) {
+        String sql = String.format(environment.getProperty("database.search"), "Всех", "Сударъ", "Сударыня", "Всех", id, id);
+        return provider.getData(sql);
+    }
+
+    public void match(Long id, Long id_matched) {
+        String sql = environment.getProperty("database.match")
+                .formatted(id, id_matched);
+        provider.putData(sql);
+    }
+
+/*    public void create(User resource) {
         String sql = "insert into tinder.tinder_users (user_id, sex, name, story, looking_for) values (%d, '%s', '%s', '%s', '%s')"
                 .formatted(resource.getId(), resource.getSex(), resource.getName(), resource.getStory(), resource.getLookingFor());
         int responseCode = provider.putData(sql);
@@ -91,5 +148,5 @@ public class DataBaseService {
         String sql = "insert into tinder.user_matches (user_id, liked_id) values (%d, %d)"
                 .formatted(id, id_matched);
         provider.putData(sql);
-    }
+    }*/
 }

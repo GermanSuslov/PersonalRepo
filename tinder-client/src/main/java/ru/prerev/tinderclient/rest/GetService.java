@@ -1,11 +1,9 @@
 package ru.prerev.tinderclient.rest;
 
 import lombok.RequiredArgsConstructor;
-
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.web.client.RestTemplate;
-import ru.prerev.tinderclient.TinderClientApplication;
 import ru.prerev.tinderclient.domain.User;
 
 import java.io.File;
@@ -45,7 +43,7 @@ public class GetService {
                 + getTranslate(user.getStory());
         byte[] png = this.restTemplate.getForObject(urlPng, byte[].class);
         File filePng = null;
-        String fileName = user.getId() + "_form.png";
+        String fileName = "src/main/resources/" + user.getId() + "_form.png";
         try {
             FileUtils.writeByteArrayToFile(filePng = new File(fileName), png);
         } catch (IOException e) {

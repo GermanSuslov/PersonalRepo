@@ -14,13 +14,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class Controller {
     private final DataBaseService dataBaseService;
+    private final String userPath = "/users";
+    private final String matchesPath = "/matches";
 
-    @GetMapping(value = "/users")
+    @GetMapping(value = userPath)
     public List<User> findAll() {
         return dataBaseService.findAll();
     }
 
-    @GetMapping(value = "/users/{id}")
+    @GetMapping(value = userPath + "/{id}")
     public User findById(@PathVariable("id") Long id) {
         User user = null;
         try {
@@ -31,28 +33,28 @@ public class Controller {
         return user;
     }
 
-    @GetMapping(value = "/users/{id}/search")
+    @GetMapping(value = userPath + "/{id}/search")
     public List<User> search(@PathVariable("id") Long id) {
         return dataBaseService.search(id);
     }
 
-    @GetMapping(value = "/users/{id}/matches")
+    @GetMapping(value = userPath + "/{id}" + matchesPath)
     public List<List<User>> findMatch(@PathVariable("id") Long id) {
         return dataBaseService.findMatch(id);
     }
 
-    @PostMapping(value = "/users")
+    @PostMapping(value = userPath)
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody User resource) {
         dataBaseService.create(resource);
     }
 
-    @PutMapping(value = "/matches/{id}/{id_matched}")
+    @PutMapping(value = matchesPath + "/{id}/{id_matched}")
     public void match(@PathVariable("id") Long id, @PathVariable("id_matched") Long id_matched) {
         dataBaseService.match(id, id_matched);
     }
 
-    @DeleteMapping(value = "/users/{id}")
+    @DeleteMapping(value = userPath + "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") Long id) {
         dataBaseService.deleteById(id);

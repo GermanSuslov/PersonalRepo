@@ -21,6 +21,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class Authorizer {
     private Map<Long, User> userMap;
+    private Map<Long, Boolean> authorizedMap;
     private final Profile profile;
     private final PostService postService;
     private final DeleteService deleteService;
@@ -32,16 +33,20 @@ public class Authorizer {
     public void authorize(Long chatId, String message) {
         if (userMap == null) {
             userMap = new HashMap<>();
+            authorizedMap = new HashMap<>();
         }
         message.trim();
         if (!userMap.containsKey(chatId)) {
-            userMap.put(chatId, new User());
+            userMap.put(chatId, getService.get(chatId));
+            authorizedMap.put(chatId, false);
         }
-        if (getService.get(chatId) != null) {
-            if (!userInitiated(userMap.get(chatId))) {
-                userMap.replace(chatId, getService.get(chatId));
+        if (userMap.get(chatId) != null) {
+            if (userInitiated(userMap.get(chatId)) && !authorizedMap.get(chatId)) {
                 profile.showProfile(chatId, userMap.get(chatId), inlineKeyboardMaker.getInlineMessageProfileButtons());
+                authorizedMap.put(chatId, true);
             }
+        } else {
+            userMap.replace(chatId, new User());
         }
         if (userMap.get(chatId) == null || !userInitiated(userMap.get(chatId))) {
             registration(chatId, message);
