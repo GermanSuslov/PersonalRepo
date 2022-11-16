@@ -1,14 +1,20 @@
-package ru.prerev.tinderclient.domain;
+package ru.prerev.tinderclient.service;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.prerev.tinderclient.domain.Match;
+import ru.prerev.tinderclient.domain.User;
 import ru.prerev.tinderclient.enums.bot.ScrollButtonsEnum;
 import ru.prerev.tinderclient.enums.resources.MatchEnum;
-import ru.prerev.tinderclient.db.search.MatchSearcher;
 import ru.prerev.tinderclient.telegrambot.Bot;
 import ru.prerev.tinderclient.telegrambot.keyboard.ReplyKeyboardMaker;
 
@@ -16,13 +22,15 @@ import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
-@Component
-public class Lovers {
-    private final Profile profile;
+@Service
+public class MatchService {
+    private final RestTemplate restTemplate;
+    private final UserService userService;
     private final ReplyKeyboardMaker replyKeyboardMaker;
-    private final MatchSearcher matchSearcher;
 
     private Bot bot;
+    @Value("${server.url}")
+    private String url;
     @Getter
     private Map<Long, List<User>> loversMap;
     private Map<Long, List<Integer>> matchMap;
@@ -50,7 +58,7 @@ public class Lovers {
     }
 
     private void showProfileWithMatch(Long id, User user) {
-        profile.showProfile(id, user, null);
+        userService.showProfile(id, user, null);
 
         String currentMatch = "";
         for (int i = 0; i < matchMap.get(id).size() - 1; i++) {
@@ -66,6 +74,37 @@ public class Lovers {
         } catch (TelegramApiException e) {
             log.error("Не удалось отправить изображение: ");
         }
+    }
+
+    private List<List<User>> search(Long id) {
+        List[] userList = getMatchesList(id);
+        List<Map<String, Object>> userLikedListMap = (List<Map<String, Object>>) userList[0];
+        List<Map<String, Object>> likedUserListMap = (List<Map<String, Object>>) userList[1];
+        List<Map<String, Object>> mutualLikingListMap = (List<Map<String, Object>>) userList[2];
+        List<User> userLiked = getUserList(userLikedListMap);
+        List<User> likedUser = getUserList(likedUserListMap);
+        List<User> mutualLiking = getUserList(mutualLikingListMap);
+        List<List<User>> lists = new ArrayList<>();
+        lists.add(userLiked);
+        lists.add(likedUser);
+
+        lists.add(mutualLiking);
+        return lists;
+    }
+
+    private List<User> getUserList(List<Map<String, Object>> listMap) {
+        List<User> listUsers = new ArrayList<>();
+        for (Map<String, Object> map : listMap) {
+            User user = new User();
+            Long id = Long.parseLong(map.get("id").toString());
+            user.setId(id);
+            user.setSex((String) map.get("sex"));
+            user.setName((String) map.get("name"));
+            user.setStory((String) map.get("story"));
+            user.setLookingFor((String) map.get("lookingFor"));
+            listUsers.add(user);
+        }
+        return listUsers;
     }
 
     private Integer getNextIndex(Long id, Integer currentIndex) {
@@ -97,7 +136,7 @@ public class Lovers {
         }
         if (!loversMap.containsKey(id)) {
             List<Integer> matchList = new ArrayList<>();
-            List<List<User>> loversListList = matchSearcher.search(id);
+            List<List<User>> loversListList = search(id);
             List<User> loversList = new ArrayList<>();
             int prevMatchSize = 0;
 
@@ -121,8 +160,22 @@ public class Lovers {
         isFirstProfileMap.remove(id);
     }
 
+    private List[] getMatchesList(Long id) {
+        String urlMatch = url + id + "/matches";
+        return restTemplate.getForEntity(urlMatch, List[].class).getBody();
+    }
+
+    public void match(Match match) {
+        String urlMatch = url + "matches";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        HttpEntity<Match> matchEntity = new HttpEntity<>(match, headers);
+        restTemplate.postForObject(urlMatch, matchEntity, Match.class);
+    }
+
     public void setBot(Bot bot) {
         this.bot = bot;
-        profile.setBot(bot);
+        userService.setBot(bot);
     }
 }

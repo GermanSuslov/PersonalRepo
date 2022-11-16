@@ -10,36 +10,30 @@ import java.util.List;
 
 public class InlineKeyboardMaker {
     public InlineKeyboardMarkup getInlineMessageSexButtons() {
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
-
-        rowList.add(getButton(GenderEnum.MALE.getGender()));
-        rowList.add(getButton(GenderEnum.FEMALE.getGender()));
-
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        inlineKeyboardMarkup.setKeyboard(rowList);
+        inlineKeyboardMarkup.setKeyboard(List.of(
+                getButton(GenderEnum.MALE.getGender()),
+                getButton(GenderEnum.FEMALE.getGender()))
+        );
         return inlineKeyboardMarkup;
     }
 
     public InlineKeyboardMarkup getInlineMessageLookingForButtons() {
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
-
-        rowList.add(getButton(GenderEnum.MALE.getGender()));
-        rowList.add(getButton(GenderEnum.FEMALE.getGender()));
-        rowList.add(getButton(GenderEnum.ALL.getGender()));
-
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        inlineKeyboardMarkup.setKeyboard(rowList);
+        inlineKeyboardMarkup.setKeyboard(List.of(
+                getButton(GenderEnum.MALE.getGender()),
+                getButton(GenderEnum.FEMALE.getGender()),
+                getButton(GenderEnum.ALL.getGender())
+        ));
         return inlineKeyboardMarkup;
     }
 
     public InlineKeyboardMarkup getInlineMessageProfileButtons() {
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
-
-        rowList.add(getButton(ProfileButtonsEnum.EDIT_PROFILE_BUTTON.getButtonName()));
-        rowList.add(getButton(ProfileButtonsEnum.MENU_BUTTON.getButtonName()));
-
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        inlineKeyboardMarkup.setKeyboard(rowList);
+        inlineKeyboardMarkup.setKeyboard(List.of(
+                getButton(ProfileButtonsEnum.EDIT_PROFILE_BUTTON.getButtonName()),
+                getButton(ProfileButtonsEnum.MENU_BUTTON.getButtonName())
+        ));
         return inlineKeyboardMarkup;
     }
 

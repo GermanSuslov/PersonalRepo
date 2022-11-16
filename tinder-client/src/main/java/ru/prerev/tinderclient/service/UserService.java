@@ -1,50 +1,68 @@
-package ru.prerev.tinderclient.domain;
+package ru.prerev.tinderclient.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.prerev.tinderclient.domain.User;
 import ru.prerev.tinderclient.enums.bot.ProfileButtonsEnum;
 import ru.prerev.tinderclient.enums.resources.GenderEnum;
 import ru.prerev.tinderclient.enums.resources.QuestionnaireEnum;
-import ru.prerev.tinderclient.db.DeleteService;
-import ru.prerev.tinderclient.db.GetService;
-import ru.prerev.tinderclient.db.PostService;
 import ru.prerev.tinderclient.telegrambot.Bot;
 import ru.prerev.tinderclient.telegrambot.keyboard.InlineKeyboardMaker;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
-@Component
-public class Authorizer {
-    private Map<Long, User> userMap;
-    private Map<Long, Boolean> authorizedMap;
-    private final Profile profile;
-    private final PostService postService;
-    private final DeleteService deleteService;
-    private final GetService getService;
+@Service
+public class UserService {
+    private final RestTemplate restTemplate;
     private final InlineKeyboardMaker inlineKeyboardMaker;
 
     private Bot bot;
+    @Value("${server.url}")
+    private String url;
+    private Map<Long, User> userMap;
+    private Map<Long, Boolean> authorizedMap;
+
+    public void showProfile(Long id, User user, ReplyKeyboard keyboard) {
+        File filePng = getTranslatedPicture(user);
+        InputFile pngFile = new InputFile(filePng, user.getId() + "_form.png");
+        SendPhoto formPng = new SendPhoto(id.toString(), pngFile);
+        formPng.setReplyMarkup(keyboard);
+        SendMessage translatedMessage = new SendMessage(id.toString(), user.getSex() + ", "
+                + getTranslate(user.getName()));
+        try {
+            bot.execute(translatedMessage);
+            bot.execute(formPng);
+        } catch (TelegramApiException e) {
+            log.error("Не удалось отправить изображение: ");
+        }
+    }
 
     public void authorize(Long chatId, String message) {
         if (userMap == null) {
             userMap = new HashMap<>();
             authorizedMap = new HashMap<>();
         }
-        message.trim();
         if (!userMap.containsKey(chatId)) {
-            userMap.put(chatId, getService.get(chatId));
+            userMap.put(chatId, get(chatId));
             authorizedMap.put(chatId, false);
         }
         if (userMap.get(chatId) != null) {
             if (userInitiated(userMap.get(chatId)) && !authorizedMap.get(chatId)) {
-                profile.showProfile(chatId, userMap.get(chatId), inlineKeyboardMaker.getInlineMessageProfileButtons());
+                showProfile(chatId, userMap.get(chatId), inlineKeyboardMaker.getInlineMessageProfileButtons());
                 authorizedMap.put(chatId, true);
             }
         } else {
@@ -67,7 +85,7 @@ public class Authorizer {
             log.error("Не удалось отправить сообщение: ");
         }
         if (userInitiated(userMap.get(chatId))) {
-            postService.post(userMap.get(chatId));
+            post(userMap.get(chatId));
         }
     }
 
@@ -98,13 +116,13 @@ public class Authorizer {
             SendMessage successMessage = new SendMessage(chatId.toString(),
                     "Вы успешно зарегистрированы.");
             bot.execute(successMessage);
-            profile.showProfile(chatId, userMap.get(chatId), inlineKeyboardMaker.getInlineMessageProfileButtons());
+            showProfile(chatId, userMap.get(chatId), inlineKeyboardMaker.getInlineMessageProfileButtons());
             authorizedMap.put(chatId, true);
         }
     }
 
     private void deleteUserData(Long chatId) {
-        deleteService.delete(chatId);
+        delete(chatId);
         SendMessage deleteMessage = new SendMessage(chatId.toString(), "Анкета успешно удалена");
         try {
             bot.execute(deleteMessage);
@@ -116,7 +134,6 @@ public class Authorizer {
     }
 
     private boolean userInitiated(User user) {
-        boolean initiated = true;
         if (user.getId() == null) {
             return false;
         }
@@ -132,11 +149,59 @@ public class Authorizer {
         if (user.getLookingFor() == null) {
             return false;
         }
-        return initiated;
+        return true;
+    }
+
+    private User post(User user) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        HttpEntity<User> entity = new HttpEntity<>(user, headers);
+        //ResponseEntity<User> response = this.restTemplate.postForEntity(url, entity, User.class);
+        /*if (response.getStatusCode() == HttpStatus.CREATED) {
+            return response.getBody();
+        } else {
+            return null;
+        }*/
+        return restTemplate.postForObject(url, entity, User.class);
+    }
+
+    public User get(Long id) {
+        String urlUser = url + id;
+        return this.restTemplate.getForObject(urlUser, User.class);
+    }
+
+    public List<User> getList(Long id) {
+        String urlSearch = url + id + "/search";
+        User[] userArray = this.restTemplate.getForEntity(urlSearch, User[].class).getBody();
+        return Arrays.stream(userArray).toList();
+    }
+
+    private void delete(Long id) {
+        String urlUser = url + "/" + id;
+        this.restTemplate.delete(urlUser);
+    }
+
+    private String getTranslate(String text) {
+        String urlTranslate = "http://localhost:5006/translate?resource=" + text;
+        return this.restTemplate.getForObject(urlTranslate, String.class);
+    }
+
+    private File getTranslatedPicture(User user) {
+        String urlPng = "http://localhost:5005/internal/image/from/text/?description="
+                + getTranslate(user.getStory());
+        byte[] png = this.restTemplate.getForObject(urlPng, byte[].class);
+        File filePng = null;
+        String fileName = "src/main/resources/profiles/" + user.getId() + "_form.png";
+        try {
+            FileUtils.writeByteArrayToFile(filePng = new File(fileName), png);
+        } catch (IOException e) {
+            log.error("Не удалось сформировать изображение: ");
+        }
+        return filePng;
     }
 
     public void setBot(Bot bot) {
         this.bot = bot;
-        profile.setBot(bot);
     }
 }

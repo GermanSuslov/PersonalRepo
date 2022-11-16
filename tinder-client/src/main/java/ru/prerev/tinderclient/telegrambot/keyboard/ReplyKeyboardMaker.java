@@ -18,12 +18,8 @@ public class ReplyKeyboardMaker {
         KeyboardRow row2 = new KeyboardRow();
         row2.add(new KeyboardButton(MenuButtonsEnum.LOVERS_BUTTON.getButtonName()));
 
-        List<KeyboardRow> keyboard = new ArrayList<>();
-        keyboard.add(row1);
-        keyboard.add(row2);
-
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        replyKeyboardMarkup.setKeyboard(keyboard);
+        replyKeyboardMarkup.setKeyboard(List.of(row1, row2));
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setOneTimeKeyboard(true);
 
@@ -38,12 +34,8 @@ public class ReplyKeyboardMaker {
         KeyboardRow row2 = new KeyboardRow();
         row2.add(new KeyboardButton(ScrollButtonsEnum.MENU_BUTTON.getButtonName()));
 
-        List<KeyboardRow> keyboard = new ArrayList<>();
-        keyboard.add(row1);
-        keyboard.add(row2);
-
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        replyKeyboardMarkup.setKeyboard(keyboard);
+        replyKeyboardMarkup.setKeyboard(List.of(row1, row2));
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setOneTimeKeyboard(true);
 

@@ -8,8 +8,8 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.prerev.tinderclient.domain.Authorizer;
-import ru.prerev.tinderclient.domain.Menu;
+import ru.prerev.tinderclient.service.TelegramService;
+import ru.prerev.tinderclient.service.UserService;
 
 import javax.annotation.PostConstruct;
 
@@ -18,8 +18,8 @@ import javax.annotation.PostConstruct;
 @Component
 public final class Bot extends TelegramLongPollingBot {
     private final TelegramBotsApi botsApi;
-    private final Authorizer authorizer;
-    private final Menu menu;
+    private final UserService userService;
+    private final TelegramService telegramService;
 
     @Value("${botName}")
     private String botName;
@@ -29,7 +29,7 @@ public final class Bot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         Long chatId = null;
-        String message = null;
+        String message = "";
         if (update.hasMessage() && update.getMessage().hasText()) {
             chatId = update.getMessage().getChatId();
             message = update.getMessage().getText();
@@ -37,8 +37,8 @@ public final class Bot extends TelegramLongPollingBot {
             chatId = update.getCallbackQuery().getMessage().getChatId();
             message = update.getCallbackQuery().getData();
         }
-        authorizer.authorize(chatId, message);
-        menu.showMenu(chatId, message);
+        userService.authorize(chatId, message.trim());
+        telegramService.showMenu(chatId, message);
     }
 
     @Override
@@ -52,8 +52,8 @@ public final class Bot extends TelegramLongPollingBot {
     }
 
     private void setBot() {
-        authorizer.setBot(this);
-        menu.setBot(this);
+        userService.setBot(this);
+        telegramService.setBot(this);
     }
 
     @PostConstruct

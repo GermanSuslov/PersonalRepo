@@ -36,5 +36,4 @@ public class BotConfiguration {
     ReplyKeyboardMaker replyKeyboardMaker() {
         return new ReplyKeyboardMaker();
     }
-
 }
