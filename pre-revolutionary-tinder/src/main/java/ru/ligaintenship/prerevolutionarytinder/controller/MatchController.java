@@ -25,13 +25,13 @@ public class MatchController {
     }
 
     @GetMapping(userPath + "/{id}" + matchesPath)
-    public List<List<User>> findMatch(@PathVariable("id") Long id) {
+    public List<List<User>> findMatch(@PathVariable Long id) {
         return dataBaseService.findMatch(id);
     }
 
     @DeleteMapping(userPath + matchesPath + "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") Long id) {
+    public void delete(@PathVariable Long id) {
         dataBaseService.deleteByMatch(id);
     }
 }

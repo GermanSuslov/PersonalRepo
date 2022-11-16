@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.ligaintenship.prerevolutionarytinder.controller.exceptions.ErrorObject;
 import ru.ligaintenship.prerevolutionarytinder.controller.exceptions.UserNotFoundException;
 import ru.ligaintenship.prerevolutionarytinder.dao.service.DataBaseService;
-import ru.ligaintenship.prerevolutionarytinder.domain.Match;
 import ru.ligaintenship.prerevolutionarytinder.domain.User;
 
 import java.util.List;
@@ -26,12 +25,12 @@ public class UserController {
     }
 
     @GetMapping(userPath + "/{id}")
-    public User findById(@PathVariable("id") Long id) {
+    public User findById(@PathVariable Long id) {
         return dataBaseService.findById(id);
     }
 
     @GetMapping(userPath + "/{id}/search")
-    public List<User> search(@PathVariable("id") Long id) {
+    public List<User> search(@PathVariable Long id) {
         return dataBaseService.search(id);
     }
 
@@ -43,7 +42,7 @@ public class UserController {
 
     @DeleteMapping(userPath + "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") Long id) {
+    public void delete(@PathVariable Long id) {
         dataBaseService.deleteById(id);
     }
 
