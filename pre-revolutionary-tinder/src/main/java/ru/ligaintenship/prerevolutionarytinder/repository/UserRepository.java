@@ -1,4 +1,4 @@
-package ru.ligaintenship.prerevolutionarytinder.dao.repository;
+package ru.ligaintenship.prerevolutionarytinder.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;

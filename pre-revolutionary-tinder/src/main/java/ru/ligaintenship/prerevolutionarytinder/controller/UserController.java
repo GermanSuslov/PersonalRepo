@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.ligaintenship.prerevolutionarytinder.controller.exceptions.ErrorObject;
 import ru.ligaintenship.prerevolutionarytinder.controller.exceptions.UserNotFoundException;
-import ru.ligaintenship.prerevolutionarytinder.dao.service.DataBaseService;
+import ru.ligaintenship.prerevolutionarytinder.service.DataBaseService;
 import ru.ligaintenship.prerevolutionarytinder.domain.User;
 
 import java.util.List;

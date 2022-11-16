@@ -156,12 +156,6 @@ public class UserService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         HttpEntity<User> entity = new HttpEntity<>(user, headers);
-        //ResponseEntity<User> response = this.restTemplate.postForEntity(url, entity, User.class);
-        /*if (response.getStatusCode() == HttpStatus.CREATED) {
-            return response.getBody();
-        } else {
-            return null;
-        }*/
         return restTemplate.postForObject(url, entity, User.class);
     }
 

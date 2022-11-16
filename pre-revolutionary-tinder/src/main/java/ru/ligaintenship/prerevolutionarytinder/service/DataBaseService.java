@@ -1,17 +1,13 @@
-package ru.ligaintenship.prerevolutionarytinder.dao.service;
+package ru.ligaintenship.prerevolutionarytinder.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.ligaintenship.prerevolutionarytinder.controller.exceptions.UserNotFoundException;
-import ru.ligaintenship.prerevolutionarytinder.dao.repository.MatchRepository;
-import ru.ligaintenship.prerevolutionarytinder.dao.repository.UserRepository;
+import ru.ligaintenship.prerevolutionarytinder.repository.MatchRepository;
+import ru.ligaintenship.prerevolutionarytinder.repository.UserRepository;
 import ru.ligaintenship.prerevolutionarytinder.domain.Match;
 import ru.ligaintenship.prerevolutionarytinder.domain.User;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service

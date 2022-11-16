@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.ligaintenship.prerevolutionarytinder.dao.service.DataBaseService;
+import ru.ligaintenship.prerevolutionarytinder.service.DataBaseService;
 import ru.ligaintenship.prerevolutionarytinder.domain.Match;
 import ru.ligaintenship.prerevolutionarytinder.domain.User;
 

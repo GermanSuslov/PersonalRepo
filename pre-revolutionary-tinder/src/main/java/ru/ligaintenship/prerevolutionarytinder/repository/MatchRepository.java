@@ -1,4 +1,4 @@
-package ru.ligaintenship.prerevolutionarytinder.dao.repository;
+package ru.ligaintenship.prerevolutionarytinder.repository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
