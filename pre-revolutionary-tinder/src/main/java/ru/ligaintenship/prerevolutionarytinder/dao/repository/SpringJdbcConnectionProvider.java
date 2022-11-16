@@ -3,13 +3,15 @@ package ru.ligaintenship.prerevolutionarytinder.dao.repository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import ru.ligaintenship.prerevolutionarytinder.dao.User;
+import org.springframework.stereotype.Service;
+import ru.ligaintenship.prerevolutionarytinder.domain.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 @Slf4j
+@Service
 public class SpringJdbcConnectionProvider {
     private final JdbcTemplate jdbcTemplate;
 

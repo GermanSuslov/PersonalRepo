@@ -1,4 +1,4 @@
-package ru.ligaintenship.prerevolutionarytinder.dao;
+package ru.ligaintenship.prerevolutionarytinder.domain;
 
 import lombok.Data;
 

@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="55cc0010-22a6-4820-a830-8d98892cc0e7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../Calculator/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Calculator/src/main/java/org/example/Calculator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Calculator/target/classes/org/example/App.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Calculator/target/classes/org/example/Calculator.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Calculator/target/test-classes/org/example/CalculatorTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LigaCopyright/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LigaCopyright/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LigaCopyright/target/classes/ru/liga/LigaUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LigaCopyright/target/libs/junit-3.8.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LigaCopyright/target/maven-archiver/pom.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LigaCopyright/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LigaCopyright/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LigaCopyright/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LigaCopyright/target/nexus-staging/deferred/.index" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LigaCopyright/target/nexus-staging/deferred/ru/liga/liga-copyright/1.0-SNAPSHOT/liga-copyright-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LigaCopyright/target/nexus-staging/deferred/ru/liga/liga-copyright/1.0-SNAPSHOT/liga-copyright-1.0-SNAPSHOT.pom" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LigaCopyright/target/nexus-staging/deferred/ru/liga/liga-copyright/1.0-SNAPSHOT/maven-metadata-nexus.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LigaCopyright/target/nexus-staging/deferred/ru/liga/liga-copyright/maven-metadata-nexus.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../currency-converter/spring-shell.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../currency-converter/src/main/java/ru/liga/currencyconverter/shell/EntityManagerJdbcConnectionProvider.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../currency-converter/src/main/resources/db/changelog-master.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../currency-converter/src/main/resources/db/changelog/changelog-000.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dblab/src/main/resources/db/changelog/changelog-000.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dblab/src/main/resources/db/changelog/changelog-002.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dblab/src/main/resources/db/changelog/changelog-003.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dblab/target/classes/db/changelog/changelog-000.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dblab/target/classes/db/changelog/changelog-002.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dblab/target/classes/db/changelog/changelog-003.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dblab/target/classes/ru/league/lab/Main.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dblab/target/classes/ru/league/lab/NativeJdbcConnectionProvider.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dblab/target/classes/ru/league/lab/SpringJdbcConnectionProvider$ExchangeMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dblab/target/classes/ru/league/lab/SpringJdbcConnectionProvider.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dblab/target/classes/ru/league/lab/config/AppConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dblab/target/classes/ru/league/lab/dao/Exchange.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/App.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/annotation/A.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/annotation/Main.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/employee/App.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/employee/domain/Employee.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/helloworld/domain/City.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/helloworld/domain/Country.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/helloworld/domain/Region.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/helloworld/repo/WorldRepository.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/oop/Main.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/oop/dip/Main.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/oop/dip/report/EmailReportSender.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/oop/dip/report/NoReportsException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/oop/dip/report/Report.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/oop/dip/report/ReportBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/oop/dip/report/Reporter.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/oop/i/AmazonAws.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/oop/i/CloudProvider.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/oop/i/ICloud.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/oop/l/Main.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/oop/l/Rectangle.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/oop/l/Square.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/oop/ocp/ILogger.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/oop/ocp/Logger.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/oop/ocp/Main.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/oop/ocp/ReportBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/oop/task1/demo/DemoApplication.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/oop/task1/domain/Person.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/oop/task1/service/PersonService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/optional/Task.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/optional/domain/Passport.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/optional/repo/PassportRepository.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/predicate/App.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/predicate/domain/Gender.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/predicate/domain/Person.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/classes/ru/liga/predicate/repo/PersonRepository.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/test-classes/ru/liga/AppTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-java-8/target/test-classes/world.sqlite" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-tasks/target/classes/ru/rtech/internship/Task1CatDog.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-tasks/target/classes/ru/rtech/internship/Task2Prime.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-tasks/target/classes/ru/rtech/internship/Task3Sum.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-tasks/target/classes/ru/rtech/internship/Task4Stones.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-tasks/target/classes/ru/rtech/internship/Task5Excel.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-tasks/target/classes/ru/rtech/internship/Task6Tree.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-tasks/target/classes/ru/rtech/internship/domain/Node.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-tasks/target/test-classes/ru/rtech/internship/Task1CatDogTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-tasks/target/test-classes/ru/rtech/internship/Task2PrimeTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-tasks/target/test-classes/ru/rtech/internship/Task3SumTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-tasks/target/test-classes/ru/rtech/internship/Task4StonesTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-tasks/target/test-classes/ru/rtech/internship/Task5ExcelTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../internship-tasks/target/test-classes/ru/rtech/internship/Task6TreeTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../java-intern-prerequisite/target/classes/ru/rtech/internship/Task1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../java-intern-prerequisite/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../java-intern-prerequisite/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../java-intern-prerequisite/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../java-intern-prerequisite/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../java-intern-prerequisite/target/surefire-reports/TEST-ru.rtech.internship.Task1Test.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../java-intern-prerequisite/target/surefire-reports/ru.rtech.internship.Task1Test.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../java-intern-prerequisite/target/test-classes/ru/rtech/internship/Task1Test.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java-final/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java-final/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java-final/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java-final/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java-final/build/classes/java/main/ru/liga/learn/javacorefinal/domain/Student.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java-final/build/classes/java/test/ru/liga/learn/javacorefinal/service/StudentServiceTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java-final/build/libs/learn-java-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java-final/build/reports/tests/test/classes/ru.liga.learn.javacorefinal.service.StudentServiceTest.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java-final/build/reports/tests/test/css/base-style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java-final/build/reports/tests/test/css/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java-final/build/reports/tests/test/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java-final/build/reports/tests/test/js/report.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java-final/build/reports/tests/test/packages/ru.liga.learn.javacorefinal.service.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java-final/build/test-results/test/TEST-ru.liga.learn.javacorefinal.service.StudentServiceTest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java-final/build/test-results/test/binary/output.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java-final/build/test-results/test/binary/output.bin.idx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java-final/build/test-results/test/binary/results.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java-final/build/tmp/jar/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java-final/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java-final/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java-final/settings.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java-final/src/main/java/ru/liga/learn/javacorefinal/domain/Student.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java-final/src/main/java/ru/liga/learn/javacorefinal/service/StudentService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java-final/src/test/java/ru/liga/learn/javacorefinal/service/StudentServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/.gradle/7.1/dependencies-accessors/dependencies-accessors.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/.gradle/7.1/dependencies-accessors/gc.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/.gradle/7.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/.gradle/7.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/.gradle/7.1/fileChanges/last-build.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/.gradle/7.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/.gradle/7.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/.gradle/7.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/.gradle/7.1/gc.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/.gradle/checksums/checksums.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/.gradle/checksums/md5-checksums.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/.gradle/vcs-1/gc.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/puzzler/IntegerPull.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/puzzler/Mountain.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/puzzler/StaticInitialization.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/puzzler/Sub.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/puzzler/Super.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week1/CreatePhoneNumber.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week1/FindOdd.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week1/PangramChecker.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week2/CreditCardValidation.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week2/HighestScoringWord.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week2/SpinWords.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week3/HumanReadableTime.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week3/Scramblies.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week3/ValidParentheses.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week4/BlockTheSquareInTicTacToe.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week4/ConsecutiveNumbers.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week4/NextBiggerNumberWithSameDigits.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week4/highlevel/ChessKnights.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week4/highlevel/ChessPieces.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week5/CompleteWord.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week5/SMS.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week5/ValidRGB.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week5/highlevel/BFSChess.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week5/highlevel/BishopChallenge.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week6/CamelSnakeCase.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week6/ColouredTriangles.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week6/FormattingTime.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week6/highlevel/BooleanOrder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week6/highlevel/CakeCutter.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week7/CaesarCipher.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week7/HowManyShuffles.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week7/SplittingObjectsInsideAnArray.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week7/TimeAroundWorld.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week7/VowelFamilies.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/main/ru/liga/learn/week7/dto/Fruit.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week1/CreatePhoneNumberTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week1/FindOddTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week1/PangramCheckerTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week2/CreditCardValidationTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week2/HighestScoringWordTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week2/SpinWordsTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week3/HumanReadableTimeTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week3/ScrambliesTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week3/ValidParenthesesTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week4/BlockTheSquareInTicTacToeTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week4/ConsecutiveNumbersTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week4/NextBiggerNumberWithSameDigitsTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week4/highlevel/ChessKnightsTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week4/highlevel/ChessPiecesTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week5/CompleteWordTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week5/SMSTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week5/ValidRGBTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week5/highlevel/BFSChessTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week5/highlevel/BishopChallengeTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week6/CamelSnakeCaseTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week6/ColouredTrianglesTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week6/FormattingTimeTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week6/highlevel/BooleanOrderTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week6/highlevel/CakeCutterTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week7/CaesarCipherTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week7/HowManyShufflesTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week7/SplittingObjectsInsideAnArrayTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week7/TimeAroundWorldTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/classes/java/test/ru/liga/learn/week7/VowelFamiliesTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/reports/tests/test/classes/ru.liga.learn.week2.CreditCardValidationTest.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/reports/tests/test/css/base-style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/reports/tests/test/css/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/reports/tests/test/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/reports/tests/test/js/report.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/reports/tests/test/packages/ru.liga.learn.week2.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/resources/main/MOBILA.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/test-results/test/TEST-ru.liga.learn.week2.CreditCardValidationTest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/test-results/test/binary/output.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/test-results/test/binary/output.bin.idx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/test-results/test/binary/results.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../learn-java/build/tmp/compileTestJava/previous-compilation-data.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mavendemo/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mavendemo/src/main/java/ru/liga/App.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mavendemo/target/mavendemo-1.0-SNAPSHOT-jar-with-dependencies.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pre-revolutionary-tinder/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../pre-revolutionary-tinder/pom.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2HaE2SijSYE7TgZ0LlWpXJBDqcn" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/German/projects/pre-revolutionary-tinder"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="dblab-jpa" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="dblab-jpa" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="55cc0010-22a6-4820-a830-8d98892cc0e7" name="Changes" comment="" />
+      <created>1668514587275</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1668514587275</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

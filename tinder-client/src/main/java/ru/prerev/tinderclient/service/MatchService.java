@@ -42,7 +42,16 @@ public class MatchService {
             setMatchParameters(id);
         }
 
-        if (message.equalsIgnoreCase(ScrollButtonsEnum.RIGHT_BUTTON.getButtonName())) {
+        if(loversEmpty()) {
+            SendMessage emptyMatchesMessage = new SendMessage(id.toString(), "Нет симпатий, переход в меню");
+            emptyMatchesMessage.setReplyMarkup(replyKeyboardMaker.getMenuKeyboard());
+            try {
+                bot.execute(emptyMatchesMessage);
+            } catch (TelegramApiException e) {
+                log.error("Не удалось отправить сообщение" + e);
+            }
+            loversMap.remove(id);
+        } else if (message.equalsIgnoreCase(ScrollButtonsEnum.RIGHT_BUTTON.getButtonName())) {
             User currentUser;
             if (isFirstProfileMap.get(id)) {
                 currentUser = loversMap.get(id).get(indexMap.get(id));
@@ -55,6 +64,16 @@ public class MatchService {
             User currentUser = loversMap.get(id).get(getPrevIndex(id, indexMap.get(id)));
             showProfileWithMatch(id, currentUser);
         }
+    }
+
+    private boolean loversEmpty() {
+        boolean empty = true;
+        for (List<User> userList : loversMap.values()) {
+            if(userList.size() > 0) {
+                return false;
+            }
+        }
+        return empty;
     }
 
     private void showProfileWithMatch(Long id, User user) {

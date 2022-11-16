@@ -1,21 +1,25 @@
 package ru.ligaintenship.prerevolutionarytinder.config;
 
 import liquibase.integration.spring.SpringLiquibase;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import ru.ligaintenship.prerevolutionarytinder.dao.service.DataBaseService;
-import ru.ligaintenship.prerevolutionarytinder.dao.repository.SpringJdbcConnectionProvider;
 
 @Configuration
-@PropertySource(value= {"classpath:application.properties"})
+@PropertySource({"classpath:application.properties"})
 public class ServerConfiguration {
-    @Autowired
-    private Environment environment;
+
+    @Value("${spring.datasource.driver-class-name}")
+    private String driverName;
+    @Value("${spring.datasource.url}")
+    private String url;
+    @Value("${spring.datasource.username}")
+    private String userName;
+    @Value("${spring.datasource.password}")
+    private String password;
 
     @Bean
     public JdbcTemplate jdbcTemplate(DriverManagerDataSource dataSource) {
@@ -25,10 +29,10 @@ public class ServerConfiguration {
     @Bean
     public DriverManagerDataSource dataSource() {
         DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setDriverClassName(environment.getProperty("spring.datasource.driver-class-name"));
-        ds.setUrl(environment.getProperty("spring.datasource.url"));
-        ds.setUsername(environment.getProperty("spring.datasource.username"));
-        ds.setPassword(environment.getProperty("spring.datasource.password"));
+        ds.setDriverClassName(driverName);
+        ds.setUrl(url);
+        ds.setUsername(userName);
+        ds.setPassword(password);
         return ds;
     }
 
@@ -38,11 +42,6 @@ public class ServerConfiguration {
         liquibase.setDataSource(dataSource());
         liquibase.setChangeLog("classpath:/db/changelog-master.yaml");
         return liquibase;
-    }
-
-    @Bean
-    SpringJdbcConnectionProvider springJdbcConnectionProvider(JdbcTemplate jdbcTemplate) {
-        return new SpringJdbcConnectionProvider(jdbcTemplate);
     }
 
 }

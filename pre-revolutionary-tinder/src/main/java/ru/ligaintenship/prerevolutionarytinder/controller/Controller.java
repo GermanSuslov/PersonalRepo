@@ -4,8 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.ligaintenship.prerevolutionarytinder.dao.User;
 import ru.ligaintenship.prerevolutionarytinder.dao.service.DataBaseService;
+import ru.ligaintenship.prerevolutionarytinder.domain.Match;
+import ru.ligaintenship.prerevolutionarytinder.domain.User;
 
 import java.util.List;
 
@@ -17,12 +18,12 @@ public class Controller {
     private final String userPath = "/users";
     private final String matchesPath = "/matches";
 
-    @GetMapping(value = userPath)
+    @GetMapping(userPath)
     public List<User> findAll() {
         return dataBaseService.findAll();
     }
 
-    @GetMapping(value = userPath + "/{id}")
+    @GetMapping(userPath + "/{id}")
     public User findById(@PathVariable("id") Long id) {
         User user = null;
         try {
@@ -31,6 +32,12 @@ public class Controller {
             log.info("Пользователь с id: " + id + " не найден\n" + e);
         }
         return user;
+    }
+
+    @PostMapping(userPath + matchesPath)
+    @ResponseStatus(HttpStatus.CREATED)
+    public void match(@RequestBody Match match) {
+        dataBaseService.match(match);
     }
 
     @GetMapping(value = userPath + "/{id}/search")
@@ -45,13 +52,8 @@ public class Controller {
 
     @PostMapping(value = userPath)
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody User resource) {
-        dataBaseService.create(resource);
-    }
-
-    @PutMapping(value = matchesPath + "/{id}/{id_matched}")
-    public void match(@PathVariable("id") Long id, @PathVariable("id_matched") Long id_matched) {
-        dataBaseService.match(id, id_matched);
+    public void create(@RequestBody User user) {
+        dataBaseService.create(user);
     }
 
     @DeleteMapping(value = userPath + "/{id}")
