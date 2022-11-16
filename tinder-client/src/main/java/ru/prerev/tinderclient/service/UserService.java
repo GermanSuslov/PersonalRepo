@@ -4,8 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
@@ -13,7 +16,6 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.prerev.tinderclient.domain.User;
-import ru.prerev.tinderclient.enums.bot.ProfileButtonsEnum;
 import ru.prerev.tinderclient.enums.resources.GenderEnum;
 import ru.prerev.tinderclient.enums.resources.QuestionnaireEnum;
 import ru.prerev.tinderclient.telegrambot.Bot;
@@ -165,7 +167,13 @@ public class UserService {
 
     public User get(Long id) {
         String urlUser = url + id;
-        return this.restTemplate.getForObject(urlUser, User.class);
+        User user = null;
+        try {
+            user = this.restTemplate.getForObject(urlUser, User.class);
+        } catch (RestClientException e) {
+            log.debug("User " + id + " not found");
+        }
+        return user;
     }
 
     public List<User> getList(Long id) {

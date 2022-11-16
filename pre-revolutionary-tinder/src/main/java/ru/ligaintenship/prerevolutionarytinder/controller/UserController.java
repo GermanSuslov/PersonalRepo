@@ -3,7 +3,10 @@ package ru.ligaintenship.prerevolutionarytinder.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.ligaintenship.prerevolutionarytinder.controller.exceptions.ErrorObject;
+import ru.ligaintenship.prerevolutionarytinder.controller.exceptions.UserNotFoundException;
 import ru.ligaintenship.prerevolutionarytinder.dao.service.DataBaseService;
 import ru.ligaintenship.prerevolutionarytinder.domain.Match;
 import ru.ligaintenship.prerevolutionarytinder.domain.User;
@@ -16,7 +19,6 @@ import java.util.List;
 public class UserController {
     private final DataBaseService dataBaseService;
     private final String userPath = "/users";
-    private final String matchesPath = "/matches";
 
     @GetMapping(userPath)
     public List<User> findAll() {
@@ -25,13 +27,7 @@ public class UserController {
 
     @GetMapping(userPath + "/{id}")
     public User findById(@PathVariable("id") Long id) {
-        User user = null;
-        try {
-            user = dataBaseService.findById(id);
-        } catch (Exception e) {
-            log.info("Пользователь с id: " + id + " не найден\n" + e);
-        }
-        return user;
+        return dataBaseService.findById(id);
     }
 
     @GetMapping(userPath + "/{id}/search")
@@ -49,5 +45,14 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") Long id) {
         dataBaseService.deleteById(id);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorObject> handleException(UserNotFoundException ex) {
+        ErrorObject eObject = new ErrorObject();
+        eObject.setStatus(HttpStatus.NOT_FOUND.value());
+        eObject.setMessage(ex.getMessage());
+        eObject.setTimestamp(System.currentTimeMillis());
+        return new ResponseEntity<ErrorObject>(eObject, HttpStatus.NOT_FOUND);
     }
 }

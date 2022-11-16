@@ -2,12 +2,15 @@ package ru.ligaintenship.prerevolutionarytinder.dao.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.ligaintenship.prerevolutionarytinder.controller.exceptions.UserNotFoundException;
 import ru.ligaintenship.prerevolutionarytinder.dao.repository.SpringJdbcConnectionProvider;
 import ru.ligaintenship.prerevolutionarytinder.domain.Match;
 import ru.ligaintenship.prerevolutionarytinder.domain.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -57,7 +60,6 @@ public class DataBaseService {
     private final String putMatch = "insert into tinder.user_matches (user_id, liked_id) values (%d, %d)";
 
 
-
     public void create(User resource) {
         String sql = create
                 .formatted(resource.getId(), resource.getSex(), resource.getName(), resource.getStory(), resource.getLookingFor());
@@ -84,7 +86,14 @@ public class DataBaseService {
     public User findById(Long id) {
         String sql = findById + id.toString();
         List<User> foundedUser = provider.getData(sql);
-        return foundedUser.stream().findFirst().get();
+
+        Optional<User> user = null;
+        try {
+            user = Optional.of(foundedUser.stream().findFirst().get());
+        } catch (NoSuchElementException e) {
+            throw new UserNotFoundException("User " + id + " not found");
+        }
+        return user.get();
     }
 
     public List<List<User>> findMatch(Long id) {
