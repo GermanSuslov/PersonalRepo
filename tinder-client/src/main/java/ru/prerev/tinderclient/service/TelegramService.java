@@ -35,6 +35,10 @@ public class TelegramService {
     private Map<Long, Integer> indexMap;
 
     public void showMenu(Long id, String message) {
+        if (message.equalsIgnoreCase(ProfileButtonsEnum.EDIT_PROFILE_BUTTON.getButtonName())) {
+            userService.deleteUserData(id);
+            matchService.deleteUserMatches(id);
+        }
         if (message.equalsIgnoreCase(ProfileButtonsEnum.MENU_BUTTON.getButtonName())) {
             menuButtons(id);
         } else if (message.equalsIgnoreCase(MenuButtonsEnum.SEARCH_BUTTON.getButtonName())) {

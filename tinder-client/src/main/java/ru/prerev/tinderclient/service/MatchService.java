@@ -42,7 +42,7 @@ public class MatchService {
             setMatchParameters(id);
         }
 
-        if(loversEmpty()) {
+        if (loversEmpty()) {
             SendMessage emptyMatchesMessage = new SendMessage(id.toString(), "Нет симпатий, переход в меню");
             emptyMatchesMessage.setReplyMarkup(replyKeyboardMaker.getMenuKeyboard());
             try {
@@ -69,7 +69,7 @@ public class MatchService {
     private boolean loversEmpty() {
         boolean empty = true;
         for (List<User> userList : loversMap.values()) {
-            if(userList.size() > 0) {
+            if (userList.size() > 0) {
                 return false;
             }
         }
@@ -140,6 +140,11 @@ public class MatchService {
             indexMap.put(id, indexMap.get(id) - 1);
             return currentIndex - 1;
         }
+    }
+
+    public void deleteUserMatches(Long id) {
+        String urlUser = url + "matches/" + id;
+        this.restTemplate.delete(urlUser);
     }
 
     private void setMatchParameters(Long id) {

@@ -71,9 +71,6 @@ public class UserService {
         if (userMap.get(chatId) == null || !userInitiated(userMap.get(chatId))) {
             registration(chatId, message);
         }
-        if (message.equalsIgnoreCase(ProfileButtonsEnum.EDIT_PROFILE_BUTTON.getButtonName())) {
-            deleteUserData(chatId);
-        }
     }
 
     private void registration(Long chatId, String message) {
@@ -121,13 +118,13 @@ public class UserService {
         }
     }
 
-    private void deleteUserData(Long chatId) {
+    public void deleteUserData(Long chatId) {
         delete(chatId);
         SendMessage deleteMessage = new SendMessage(chatId.toString(), "Анкета успешно удалена");
         try {
             bot.execute(deleteMessage);
             userMap.remove(chatId);
-            authorize(chatId, "Рандом");
+            authorize(chatId, "Регистрация");
         } catch (TelegramApiException e) {
             log.error("Не удалось отправить сообщение: ");
         }

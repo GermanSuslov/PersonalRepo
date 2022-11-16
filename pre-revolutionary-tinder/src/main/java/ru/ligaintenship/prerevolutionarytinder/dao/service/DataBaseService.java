@@ -2,10 +2,9 @@ package ru.ligaintenship.prerevolutionarytinder.dao.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import ru.ligaintenship.prerevolutionarytinder.dao.repository.SpringJdbcConnectionProvider;
 import ru.ligaintenship.prerevolutionarytinder.domain.Match;
 import ru.ligaintenship.prerevolutionarytinder.domain.User;
-import ru.ligaintenship.prerevolutionarytinder.dao.repository.SpringJdbcConnectionProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,11 +65,13 @@ public class DataBaseService {
         System.out.println(responseCode);
     }
 
-    @Transactional
     public void deleteById(Long id) {
         String sqlUsers = deleteById + id;
-        String sqlMatches = deleteByMatch + id + " and liked_id = " + id;
         provider.deleteData(sqlUsers);
+    }
+
+    public void deleteByMatch(Long id) {
+        String sqlMatches = deleteByMatch + id + " or liked_id = " + id;
         provider.deleteData(sqlMatches);
     }
 

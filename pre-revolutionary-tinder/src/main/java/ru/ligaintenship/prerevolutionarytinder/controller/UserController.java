@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-public class Controller {
+public class UserController {
     private final DataBaseService dataBaseService;
     private final String userPath = "/users";
     private final String matchesPath = "/matches";
@@ -34,29 +34,18 @@ public class Controller {
         return user;
     }
 
-    @PostMapping(userPath + matchesPath)
-    @ResponseStatus(HttpStatus.CREATED)
-    public void match(@RequestBody Match match) {
-        dataBaseService.match(match);
-    }
-
-    @GetMapping(value = userPath + "/{id}/search")
+    @GetMapping(userPath + "/{id}/search")
     public List<User> search(@PathVariable("id") Long id) {
         return dataBaseService.search(id);
     }
 
-    @GetMapping(value = userPath + "/{id}" + matchesPath)
-    public List<List<User>> findMatch(@PathVariable("id") Long id) {
-        return dataBaseService.findMatch(id);
-    }
-
-    @PostMapping(value = userPath)
+    @PostMapping(userPath)
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody User user) {
         dataBaseService.create(user);
     }
 
-    @DeleteMapping(value = userPath + "/{id}")
+    @DeleteMapping(userPath + "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") Long id) {
         dataBaseService.deleteById(id);
