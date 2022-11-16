@@ -1,5 +1,10 @@
 package ru.prerev.tinderclient.enums.resources;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum QuestionnaireEnum {
     SEX_QUESTION("Вы сударь иль сударыня?"),
     NAME_QUESTION("Как вас величать?"),
@@ -7,12 +12,4 @@ public enum QuestionnaireEnum {
     LOOKING_FOR_QUESTION("Кого вы ищите?");
 
     private final String question;
-
-    QuestionnaireEnum(String question) {
-        this.question = question;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
 }

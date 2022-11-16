@@ -84,12 +84,8 @@ public class MatchService {
         List<User> userLiked = getUserList(userLikedListMap);
         List<User> likedUser = getUserList(likedUserListMap);
         List<User> mutualLiking = getUserList(mutualLikingListMap);
-        List<List<User>> lists = new ArrayList<>();
-        lists.add(userLiked);
-        lists.add(likedUser);
 
-        lists.add(mutualLiking);
-        return lists;
+        return List.of(userLiked, likedUser, mutualLiking);
     }
 
     private List<User> getUserList(List<Map<String, Object>> listMap) {
@@ -153,7 +149,7 @@ public class MatchService {
         }
     }
 
-    public void resetAddParameters(Long id) {
+    public void resetMatchParameters(Long id) {
         loversMap.remove(id);
         matchMap.remove(id);
         indexMap.remove(id);

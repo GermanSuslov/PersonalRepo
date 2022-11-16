@@ -59,10 +59,10 @@ public class TelegramService {
             }
         } else if (message.equalsIgnoreCase(ScrollButtonsEnum.MENU_BUTTON.getButtonName())) {
             if (getUserListsMap() != null && getUserListsMap().containsKey(id)) {
-                resetAddParameters(id);
+                resetSearchParameters(id);
             }
             if (matchService.getLoversMap() != null && matchService.getLoversMap().containsKey(id)) {
-                matchService.resetAddParameters(id);
+                matchService.resetMatchParameters(id);
             }
             menuButtons(id);
         }
@@ -91,7 +91,7 @@ public class TelegramService {
 
     private void search(Long id) {
         if (userListsMap == null || !userListsMap.containsKey(id)) {
-            setGenderParameters(id);
+            setSearchParameters(id);
         }
 
         if (userListsMap.get(id).size() != 0) {
@@ -118,7 +118,7 @@ public class TelegramService {
         matchService.match(like);
     }
 
-    private void setGenderParameters(Long id) {
+    private void setSearchParameters(Long id) {
         if (userListsMap == null) {
             userListsMap = new HashMap<>();
             indexMap = new HashMap<>();
@@ -129,7 +129,7 @@ public class TelegramService {
         }
     }
 
-    private void resetAddParameters(Long id) {
+    private void resetSearchParameters(Long id) {
         userListsMap.remove(id);
         indexMap.remove(id);
     }
