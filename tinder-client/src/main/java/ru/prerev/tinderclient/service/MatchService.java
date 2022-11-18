@@ -13,6 +13,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.prerev.tinderclient.domain.Match;
 import ru.prerev.tinderclient.domain.User;
+import ru.prerev.tinderclient.domain.UserDto;
 import ru.prerev.tinderclient.enums.bot.ScrollButtonsEnum;
 import ru.prerev.tinderclient.enums.resources.GenderEnum;
 import ru.prerev.tinderclient.enums.resources.MatchEnum;
@@ -97,14 +98,10 @@ public class MatchService {
     }
 
     private List<List<User>> search(Long id) {
-        List[] userList = getMatchesList(id);
-        List<Map<String, Object>> userLikedListMap = (List<Map<String, Object>>) userList[0];
-        List<Map<String, Object>> likedUserListMap = (List<Map<String, Object>>) userList[1];
-        List<Map<String, Object>> mutualLikingListMap = (List<Map<String, Object>>) userList[2];
-        List<User> userLiked = getUserList(userLikedListMap);
-        List<User> likedUser = getUserList(likedUserListMap);
-        List<User> mutualLiking = getUserList(mutualLikingListMap);
-
+        UserDto userLists = getMatchesList(id);
+        List<User> userLiked = userLists.getUserLiked();
+        List<User> likedUser = userLists.getLikedUser();
+        List<User> mutualLiking = userLists.getMutualLiked();
         return List.of(userLiked, likedUser, mutualLiking);
     }
 
@@ -181,9 +178,9 @@ public class MatchService {
         isFirstProfileMap.remove(id);
     }
 
-    private List[] getMatchesList(Long id) {
+    private UserDto getMatchesList(Long id) {
         String urlMatch = url + id + "/matches";
-        return restTemplate.getForEntity(urlMatch, List[].class).getBody();
+        return restTemplate.getForEntity(urlMatch, UserDto.class).getBody();
     }
 
     public Match match(Match match) {
