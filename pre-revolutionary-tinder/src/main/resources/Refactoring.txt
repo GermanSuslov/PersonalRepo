@@ -38,8 +38,8 @@ pre-revolutionary-tinder:
 + 6) MatchController match - POST обычно возвращает созданную запись, а не void
 + 7) MatchController стараются располагать методы сверху вниз : GET, POST, PUT, PATCH, DELETE так удобнее
 + 8) UserController  exceptionHandler не должен тут располагаться, для этого отдельный класс
-9) User  аналогично сообщению выше п.3
-10) А нельзя было использовать spring-boot-starter-data-jdbc? Там есть интерфейсы с CRUD операциями, вместо написания SQL
++ 9) User  аналогично сообщению выше п.3
+- 10) А нельзя было использовать spring-boot-starter-data-jdbc? Там есть интерфейсы с CRUD операциями, вместо написания SQL
 11) UserRepository  не надо ловить NoSuchElement вместо get использовать orElseThrow
 12) UserRepository findMatch почему возвращает список списков ? Нельзя было вернуть объект
     class UserDto {private List<User> like; private List<User> liked; private List<User> others; }

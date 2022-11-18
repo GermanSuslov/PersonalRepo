@@ -88,12 +88,10 @@ public class UserRepository {
         DataBaseMapper mapper = new DataBaseMapper();
         List<User> foundedUser = jdbcTemplate.query(sql, mapper);
 
-        Optional<User> user = null;
-        try {
-            user = Optional.of(foundedUser.stream().findFirst().get());
-        } catch (NoSuchElementException e) {
-            throw new UserNotFoundException("User " + id + " not found");
-        }
+        Optional<User> user = Optional.of(foundedUser
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new UserNotFoundException("Пользователь с id: " + id + " не найден")));
         return user.get();
     }
 
