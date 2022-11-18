@@ -46,13 +46,4 @@ public class UserController {
     public void delete(@PathVariable Long id) {
         dataBaseService.deleteById(id);
     }
-
-    @ExceptionHandler
-    public ResponseEntity<ErrorObject> handleException(UserNotFoundException ex) {
-        ErrorObject eObject = new ErrorObject();
-        eObject.setStatus(HttpStatus.NOT_FOUND.value());
-        eObject.setMessage(ex.getMessage());
-        eObject.setTimestamp(System.currentTimeMillis());
-        return new ResponseEntity<ErrorObject>(eObject, HttpStatus.NOT_FOUND);
-    }
 }

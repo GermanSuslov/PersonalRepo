@@ -18,16 +18,16 @@ public class MatchController {
     private final DataBaseService dataBaseService;
     private final String matchesPath = "/matches";
 
+    @GetMapping("/{id}" + matchesPath)
+    public List<List<User>> findMatch(@PathVariable Long id) {
+        return dataBaseService.findMatch(id);
+    }
+
     @PostMapping(matchesPath)
     @ResponseStatus(HttpStatus.CREATED)
     public Match match(@RequestBody Match match) {
         dataBaseService.match(match);
         return match;
-    }
-
-    @GetMapping("/{id}" + matchesPath)
-    public List<List<User>> findMatch(@PathVariable Long id) {
-        return dataBaseService.findMatch(id);
     }
 
     @DeleteMapping(matchesPath + "/{id}")

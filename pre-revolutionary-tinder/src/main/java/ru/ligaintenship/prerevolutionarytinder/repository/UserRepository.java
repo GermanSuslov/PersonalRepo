@@ -66,8 +66,7 @@ public class UserRepository {
     public void create(User resource) {
         String sql = create
                 .formatted(resource.getId(), resource.getSex(), resource.getName(), resource.getStory(), resource.getLookingFor());
-        int resCode = jdbcTemplate.update(sql);
-        System.out.println(resCode);
+        jdbcTemplate.update(sql);
     }
 
     public void deleteById(Long id) {
