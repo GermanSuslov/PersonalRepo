@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
+import ru.ligaintenship.prerevolutionarytinder.domain.UserDto;
 import ru.ligaintenship.prerevolutionarytinder.enums.GenderEnum;
 import ru.ligaintenship.prerevolutionarytinder.exceptions.UserNotFoundException;
 import ru.ligaintenship.prerevolutionarytinder.domain.User;
@@ -97,18 +98,22 @@ public class UserRepository {
         return user.get();
     }
 
-    public List<List<User>> findMatch(Long id) {
+    public UserDto findMatch(Long id) {
         String sqlLike = String.format(findMatchUserLiked, id, id);
-
         String sqlLiked = String.format(findMatchLikedUser, id, id);
-
         String sqlEachOther = findMatchMutualLiked + id.toString();
+
         DataBaseMapper mapper = new DataBaseMapper();
-        List<List<User>> resList = new ArrayList<>();
+
+        UserDto matches = new UserDto();
+        matches.setUserLiked(jdbcTemplate.query(sqlLike, mapper));
+        matches.setLikedUser(jdbcTemplate.query(sqlLiked, mapper));
+        matches.setMutualLiked(jdbcTemplate.query(sqlEachOther, mapper));
+        /*List<List<User>> resList = new ArrayList<>();
         resList.add(jdbcTemplate.query(sqlLike, mapper));
         resList.add(jdbcTemplate.query(sqlLiked, mapper));
-        resList.add(jdbcTemplate.query(sqlEachOther, mapper));
-        return resList;
+        resList.add(jdbcTemplate.query(sqlEachOther, mapper));*/
+        return matches;
     }
 
     public List<User> search(Long id) {

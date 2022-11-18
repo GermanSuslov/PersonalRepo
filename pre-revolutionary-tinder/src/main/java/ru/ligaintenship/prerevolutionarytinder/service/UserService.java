@@ -2,6 +2,7 @@ package ru.ligaintenship.prerevolutionarytinder.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.ligaintenship.prerevolutionarytinder.domain.UserDto;
 import ru.ligaintenship.prerevolutionarytinder.repository.MatchRepository;
 import ru.ligaintenship.prerevolutionarytinder.repository.UserRepository;
 import ru.ligaintenship.prerevolutionarytinder.domain.Match;
@@ -30,7 +31,7 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public List<List<User>> findMatch(Long id) {
+    public UserDto findMatch(Long id) {
         return userRepository.findMatch(id);
     }
 

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.ligaintenship.prerevolutionarytinder.domain.UserDto;
 import ru.ligaintenship.prerevolutionarytinder.service.MatchService;
 import ru.ligaintenship.prerevolutionarytinder.service.UserService;
 import ru.ligaintenship.prerevolutionarytinder.domain.Match;
@@ -21,7 +22,7 @@ public class MatchController {
     private final String matchesPath = "/matches";
 
     @GetMapping("/{id}" + matchesPath)
-    public List<List<User>> findMatch(@PathVariable Long id) {
+    public UserDto findMatch(@PathVariable Long id) {
         return userService.findMatch(id);
     }
 
