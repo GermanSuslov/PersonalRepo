@@ -14,6 +14,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.prerev.tinderclient.domain.Match;
 import ru.prerev.tinderclient.domain.User;
 import ru.prerev.tinderclient.enums.bot.ScrollButtonsEnum;
+import ru.prerev.tinderclient.enums.resources.GenderEnum;
 import ru.prerev.tinderclient.enums.resources.MatchEnum;
 import ru.prerev.tinderclient.telegrambot.Bot;
 import ru.prerev.tinderclient.telegrambot.keyboard.ReplyKeyboardMaker;
@@ -113,10 +114,10 @@ public class MatchService {
             User user = new User();
             Long id = Long.parseLong(map.get("id").toString());
             user.setId(id);
-            user.setSex((String) map.get("sex"));
+            user.setSex(GenderEnum.valueOf((String) map.get("sex")));
             user.setName((String) map.get("name"));
             user.setStory((String) map.get("story"));
-            user.setLookingFor((String) map.get("lookingFor"));
+            user.setLookingFor(GenderEnum.valueOf((String) map.get("lookingFor")));
             listUsers.add(user);
         }
         return listUsers;

@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
+import ru.ligaintenship.prerevolutionarytinder.enums.GenderEnum;
 import ru.ligaintenship.prerevolutionarytinder.exceptions.UserNotFoundException;
 import ru.ligaintenship.prerevolutionarytinder.domain.User;
 
@@ -64,8 +65,8 @@ public class UserRepository {
     }
 
     public void create(User resource) {
-        String sql = create
-                .formatted(resource.getId(), resource.getSex(), resource.getName(), resource.getStory(), resource.getLookingFor());
+        String sql = create.formatted(resource.getId(), resource.getSex().getGender(), resource.getName(),
+                resource.getStory(), resource.getLookingFor().getGender());
         jdbcTemplate.update(sql);
     }
 
@@ -76,7 +77,7 @@ public class UserRepository {
 
     public List<User> findAll() {
         String sql = findAll;
-        ExchangeMapper mapper = new ExchangeMapper();
+        DataBaseMapper mapper = new DataBaseMapper();
         List<User> resList = jdbcTemplate.query(sql, mapper);
         log.debug("GetData method completed");
         return resList;
@@ -84,7 +85,7 @@ public class UserRepository {
 
     public User findById(Long id) {
         String sql = findById + id.toString();
-        ExchangeMapper mapper = new ExchangeMapper();
+        DataBaseMapper mapper = new DataBaseMapper();
         List<User> foundedUser = jdbcTemplate.query(sql, mapper);
 
         Optional<User> user = null;
@@ -102,7 +103,7 @@ public class UserRepository {
         String sqlLiked = String.format(findMatchLikedUser, id, id);
 
         String sqlEachOther = findMatchMutualLiked + id.toString();
-        ExchangeMapper mapper = new ExchangeMapper();
+        DataBaseMapper mapper = new DataBaseMapper();
         List<List<User>> resList = new ArrayList<>();
         resList.add(jdbcTemplate.query(sqlLike, mapper));
         resList.add(jdbcTemplate.query(sqlLiked, mapper));
@@ -112,36 +113,19 @@ public class UserRepository {
 
     public List<User> search(Long id) {
         String sql = String.format(search, id, id);
-        ExchangeMapper mapper = new ExchangeMapper();
+        DataBaseMapper mapper = new DataBaseMapper();
         List<User> resList = jdbcTemplate.query(sql, mapper);
         return resList;
     }
 
-    public List<User> getData(String sql) {
-        ExchangeMapper mapper = new ExchangeMapper();
-        List<User> resList = jdbcTemplate.query(sql, mapper);
-        log.debug("GetData method completed");
-        return resList;
-    }
-
-    public int putData(String sql) {
-        int resCode = jdbcTemplate.update(sql);
-        log.debug("PutData method completed with code: " + resCode);
-        return resCode;
-    }
-
-    public void deleteData(String sql) {
-        jdbcTemplate.update(sql);
-    }
-
-    private static class ExchangeMapper implements RowMapper<User> {
+    private static class DataBaseMapper implements RowMapper<User> {
         @Override
         public User mapRow(ResultSet rs, int i) throws SQLException {
             User user = new User(rs.getLong("user_id"),
-                    rs.getString("sex"),
+                    GenderEnum.getGenderEnum(rs.getString("sex")),
                     rs.getString("name"),
                     rs.getString("story"),
-                    rs.getString("looking_for"));
+                    GenderEnum.getGenderEnum(rs.getString("looking_for")));
             return user;
         }
     }

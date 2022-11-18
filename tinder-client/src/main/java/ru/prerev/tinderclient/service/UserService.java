@@ -43,7 +43,7 @@ public class UserService {
         InputFile pngFile = new InputFile(filePng, user.getId() + "_form.png");
         SendPhoto formPng = new SendPhoto(id.toString(), pngFile);
         formPng.setReplyMarkup(keyboard);
-        SendMessage translatedMessage = new SendMessage(id.toString(), user.getSex() + ", "
+        SendMessage translatedMessage = new SendMessage(id.toString(), user.getSex().getGender() + ", "
                 + getTranslate(user.getName()));
         try {
             bot.execute(translatedMessage);
@@ -94,7 +94,7 @@ public class UserService {
         if (userMap.get(chatId).getSex() == null) {
             if (message.equalsIgnoreCase(GenderEnum.MALE.getGender()) || message.equalsIgnoreCase(GenderEnum.FEMALE.getGender())) {
                 userMap.get(chatId).setId(chatId);
-                userMap.get(chatId).setSex(message);
+                userMap.get(chatId).setSex(GenderEnum.getGenderEnum(message));
                 SendMessage nameMessage = new SendMessage(chatId.toString(), QuestionnaireEnum.NAME_QUESTION.getQuestion());
                 bot.execute(nameMessage);
             } else {
@@ -112,7 +112,7 @@ public class UserService {
             bot.execute(lookingForMessage);
             userMap.get(chatId).setStory(message);
         } else if (userMap.get(chatId).getLookingFor() == null) {
-            userMap.get(chatId).setLookingFor(message);
+            userMap.get(chatId).setLookingFor(GenderEnum.getGenderEnum(message));
             SendMessage successMessage = new SendMessage(chatId.toString(),
                     "Вы успешно зарегистрированы.");
             bot.execute(successMessage);

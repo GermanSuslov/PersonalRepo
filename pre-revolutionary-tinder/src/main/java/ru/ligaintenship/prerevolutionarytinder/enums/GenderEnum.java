@@ -1,4 +1,4 @@
-package ru.prerev.tinderclient.enums.resources;
+package ru.ligaintenship.prerevolutionarytinder.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
