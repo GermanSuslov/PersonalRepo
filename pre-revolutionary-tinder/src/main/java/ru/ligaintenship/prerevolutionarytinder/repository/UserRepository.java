@@ -1,5 +1,6 @@
 package ru.ligaintenship.prerevolutionarytinder.repository;
 
+import lombok.experimental.FieldNameConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,6 +18,7 @@ import java.util.Optional;
 
 @Slf4j
 @Service
+@FieldNameConstants
 public class UserRepository {
     private final JdbcTemplate jdbcTemplate;
 

@@ -22,6 +22,7 @@ public class MatchRepository {
         return resCode;
     }
 
+
     public void deleteMatch(Long id) {
         String sql = deleteByMatch + id + " or liked_id = " + id;
         jdbcTemplate.update(sql);

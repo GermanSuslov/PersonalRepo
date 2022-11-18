@@ -152,14 +152,6 @@ public class UserService {
         return true;
     }
 
-    private User post(User user) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        HttpEntity<User> entity = new HttpEntity<>(user, headers);
-        return restTemplate.postForObject(url, entity, User.class);
-    }
-
     public User get(Long id) {
         String urlUser = url + id;
         User user = null;
@@ -175,6 +167,14 @@ public class UserService {
         String urlSearch = url + id + "/search";
         User[] userArray = this.restTemplate.getForEntity(urlSearch, User[].class).getBody();
         return Arrays.stream(userArray).toList();
+    }
+
+    private User post(User user) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        HttpEntity<User> entity = new HttpEntity<>(user, headers);
+        return restTemplate.postForObject(url, entity, User.class);
     }
 
     private void delete(Long id) {

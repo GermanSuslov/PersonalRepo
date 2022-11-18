@@ -11,10 +11,8 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class DataBaseService {
-
+public class UserService {
     private final UserRepository userRepository;
-    private final MatchRepository matchRepository;
 
     public void create(User user) {
         userRepository.create(user);
@@ -22,10 +20,6 @@ public class DataBaseService {
 
     public void deleteById(Long id) {
         userRepository.deleteById(id);
-    }
-
-    public void deleteByMatch(Long id) {
-        matchRepository.deleteMatch(id);
     }
 
     public List<User> findAll() {
@@ -44,7 +38,4 @@ public class DataBaseService {
         return userRepository.search(id);
     }
 
-    public void match(Match match) {
-        matchRepository.postMatch(match);
-    }
 }

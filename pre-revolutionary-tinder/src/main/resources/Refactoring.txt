@@ -40,13 +40,13 @@ pre-revolutionary-tinder:
 + 8) UserController  exceptionHandler не должен тут располагаться, для этого отдельный класс
 + 9) User  аналогично сообщению выше п.3
 - 10) А нельзя было использовать spring-boot-starter-data-jdbc? Там есть интерфейсы с CRUD операциями, вместо написания SQL
-11) UserRepository  не надо ловить NoSuchElement вместо get использовать orElseThrow
-12) UserRepository findMatch почему возвращает список списков ? Нельзя было вернуть объект
++ 11) UserRepository  не надо ловить NoSuchElement вместо get использовать orElseThrow
+- 12) UserRepository findMatch почему возвращает список списков ? Нельзя было вернуть объект
     class UserDto {private List<User> like; private List<User> liked; private List<User> others; }
     Тогда на клиентах не придется по индексам обращаться
-13) UserRepository название методов ужасно. По названию вроде работа с юзерами, а названия методов :"Положить данные",
++ 13) UserRepository название методов ужасно. По названию вроде работа с юзерами, а названия методов :"Положить данные",
     "Удалить данные" , etc. Какие данные? Пользователя или что-то иное? Интуитивно не понятно. Использовать стандартные
     название findBy... create, update, deleteBy....
-14) UserRepository аналогично п.15 сообщения выше
++ 14) UserRepository аналогично п.15 сообщения выше
 15) DataBaseService  ужасное название. Есть правило - сервис должен иметь только 1 репозиторий. Если он имеет 2 - это
     проблема. Разбить на 2 сервиса UserService, MatchService, которые работают с соответствующими репозиториями
