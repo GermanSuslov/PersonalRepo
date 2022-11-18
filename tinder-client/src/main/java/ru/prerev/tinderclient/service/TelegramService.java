@@ -89,7 +89,7 @@ public class TelegramService {
         try {
             bot.execute(menuMessage);
         } catch (TelegramApiException e) {
-            log.error("Ошибка при отображении кнопок: ");
+            log.error("Ошибка при отображении кнопок: " + e);
         }
     }
 
