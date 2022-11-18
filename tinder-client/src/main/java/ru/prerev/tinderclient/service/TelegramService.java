@@ -119,7 +119,9 @@ public class TelegramService {
         Match like = new Match();
         like.setId(id);
         like.setLikedId(likedId);
-        matchService.match(like);
+        like = matchService.match(like);
+        log.debug("Лайк поставлен поставлен пользователем с id: " + like.getId() +
+                " пользователю с id: " + like.getLikedId());
     }
 
     private void setSearchParameters(Long id) {

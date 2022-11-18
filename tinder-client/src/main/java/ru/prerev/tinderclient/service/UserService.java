@@ -84,7 +84,8 @@ public class UserService {
             log.error("Не удалось отправить сообщение: ");
         }
         if (userInitiated(userMap.get(chatId))) {
-            post(userMap.get(chatId));
+            User postedUser = post(userMap.get(chatId));
+            log.debug("Пользователь " + postedUser.toString() + " внесен в базу данных");
         }
     }
 

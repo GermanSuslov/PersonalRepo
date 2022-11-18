@@ -13,23 +13,24 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
+@RequestMapping("/users")
 public class MatchController {
     private final DataBaseService dataBaseService;
-    private final String userPath = "/users";
     private final String matchesPath = "/matches";
 
-    @PostMapping(userPath + matchesPath)
+    @PostMapping(matchesPath)
     @ResponseStatus(HttpStatus.CREATED)
-    public void match(@RequestBody Match match) {
+    public Match match(@RequestBody Match match) {
         dataBaseService.match(match);
+        return match;
     }
 
-    @GetMapping(userPath + "/{id}" + matchesPath)
+    @GetMapping("/{id}" + matchesPath)
     public List<List<User>> findMatch(@PathVariable Long id) {
         return dataBaseService.findMatch(id);
     }
 
-    @DeleteMapping(userPath + matchesPath + "/{id}")
+    @DeleteMapping(matchesPath + "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         dataBaseService.deleteByMatch(id);

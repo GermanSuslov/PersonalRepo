@@ -5,8 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.ligaintenship.prerevolutionarytinder.controller.exceptions.ErrorObject;
-import ru.ligaintenship.prerevolutionarytinder.controller.exceptions.UserNotFoundException;
+import ru.ligaintenship.prerevolutionarytinder.exceptions.ErrorObject;
+import ru.ligaintenship.prerevolutionarytinder.exceptions.UserNotFoundException;
 import ru.ligaintenship.prerevolutionarytinder.service.DataBaseService;
 import ru.ligaintenship.prerevolutionarytinder.domain.User;
 
@@ -36,8 +36,9 @@ public class UserController {
 
     @PostMapping(userPath)
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody User user) {
+    public User create(@RequestBody User user) {
         dataBaseService.create(user);
+        return user;
     }
 
     @DeleteMapping(userPath + "/{id}")

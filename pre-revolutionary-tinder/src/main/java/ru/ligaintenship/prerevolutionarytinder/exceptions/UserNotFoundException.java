@@ -1,4 +1,4 @@
-package ru.ligaintenship.prerevolutionarytinder.controller.exceptions;
+package ru.ligaintenship.prerevolutionarytinder.exceptions;
 
 import java.util.NoSuchElementException;
 

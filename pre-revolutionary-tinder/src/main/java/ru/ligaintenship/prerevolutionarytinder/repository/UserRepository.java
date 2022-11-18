@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
-import ru.ligaintenship.prerevolutionarytinder.controller.exceptions.UserNotFoundException;
+import ru.ligaintenship.prerevolutionarytinder.exceptions.UserNotFoundException;
 import ru.ligaintenship.prerevolutionarytinder.domain.User;
 
 import java.sql.ResultSet;

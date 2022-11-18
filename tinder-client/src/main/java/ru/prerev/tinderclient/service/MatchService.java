@@ -185,13 +185,14 @@ public class MatchService {
         return restTemplate.getForEntity(urlMatch, List[].class).getBody();
     }
 
-    public void match(Match match) {
+    public Match match(Match match) {
         String urlMatch = url + "matches";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         HttpEntity<Match> matchEntity = new HttpEntity<>(match, headers);
         restTemplate.postForObject(urlMatch, matchEntity, Match.class);
+        return match;
     }
 
     public void setBot(Bot bot) {
