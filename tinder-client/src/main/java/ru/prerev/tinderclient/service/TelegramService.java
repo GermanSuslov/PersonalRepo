@@ -36,8 +36,8 @@ public class TelegramService {
     private Bot bot;
     private final Map<Long, SearchHelper> searchMap = new ConcurrentHashMap<>();
     private final Map<Long, MatchHelper> matchMap = new ConcurrentHashMap<>();
-    private Map<Long, User> userMap = new ConcurrentHashMap<>();
-    private Map<Long, Boolean> authorizedMap = new ConcurrentHashMap<>();
+    private final Map<Long, User> userMap = new ConcurrentHashMap<>();
+    private final Map<Long, Boolean> authorizedMap = new ConcurrentHashMap<>();
 
     public void showMenu(Long id, String message) {
         if (message.equalsIgnoreCase(ProfileButtonsEnum.EDIT_PROFILE_BUTTON.getButtonName())) {
