@@ -88,10 +88,6 @@ public class TelegramService {
     }
 
     public void authorize(Long chatId, String message) {
-        if (userMap == null) {
-            userMap = new ConcurrentHashMap<>();
-            authorizedMap = new ConcurrentHashMap<>();
-        }
         if (!userMap.containsKey(chatId)) {
             userMap.put(chatId, userService.get(chatId));
             authorizedMap.put(chatId, false);
