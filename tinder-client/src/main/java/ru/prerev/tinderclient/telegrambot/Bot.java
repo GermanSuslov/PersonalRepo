@@ -18,7 +18,6 @@ import javax.annotation.PostConstruct;
 @Component
 public final class Bot extends TelegramLongPollingBot {
     private final TelegramBotsApi botsApi;
-    private final UserService userService;
     private final TelegramService telegramService;
 
     @Value("${botName}")
@@ -28,16 +27,24 @@ public final class Bot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        Long chatId = null;
-        String message = "";
         if (update.hasMessage() && update.getMessage().hasText()) {
-            chatId = update.getMessage().getChatId();
-            message = update.getMessage().getText();
+            messageProcess(update);
         } else if (update.hasCallbackQuery()) {
-            chatId = update.getCallbackQuery().getMessage().getChatId();
-            message = update.getCallbackQuery().getData();
+            callbackQueryProcess(update);
         }
-        userService.authorize(chatId, message.trim());
+    }
+
+    private void messageProcess(Update update) {
+        Long chatId = update.getMessage().getChatId();
+        String message = update.getMessage().getText();
+        telegramService.authorize(chatId, message.trim());
+        telegramService.showMenu(chatId, message);
+    }
+
+    private void callbackQueryProcess(Update update) {
+        Long chatId = update.getCallbackQuery().getMessage().getChatId();
+        String message = update.getCallbackQuery().getData();
+        telegramService.authorize(chatId, message.trim());
         telegramService.showMenu(chatId, message);
     }
 
@@ -52,7 +59,6 @@ public final class Bot extends TelegramLongPollingBot {
     }
 
     private void setBot() {
-        userService.setBot(this);
         telegramService.setBot(this);
     }
 

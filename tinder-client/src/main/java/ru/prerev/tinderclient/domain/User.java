@@ -7,7 +7,6 @@ import ru.prerev.tinderclient.enums.resources.GenderEnum;
 public class User {
     private Long id;
     private GenderEnum sex;
-    //private String sex;
     private String name;
     private String story;
     private GenderEnum lookingFor;

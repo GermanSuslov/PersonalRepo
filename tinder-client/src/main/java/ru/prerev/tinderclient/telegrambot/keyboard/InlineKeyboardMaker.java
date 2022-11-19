@@ -1,5 +1,6 @@
 package ru.prerev.tinderclient.telegrambot.keyboard;
 
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.prerev.tinderclient.enums.bot.ProfileButtonsEnum;
@@ -8,9 +9,10 @@ import ru.prerev.tinderclient.enums.resources.GenderEnum;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class InlineKeyboardMaker {
     public InlineKeyboardMarkup getInlineMessageSexButtons() {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        InlineKeyboardMarkup inlineKeyboardMarkup = getInlineKeyboardMarkup();
         inlineKeyboardMarkup.setKeyboard(List.of(
                 getButton(GenderEnum.MALE.getGender()),
                 getButton(GenderEnum.FEMALE.getGender()))
@@ -19,7 +21,7 @@ public class InlineKeyboardMaker {
     }
 
     public InlineKeyboardMarkup getInlineMessageLookingForButtons() {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        InlineKeyboardMarkup inlineKeyboardMarkup = getInlineKeyboardMarkup();
         inlineKeyboardMarkup.setKeyboard(List.of(
                 getButton(GenderEnum.MALE.getGender()),
                 getButton(GenderEnum.FEMALE.getGender()),
@@ -29,7 +31,7 @@ public class InlineKeyboardMaker {
     }
 
     public InlineKeyboardMarkup getInlineMessageProfileButtons() {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        InlineKeyboardMarkup inlineKeyboardMarkup = getInlineKeyboardMarkup();
         inlineKeyboardMarkup.setKeyboard(List.of(
                 getButton(ProfileButtonsEnum.EDIT_PROFILE_BUTTON.getButtonName()),
                 getButton(ProfileButtonsEnum.MENU_BUTTON.getButtonName())
@@ -45,5 +47,9 @@ public class InlineKeyboardMaker {
         List<InlineKeyboardButton> keyboardButtonsRow = new ArrayList<>();
         keyboardButtonsRow.add(button);
         return keyboardButtonsRow;
+    }
+
+    private InlineKeyboardMarkup getInlineKeyboardMarkup() {
+        return new InlineKeyboardMarkup();
     }
 }

@@ -15,7 +15,6 @@ import ru.prerev.tinderclient.telegrambot.keyboard.ReplyKeyboardMaker;
 @Component
 @RequiredArgsConstructor
 public class BotConfiguration {
-
     @Bean
     TelegramBotsApi botsApi() throws TelegramApiException {
         log.info("TelegramBotsApi");
@@ -25,15 +24,5 @@ public class BotConfiguration {
     @Bean
     RestTemplate restTemplate() {
         return new RestTemplate();
-    }
-
-    @Bean
-    InlineKeyboardMaker inlineKeyboardMaker() {
-        return new InlineKeyboardMaker();
-    }
-
-    @Bean
-    ReplyKeyboardMaker replyKeyboardMaker() {
-        return new ReplyKeyboardMaker();
     }
 }
