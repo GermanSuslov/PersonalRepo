@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="task1-more-than-seven:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/task1_more_than_seven_jar</output-path>
+    <root id="archive" name="task1-more-than-seven.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="task1-more-than-seven" />
+    </root>
+  </artifact>
+</component>

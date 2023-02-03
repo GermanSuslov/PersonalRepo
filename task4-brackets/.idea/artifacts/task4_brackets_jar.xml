@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="task4-brackets:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/task4_brackets_jar</output-path>
+    <root id="archive" name="task4-brackets.jar">
+      <element id="module-output" name="task4-brackets" />
+    </root>
+  </artifact>
+</component>

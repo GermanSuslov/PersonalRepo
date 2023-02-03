@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="task2-hello-slava:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/task2_hello_slava_jar</output-path>
+    <root id="archive" name="task2-hello-slava.jar">
+      <element id="module-output" name="task2-hello-slava" />
+    </root>
+  </artifact>
+</component>
