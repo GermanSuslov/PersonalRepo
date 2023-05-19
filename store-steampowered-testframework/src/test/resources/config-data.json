@@ -1,0 +1,11 @@
+{
+  "waitTime": 10,
+  "startUrl": "https://store.steampowered.com/",
+  "browserType": "CHROME",
+  "driverOptions": [
+    "--start-maximized",
+    "--remote-allow-origins=*",
+    "ignore-certificate-errors",
+    "--lang=en"
+  ]
+}
