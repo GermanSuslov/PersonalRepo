@@ -1,0 +1,12 @@
+{
+  "waitTime": 10,
+  "startUrl": "https://www.ozon.ru/",
+  "browserType": "CHROME",
+  "driverOptions": [
+    "--start-maximized",
+    "--remote-allow-origins=*",
+    "ignore-certificate-errors",
+    "--lang=ru"
+  ],
+  "browserSize" : "--start-maximized"
+}

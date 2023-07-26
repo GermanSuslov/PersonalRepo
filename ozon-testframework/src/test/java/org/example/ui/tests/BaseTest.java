@@ -1,32 +1,40 @@
 package org.example.ui.tests;
 
-import io.qameta.allure.Description;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Owner;
-import io.qameta.allure.Step;
-import io.qameta.allure.junit4.DisplayName;
-import org.junit.Assert;
-import org.junit.Test;
+import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
+import org.example.ui.utils.Browser;
+import org.example.ui.utils.Waiter;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.openqa.selenium.chrome.ChromeOptions;
+import static com.codeborne.selenide.Selenide.closeWebDriver;
 
-@Feature("Feature annotation test")
+import java.util.HashMap;
+import java.util.Map;
+
 public class BaseTest {
-    @Owner("German")
-    @DisplayName("Hello test")
-    @Description("Description annotation test1")
-    @Test
-    public void test1() {
-        String helloString = "Hello";
-        System.out.println(helloString);
-        Assert.assertEquals("Hello", helloString);
+    @BeforeClass
+    public static void setUpAll() {
+        Browser.setBrowser();
     }
-
-    @Owner("Suslov")
-    @DisplayName("Bye test")
-    @Description("Description annotation test2")
-    @Test
-    public void test2() {
-        String helloString = "Bye";
-        System.out.println(helloString);
-        Assert.assertEquals("Hello", helloString);
+    @After
+    public void tearDown() {
+        Waiter.quitWaiter();
+        closeWebDriver();
     }
 }
+
+/*
+* ChromeOptions options = new ChromeOptions().setHeadless(true);
+        Map<String, Object> prefs = new HashMap<String, Object>();
+        prefs.put("profile.managed_default_content_settings.geolocation", 2);
+        options.setExperimentalOption("prefs", prefs);
+        options.addArguments("--disable-dev-shm-usage");
+        Configuration.headless = false;
+        Configuration.browserSize = "720x460";
+        Configuration.browserPosition = "0x0";
+        SelenideLogger.addListener("allure", new AllureSelenide());
+    }*/
