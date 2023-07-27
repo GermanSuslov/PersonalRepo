@@ -50,9 +50,5 @@ public class MainPageTest extends BaseTest {
         Assert.assertTrue("Главная страница не открыта", mainPage.isOpen());
 
         Assert.assertTrue("Цены и скидка не отображены", mainPage.firstBestDealsPriceIsVisible());
-
-        /*mainPage.catalogBtnClick();
-        Assert.assertFalse("Каталог отображен", mainPage.catalogMenuIsVisible());
-        logger.info("bestDealsDiscountTest закончен");*/
     }
 }
