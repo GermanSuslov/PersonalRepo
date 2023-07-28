@@ -2,6 +2,7 @@ package org.example.ui.utils;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.ex.UIAssertionError;
 import org.example.ui.elements.BaseElement;
 import org.openqa.selenium.TimeoutException;
 import org.slf4j.Logger;
@@ -25,7 +26,7 @@ public class Waiter {
     }
 
     public void waitForElementToBeClickable(BaseElement element) {
-        waitUntil(element, Condition.enabled);
+        waitUntil(element, Condition.appear);
     }
 
     public void waitForElementToBeVisible(BaseElement element) {
@@ -45,7 +46,7 @@ public class Waiter {
         try {
             element.getElement()
                     .shouldBe(condition, Duration.ofSeconds(DataHelper.getWaitTime()));
-        } catch (Exception e) {
+        } catch (UIAssertionError e) {
             logger.error("Can not find '" + element.getElementName() +
                     "' condition \nby locator : " + element.getLocator());
         }

@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 @Getter
 public abstract class BaseElement {
     private static final Logger logger = LoggerFactory.getLogger(BaseElement.class);
-    private final String elementName;
-    private final By locator;
+    private String elementName;
+    private By locator;
 
     public BaseElement(String elementName, By locator) {
         this.elementName = elementName;
@@ -40,6 +40,12 @@ public abstract class BaseElement {
 
     public void click() {
         getElement().click();
+    }
+    public void move() {
+        Browser.;
+    }
+    public void setLocator(By locator) {
+        this.locator = locator;
     }
 
     public SelenideElement getElement() {

@@ -7,7 +7,6 @@ import org.example.ui.utils.Waiter;
 
 public abstract class BaseForm {
     protected BaseElement uniqueElement;
-    public abstract void open();
     public boolean isOpen() {
         Waiter.getWaiter().waitForElementToBeVisible(uniqueElement);
         return uniqueElement.isDisplayed();

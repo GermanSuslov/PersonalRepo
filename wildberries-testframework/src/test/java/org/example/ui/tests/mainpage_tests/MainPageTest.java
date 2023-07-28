@@ -31,23 +31,30 @@ public class MainPageTest extends BaseTest {
         logger.info("catalogButtonTest начался");
         Assert.assertTrue("Главная страница не открыта", mainPage.isOpen());
 
-        mainPage.catalogBtnClick();
-        Assert.assertTrue("Каталог не отображен", mainPage.catalogMenuIsVisible());
+        mainPage.catalogForm.catalogBtnClick();
+        Assert.assertTrue("Каталог не отображен", mainPage.catalogForm.catalogMenuIsVisible());
 
-        mainPage.closeCatalogBtnClick();
-        Assert.assertTrue("Каталог отображен", mainPage.catalogMenuIsHidden());
+        mainPage.catalogForm.closeCatalogBtnClick();
+        Assert.assertTrue("Каталог отображен", mainPage.catalogForm.catalogMenuIsHidden());
         logger.info("catalogButtonTest закончен");
     }
 
     @Owner("German Suslov")
     @DisplayName("Соответствие процента скидки ценам на карточке товара в \"Лучшие предложения!\"")
-    @Description("1. Зайти на главную страницу озон - Главная страница открыта\n" +
-            "2. Найти первую карточку из товаров \"Лучшие предложения!\" - Старая цена, новая цена и скидка отображены\n" +
-            "3. Посчитать скидку по формуле (100 - (нов.цена/ст.цена) * 100) - Отображенная скидка соответствует вычисленной.")
+    @Description("1. Зайти на главную страницу wildberries - Главная страница открыта\n" +
+            "2. Нажать на кнопку \"Каталог\" - Поп-ап окно с каталогом отображено\n" +
+            "3. Выбрать категорию \"Обувь\" - \"Мужская\" - \"Тапочки\"  - Страница \"Мужские тапочки\" открыта")
     @Test
     public void bestDealsDiscountTest() {
-        logger.info("bestDealsDiscountTest начался");
+        logger.info("catalogButtonTest начался");
         Assert.assertTrue("Главная страница не открыта", mainPage.isOpen());
+
+        logger.info("bestDealsDiscountTest начался");
+        mainPage.catalogForm.catalogBtnClick();
+        Assert.assertTrue("Каталог не отображен", mainPage.catalogForm.catalogMenuIsVisible());
+
+        mainPage.catalogForm.mainCategoryClick("Обувь");
+        Assert.assertTrue("Страница ", mainPage.isOpen());
 
         Assert.assertTrue("Цены и скидка не отображены", mainPage.firstBestDealsPriceIsVisible());
     }
