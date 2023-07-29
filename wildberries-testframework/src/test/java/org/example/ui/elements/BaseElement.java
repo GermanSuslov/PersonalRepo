@@ -40,7 +40,7 @@ public abstract class BaseElement {
     }
 
     public void moveToElement(BaseElement element) {
-        Browser.moveToElement(element);
+        Browser.moveToElement(element.getSelenideElement());
     }
 
     public SelenideElement getSelenideElement() {

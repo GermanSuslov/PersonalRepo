@@ -65,7 +65,7 @@ public class Browser {
     private static void setEdgeBrowser() {
     }
 
-    public static void moveToElement(BaseElement element) {
-        actions().moveToElement(element.getSelenideElement()).perform();//todo для категорий
+    public static void moveToElement(SelenideElement element) {
+        actions().moveToElement(element).perform();//todo для категорий
     }
 }
