@@ -1,15 +1,23 @@
 package org.example.ui.elements;
 
-import org.openqa.selenium.By;
+import com.codeborne.selenide.SelenideElement;
+import lombok.Getter;
+import org.example.ui.utils.Browser;
 
+@Getter
 public class Category extends BaseElement {
-    public Category(String elementName, By locator) {
+    private Category categoryElement;
+    public Category(String elementName, String locator) {
         super(elementName, locator);
     }
 
-    public void setCategory(String category) {
-        String xpath = getLocator().toString().replace("By.xpath: ", "");
-        String locator = String.format(xpath, category);
-        setLocator(By.xpath(locator));
+    public void setCategory(String categoryName) {
+        String categoryLocator = String.format(getLocator(), categoryName);
+        categoryElement = new Category(categoryName, categoryLocator);
+    }
+
+    @Override
+    public void click() {
+        categoryElement.getSelenideElement().click();
     }
 }

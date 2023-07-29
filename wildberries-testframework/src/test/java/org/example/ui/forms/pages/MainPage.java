@@ -13,13 +13,13 @@ import org.openqa.selenium.By;
 public class MainPage extends BaseForm {
     public CatalogForm catalogForm;
     private final Button clothes = new Button("Clothes button",
-            By.xpath("//a[contains(text(), 'Одежда и обувь')]"));
+            "//a[contains(text(), 'Одежда и обувь')]");
 
     private final Table uniqueElement = new Table("Рекламная карусель",
-            By.xpath("//div[contains(@data-block-type, 'main')]"));
+           "//div[contains(@data-block-type, 'main')]");
 
     private final Price firstBestDealsPrice = new Price("Первая цена товара из лучших предложений",
-            By.xpath("(//div[@class = 'ba3y']//div[@class = 'eh6'])[1]//span[contains(@class, 'c3')]"));
+            "(//div[@class = 'ba3y']//div[@class = 'eh6'])[1]//span[contains(@class, 'c3')]");
 
     public MainPage() {
         super.uniqueElement = uniqueElement;

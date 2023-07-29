@@ -6,30 +6,26 @@ import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.example.ui.elements.BaseElement;
+import org.openqa.selenium.By;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.List;
 
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.actions;
+
 public class Browser {
-    private static WebDriver webDriver;
-    private Actions actions = new Actions(Selenide.webdriver().driver().getWebDriver());
 
     public static void openUrl(String url) {
         Selenide.open(url);
     }
 
-    public static SelenideElement findElement(By locator) {
-        return Selenide.element(locator);
+    public static SelenideElement findElementByXpath(String locator) {
+        return $(By.xpath(locator));
     }
 
-    public static List<SelenideElement> findElements(By locator) {
+    public static List<SelenideElement> findElements(String locator) {
         return Selenide.elements(locator);
-    }
-
-    public static WebDriver getDriver() {
-        if (webDriver == null) {
-            webDriver = Selenide.webdriver().driver().getWebDriver();
-        }
-        return webDriver;
     }
 
     public static void setBrowser() {
@@ -49,7 +45,6 @@ public class Browser {
                 break;
             default:
                 System.out.println("Браузер не указан или не поддерживается");
-                ;
         }
     }
 
@@ -70,18 +65,7 @@ public class Browser {
     private static void setEdgeBrowser() {
     }
 
-    public static void scrollPageToBottom() {
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) Browser.getDriver();
-        long lastHeight;
-        long newHeight = 0;
-        do {
-            lastHeight = newHeight;
-            jsExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight)");
-            newHeight = (long) jsExecutor.executeScript("return document.body.scrollHeight");
-        } while (newHeight != lastHeight);
-    }
-
     public static void moveToElement(BaseElement element) {
-
+        actions().moveToElement(element.getSelenideElement()).perform();//todo для категорий
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Price extends BaseElement {
-    public Price(String elementName, By locator) {
+    public Price(String elementName, String locator) {
         super(elementName, locator);
     }
 

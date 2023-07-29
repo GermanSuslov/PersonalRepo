@@ -1,12 +1,10 @@
 package org.example.ui.elements;
 
-import org.openqa.selenium.By;
-
 public class Title extends BaseElement {
-    public Title(String elementName, By locator) {
+    public Title(String elementName, String locator) {
         super(elementName, locator);
     }
     public String getText() {
-        return getElement().getText();
+        return getSelenideElement().getText();
     }
 }

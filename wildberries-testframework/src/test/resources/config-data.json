@@ -1,5 +1,5 @@
 {
-  "waitTime": 10,
+  "waitTime": 5,
   "startUrl": "https://www.wildberries.ru/",
   "browserType": "CHROME",
   "driverOptions": [

@@ -8,12 +8,13 @@ import org.openqa.selenium.By;
 
 public class CategoryPage extends BaseForm {
     public CatalogForm catalogForm;
-    private final Title uniqueElement = new Title("Заголовок страницы категории",
-            By.xpath("//div[contains(@data-block-type, 'main')]"));
+    private Title uniqueElement;
 
-    public CategoryPage() {
-        super.uniqueElement = uniqueElement;
+    public CategoryPage(String title) {
+        uniqueElement = new Title("Заголовок - " + title,
+                String.format("//h1[contains(text(),'%s')]", title));
         this.catalogForm = new CatalogForm();
+        super.uniqueElement = uniqueElement;
     }
 
 }

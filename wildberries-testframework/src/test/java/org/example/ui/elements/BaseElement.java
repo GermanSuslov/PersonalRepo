@@ -3,28 +3,25 @@ package org.example.ui.elements;
 import com.codeborne.selenide.SelenideElement;
 import lombok.Getter;
 import org.example.ui.utils.Browser;
-import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 public abstract class BaseElement {
     private static final Logger logger = LoggerFactory.getLogger(BaseElement.class);
     private String elementName;
-    private By locator;
+    private String locator;
 
-    public BaseElement(String elementName, By locator) {
+    public BaseElement(String elementName, String locator) {
         this.elementName = elementName;
         this.locator = locator;
     }
 
     public boolean isDisplayed() {
-        return getElement().isDisplayed();
+        return getSelenideElement().isDisplayed();
     }
     public boolean areDisplayed() {
         boolean areDisplayed = false;
@@ -35,23 +32,21 @@ public abstract class BaseElement {
     }
 
     public boolean isEnabled() {
-        return getElement().isEnabled();
+        return getSelenideElement().isEnabled();
     }
 
     public void click() {
-        getElement().click();
-    }
-    public void move() {
-        Browser.;
-    }
-    public void setLocator(By locator) {
-        this.locator = locator;
+        getSelenideElement().click();
     }
 
-    public SelenideElement getElement() {
+    public void moveToElement(BaseElement element) {
+        Browser.moveToElement(element);
+    }
+
+    public SelenideElement getSelenideElement() {
         SelenideElement element = null;
         try {
-            element = Browser.findElement(locator);
+            element = Browser.findElementByXpath(locator);
         } catch (NoSuchElementException e) {
             logger.error("Can not find element - '" + elementName + "' \nby locator " + locator);
         }
