@@ -76,4 +76,29 @@ public class CategoryPageTest extends BaseTest {
         Assert.assertTrue("Количество товара после фильтра больше или равно количеству товаров до фильтра",
                 amountAfterFilter < amountBeforeFilter);
     }
+
+    @Owner("German Suslov")
+    @DisplayName("Изменение размера карточки товаров на странице с категорией \"Садовая техника\"")
+    @Description("1. Зайти на главную страницу wildberries - Главная страница открыта\n" +
+            "2. Нажать на кнопку \"Каталог\", выбрать категорию \"Бытовая техника\" - \"Садовая техника\"" +
+            "  - Страница \"Садовая техника\" открыта\n" +
+            "3. Нажать кнопку \"Большой размер карточек\" - Карточки товаров отображены\n" +
+            "4. Нажать кнопку \"Маленький размер карточек\" - Размер карточек уменьшен")
+    @Test
+    public void categoryPageCartSizeTest() {
+        Assert.assertTrue("Главная страница не открыта", mainPage.isOpen());
+        mainPage.catalogForm.catalogBtnClick();
+
+        mainPage.catalogForm.mainCategoryMove("Электроника");
+        mainPage.catalogForm.innerCategoryClick("Смартфоны и телефоны");
+        mainPage.catalogForm.innerCategoryClick("Мобильные телефоны");
+        CategoryPage phonesPage = new CategoryPage("Мобильные телефоны");
+        Assert.assertTrue("Страница категории \"Мобильные телефоны\" не открыта", phonesPage.isOpen());
+
+        phonesPage.bigCartsButtonClick();
+        Integer bigCartArea = phonesPage.getProductCartArea(1);
+        phonesPage.smallCartsButtonClick();
+        Integer smallCartArea = phonesPage.getProductCartArea(1);
+        Assert.assertTrue("Размер карточек не уменьшился", bigCartArea > smallCartArea);
+    }
 }

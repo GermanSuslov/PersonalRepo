@@ -67,5 +67,6 @@ public class Browser {
 
     public static void moveToElement(SelenideElement element) {
         actions().moveToElement(element).perform();
+        actions().moveToElement(element).perform();
     }
 }
