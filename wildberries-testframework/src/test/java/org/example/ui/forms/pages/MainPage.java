@@ -38,5 +38,6 @@ public class MainPage extends BaseForm {
 
     public void open() {
         Browser.openUrl(DataHelper.getStartUrl());
+        Waiter.getWaiter().waitForElementToBeVisible(uniqueElement);
     }
 }

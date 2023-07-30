@@ -66,6 +66,6 @@ public class Browser {
     }
 
     public static void moveToElement(SelenideElement element) {
-        actions().moveToElement(element).perform();//todo для категорий
+        actions().moveToElement(element).perform();
     }
 }

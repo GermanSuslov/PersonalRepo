@@ -1,4 +1,4 @@
-package org.example.ui.tests.mainpage_tests;
+package org.example.ui.tests.pages_tests;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
@@ -72,4 +72,5 @@ public class MainPageTest extends BaseTest {
         CategoryPage jeansPage = new CategoryPage("Джинсы для мальчиков");
         Assert.assertTrue("Страница категории \"Джинсы для мальчиков\" не открыта", jeansPage.isOpen());
     }
+
 }
