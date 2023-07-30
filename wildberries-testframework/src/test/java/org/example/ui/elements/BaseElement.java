@@ -23,9 +23,10 @@ public abstract class BaseElement {
     public boolean isDisplayed() {
         return getSelenideElement().isDisplayed();
     }
+
     public boolean areDisplayed() {
         boolean areDisplayed = false;
-        if(getElements().stream().filter(SelenideElement::isDisplayed).toList().size() > 0) {
+        if (getElements().stream().filter(SelenideElement::isDisplayed).toList().size() > 0) {
             areDisplayed = true;
         }
         return areDisplayed;
@@ -36,7 +37,11 @@ public abstract class BaseElement {
     }
 
     public void click() {
-        getSelenideElement().click();
+        try {
+            getSelenideElement().click();
+        } catch (java.util.NoSuchElementException e) {
+            logger.error("Can not click element - '" + elementName + "' \nby locator " + locator);
+        }
     }
 
     public void moveToElement(BaseElement element) {
