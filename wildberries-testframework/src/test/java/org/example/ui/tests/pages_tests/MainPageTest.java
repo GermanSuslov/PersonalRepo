@@ -55,12 +55,13 @@ public class MainPageTest extends BaseTest {
     }
 
     @Owner("German Suslov")
-    @DisplayName("Переход на страницу \"Джинсы для мальчиков\" с помощью каталога")
+    @DisplayName("Переход на главную страницу со страници категории \"Джинсы для мальчиков\" с помощью кнопки главной страницы")
     @Description("1. Зайти на главную страницу wildberries - Главная страница открыта\n" +
             "2. Нажать на кнопку \"Каталог\" - Поп-ап окно с каталогом отображено\n" +
-            "3. Выбрать категорию \"Детям\" - \"Для мальчиков\" - \"Джинсы\"  - Страница \"Джинсы для мальчиков\" открыта")
+            "3. Выбрать категорию \"Детям\" - \"Для мальчиков\" - \"Джинсы\"  - Страница \"Джинсы для мальчиков\" открыта\n" +
+            "4. Нажать на кнопку главной страницы - Главная страница открыта")
     @Test
-    public void catalogCategoryTest2() {
+    public void mainPageButtonTest() {
         Assert.assertTrue("Главная страница не открыта", mainPage.isOpen());
 
         mainPage.catalogForm.catalogBtnClick();
@@ -71,6 +72,20 @@ public class MainPageTest extends BaseTest {
         mainPage.catalogForm.innerCategoryClick("Джинсы");
         CategoryPage jeansPage = new CategoryPage("Джинсы для мальчиков");
         Assert.assertTrue("Страница категории \"Джинсы для мальчиков\" не открыта", jeansPage.isOpen());
+
+        mainPage.catalogForm.mainPageButtonClick();
+        Assert.assertTrue("Главная страница не открыта", mainPage.isOpen());
     }
 
+    @Owner("German Suslov")
+    @DisplayName("Количество карточек с промоакциями на главной странице больше 10")
+    @Description("1. Зайти на главную страницу wildberries - Главная страница открыта\n" +
+            "2. Посчитать количество карточек с промоакциями - Количество карточек с промоакциями больше 10")
+    @Test
+    public void promoCardsAmountTest() {
+        Assert.assertTrue("Главная страница не открыта", mainPage.isOpen());
+
+        Integer promoCartsAmount = mainPage.getPromoCardsAmount();
+        Assert.assertTrue("Количество карточек с промоакциями меньше 10", promoCartsAmount > 10);
+    }
 }

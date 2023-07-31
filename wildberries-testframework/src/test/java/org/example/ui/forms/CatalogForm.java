@@ -20,6 +20,8 @@ public class CatalogForm extends BaseForm {
             "//div[contains(@class, 'menu-burger__main')]");
     private final Table innerMenu = new Table("Внутренне меню каталога",
             "//div[contains(@class, 'menu-burger__drop-list-item--active')]");
+    private final Button mainPageButton = new Button("Кнопка главной страницы",
+            "//a[@data-wba-header-name = 'Main']");
 
     public CatalogForm() {
         super.uniqueElement = closeCatalog;
@@ -32,6 +34,11 @@ public class CatalogForm extends BaseForm {
     public boolean catalogInnerMenuIsVisible() {
         Waiter.getWaiter().waitForElementToBeVisible(innerMenu);
         return innerMenu.isDisplayed();
+    }
+
+    public void mainPageButtonClick() {
+        Waiter.getWaiter().waitForElementToBeClickable(mainPageButton);
+        mainPageButton.click();
     }
 
     public boolean catalogMenuIsHidden() {

@@ -11,8 +11,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.List;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.actions;
+import static com.codeborne.selenide.Selenide.*;
 
 public class Browser {
 
@@ -25,7 +24,8 @@ public class Browser {
     }
 
     public static List<SelenideElement> findElements(String locator) {
-        return Selenide.elements(locator);
+        List<SelenideElement> elementList = $$(By.xpath(locator));
+        return elementList;
     }
 
     public static void setBrowser() {
