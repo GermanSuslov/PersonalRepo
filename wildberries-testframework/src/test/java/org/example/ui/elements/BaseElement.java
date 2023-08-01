@@ -39,13 +39,13 @@ public abstract class BaseElement {
     public void click() {
         try {
             getSelenideElement().click();
-        } catch (java.util.NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             logger.error("Can not click element - '" + elementName + "' \nby locator " + locator);
         }
     }
 
-    public void moveToElement(BaseElement element) {
-        Browser.moveToElement(element.getSelenideElement());
+    public void moveToElement() {
+        Browser.moveToElement(getSelenideElement());
     }
 
     public SelenideElement getSelenideElement() {

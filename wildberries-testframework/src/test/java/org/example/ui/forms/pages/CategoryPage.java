@@ -1,9 +1,7 @@
 package org.example.ui.forms.pages;
 
-import org.example.ui.elements.Button;
+import org.example.ui.elements.*;
 import org.example.ui.elements.Number;
-import org.example.ui.elements.Table;
-import org.example.ui.elements.Title;
 import org.example.ui.forms.BaseForm;
 import org.example.ui.forms.CatalogForm;
 import org.example.ui.forms.FilterForm;
@@ -18,7 +16,7 @@ public class CategoryPage extends BaseForm {
             "//a[contains(@class, 'card-sizes__btn--c516x688')]");
     private Button bigCartsButton = new Button("Кнопка большие карточки товаров",
             "//a[contains(@class, 'card-sizes__btn--big')]");
-    private Table productCart;
+    private Cart productCart;
 
     public CategoryPage(String title) {
         this.catalogForm = new CatalogForm();
@@ -42,11 +40,17 @@ public class CategoryPage extends BaseForm {
     }
 
     public Integer getProductCartArea(Integer cartNumber) {
-        productCart = new Table("Карточка товара №" + cartNumber,
+        productCart = new Cart("Карточка товара №" + cartNumber,
                 String.format("(//article[contains(@class, 'product-card')])[%d]", cartNumber));
-        return productCart.getTableArea();
+        Waiter.getWaiter().waitForElementToBeVisible(productCart);
+        return productCart.getBorderArea();
     }
 
-
+    public Integer getProductCartId(Integer cartNumber) {
+        productCart = new Cart("Карточка товара №" + cartNumber,
+                String.format("(//article[contains(@class, 'product-card')])[%d]", cartNumber));
+        Waiter.getWaiter().waitForElementToBeVisible(productCart);
+        return productCart.getId();
+    }
 
 }

@@ -1,6 +1,7 @@
 package org.example.ui.utils;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.ex.UIAssertionError;
 import org.example.ui.elements.BaseElement;
@@ -38,6 +39,14 @@ public class Waiter {
     public void waitForElementsToBeVisible(List<SelenideElement> elements) {
         for (SelenideElement element : elements) {
             element.shouldBe(Condition.visible, Duration.ofSeconds(DataHelper.getWaitTime()));
+        }
+    }
+
+    public void waitBySeconds(Integer seconds) {
+        try {
+            Selenide.sleep(seconds * 1000);
+        } catch (Exception e) {
+            logger.error("Ошибка implicit wait " + e);
         }
     }
 

@@ -3,10 +3,12 @@ package org.example.ui.utils;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.commands.PressEnter;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.example.ui.elements.BaseElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.List;
@@ -66,7 +68,19 @@ public class Browser {
     }
 
     public static void moveToElement(SelenideElement element) {
-        actions().moveToElement(element).perform();
-        actions().moveToElement(element).perform();
+        actions().moveToElement(element).build().perform();
+    }
+
+    public static void enterText(SelenideElement element, String text) {
+        actions().sendKeys(element, text)
+                .build()
+                .perform();
+    }
+
+    public static void pressEnterButton() {
+        actions().keyDown(Keys.ENTER)
+                .keyUp(Keys.ENTER)
+                .build()
+                .perform();
     }
 }

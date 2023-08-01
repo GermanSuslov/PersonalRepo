@@ -12,6 +12,8 @@ public class FilterForm extends BaseForm {
             "//div[contains(@class, 'dropdown')]//div[@class = 'filter']");
     private final String filterButtonSample = "//button[contains(@class, 'dropdown-filter__btn')][contains(text(), '%s')]";
     private final String filterCheckboxSample = "//div[contains(@class, 'checkbox-with-text')]//span[contains(text(), '%s')]";
+    private final String sortParameterSample = "//span[text() = '%s']";
+    private Button sortParameterButton;
     private final String selectedFilterButtonSample = "//span[contains(@class, 'your-choice__btn')][contains(text(), '%s')]";
     private Button selectedFilterButton;
 
@@ -27,6 +29,12 @@ public class FilterForm extends BaseForm {
     public void filterCheckboxClick(String text) {
         new CheckBox(text, String.format(filterCheckboxSample, text)).click();
         selectedFilterButton = new Button(text, String.format(selectedFilterButtonSample, text));
+    }
+
+    public void sortParameterButtonClick(String text) {
+        new Button(text, String.format(sortParameterSample, text)).click();
+        Waiter.getWaiter().waitForElementToBeInvisible(filterDropdown);
+        Waiter.getWaiter().waitBySeconds(1);
     }
     public boolean isSelectedFilterVisible() {
         Waiter.getWaiter().waitForElementToBeVisible(selectedFilterButton);

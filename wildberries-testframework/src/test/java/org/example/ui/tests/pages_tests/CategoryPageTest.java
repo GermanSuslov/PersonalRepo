@@ -20,7 +20,7 @@ public class CategoryPageTest extends BaseTest {
     }
 
     @Owner("German Suslov")
-    @DisplayName("Выбор фильтра \"Nokia\" на странице \"Мобильные телефоны\"")
+    @DisplayName("Выбор фильтра \"Бренд - Nokia\" на странице \"Мобильные телефоны\"")
     @Description("1. Зайти на главную страницу wildberries - Главная страница открыта\n" +
             "2. Нажать на кнопку \"Каталог\", выбрать категорию \"Электроника\" - \"Смартфоны и телефоны\" -" +
             " \"Мобильные телефоны\"  - Страница \"Мобильные телефоны\" открыта\n" +
@@ -34,21 +34,21 @@ public class CategoryPageTest extends BaseTest {
         mainPage.catalogForm.mainCategoryMove("Электроника");
         mainPage.catalogForm.innerCategoryClick("Смартфоны и телефоны");
         mainPage.catalogForm.innerCategoryClick("Мобильные телефоны");
-        CategoryPage phonesPage = new CategoryPage("Мобильные телефоны");
-        Assert.assertTrue("Страница категории \"Мобильные телефоны\" не открыта", phonesPage.isOpen());
+        CategoryPage categoryPage = new CategoryPage("Мобильные телефоны");
+        Assert.assertTrue("Страница категории \"Мобильные телефоны\" не открыта", categoryPage.isOpen());
 
-        phonesPage.filterForm.filterButtonClick("Бренд");
-        Assert.assertTrue("Dropdown список не отображен", phonesPage.filterForm.isFilterDropdownOpen());
+        categoryPage.filterForm.filterButtonClick("Бренд");
+        Assert.assertTrue("Dropdown список не отображен", categoryPage.filterForm.isFilterDropdownOpen());
 
-        phonesPage.filterForm.filterCheckboxClick("Nokia");
-        Assert.assertTrue("Выбранный фильтр не отображен", phonesPage.filterForm.isSelectedFilterVisible());
+        categoryPage.filterForm.filterCheckboxClick("Nokia");
+        Assert.assertTrue("Выбранный фильтр не отображен", categoryPage.filterForm.isSelectedFilterVisible());
     }
 
     @Owner("German Suslov")
-    @DisplayName("Соответствие количества доступных товаров на странице с категорией \"Мобильные телефоны\"")
+    @DisplayName("Соответствие количества доступных товаров на странице с категорией \"Столы\"")
     @Description("1. Зайти на главную страницу wildberries - Главная страница открыта\n" +
-            "2. Нажать на кнопку \"Каталог\", выбрать категорию \"Электроника\" - \"Смартфоны и телефоны\" -" +
-            " \"Мобильные телефоны\"  - Страница \"Мобильные телефоны\" открыта, " +
+            "2. Нажать на кнопку \"Каталог\", выбрать категорию \"Мебель\" - \"Мебель для гостиной\" -" +
+            " \"Столы\"  - Страница \"Столы\" открыта, " +
             "количество доступных товаров отображено\n" +
             "3. Нажать кнопку \"Цвет\" - Dropdown с чекбоксами отображен.\n" +
             "4. Выбрать чекбокс \"Бежевый\" - Фильтр \"бежевый\" отображен\n" +
@@ -58,21 +58,21 @@ public class CategoryPageTest extends BaseTest {
         Assert.assertTrue("Главная страница не открыта", mainPage.isOpen());
         mainPage.catalogForm.catalogBtnClick();
 
-        mainPage.catalogForm.mainCategoryMove("Электроника");
-        mainPage.catalogForm.innerCategoryClick("Смартфоны и телефоны");
-        mainPage.catalogForm.innerCategoryClick("Мобильные телефоны");
-        CategoryPage phonesPage = new CategoryPage("Мобильные телефоны");
-        Assert.assertTrue("Страница категории \"Мобильные телефоны\" не открыта", phonesPage.isOpen());
+        mainPage.catalogForm.mainCategoryMove("Мебель");
+        mainPage.catalogForm.innerCategoryClick("Мебель для гостиной");
+        mainPage.catalogForm.innerCategoryClick("Столы");
+        CategoryPage categoryPage = new CategoryPage("Столы");
+        Assert.assertTrue("Страница категории \"Столы\" не открыта", categoryPage.isOpen());
 
-        Integer amountBeforeFilter = phonesPage.getGoodsAmount();
+        Integer amountBeforeFilter = categoryPage.getGoodsAmount();
 
-        phonesPage.filterForm.filterButtonClick("Цвет");
-        Assert.assertTrue("Dropdown список не отображен", phonesPage.filterForm.isFilterDropdownOpen());
+        categoryPage.filterForm.filterButtonClick("Цвет");
+        Assert.assertTrue("Dropdown список не отображен", categoryPage.filterForm.isFilterDropdownOpen());
 
-        phonesPage.filterForm.filterCheckboxClick("бежевый");
-        Assert.assertTrue("Выбранный фильтр не отображен", phonesPage.filterForm.isSelectedFilterVisible());
+        categoryPage.filterForm.filterCheckboxClick("бежевый");
+        Assert.assertTrue("Выбранный фильтр не отображен", categoryPage.filterForm.isSelectedFilterVisible());
 
-        Integer amountAfterFilter = phonesPage.getGoodsAmount();
+        Integer amountAfterFilter = categoryPage.getGoodsAmount();
         Assert.assertTrue("Количество товара после фильтра больше или равно количеству товаров до фильтра",
                 amountAfterFilter < amountBeforeFilter);
     }
@@ -89,16 +89,40 @@ public class CategoryPageTest extends BaseTest {
         Assert.assertTrue("Главная страница не открыта", mainPage.isOpen());
         mainPage.catalogForm.catalogBtnClick();
 
-        mainPage.catalogForm.mainCategoryMove("Электроника");
-        mainPage.catalogForm.innerCategoryClick("Смартфоны и телефоны");
-        mainPage.catalogForm.innerCategoryClick("Мобильные телефоны");
-        CategoryPage phonesPage = new CategoryPage("Мобильные телефоны");
-        Assert.assertTrue("Страница категории \"Мобильные телефоны\" не открыта", phonesPage.isOpen());
+        mainPage.catalogForm.mainCategoryMove("Бытовая техника");
+        mainPage.catalogForm.innerCategoryClick("Садовая техника");
+        CategoryPage categoryPage = new CategoryPage("Садовая техника");
+        Assert.assertTrue("Страница категории \"Садовая техника\" не открыта", categoryPage.isOpen());
 
-        phonesPage.bigCartsButtonClick();
-        Integer bigCartArea = phonesPage.getProductCartArea(1);
-        phonesPage.smallCartsButtonClick();
-        Integer smallCartArea = phonesPage.getProductCartArea(1);
+        categoryPage.bigCartsButtonClick();
+        Integer bigCartArea = categoryPage.getProductCartArea(1);
+        categoryPage.smallCartsButtonClick();
+        Integer smallCartArea = categoryPage.getProductCartArea(1);
         Assert.assertTrue("Размер карточек не уменьшился", bigCartArea > smallCartArea);
+    }
+
+    @Owner("German Suslov")
+    @DisplayName("Сортировка товаров на странице категории")
+    @Description("1. Зайти на главную страницу wildberries - Главная страница открыта\n" +
+            "2. Нажать на кнопку \"Каталог\", выбрать категорию \"Дом\" - \"Коврики\"" +
+            "  - Страница \"Коврики\" открыта\n" +
+            "3. Выбрать сортировку \"По возрастанию цены\" - Карточки товаров изменились")
+    @Test
+    public void categoryPageSortTest() {
+        Assert.assertTrue("Главная страница не открыта", mainPage.isOpen());
+        mainPage.catalogForm.catalogBtnClick();
+
+        mainPage.catalogForm.mainCategoryMove("Дом");
+        mainPage.catalogForm.innerCategoryClick("Коврики");
+        CategoryPage categoryPage = new CategoryPage("Коврики");
+        Assert.assertTrue("Страница категории \"Коврики\" не открыта", categoryPage.isOpen());
+
+        long firstCartIdBefore = categoryPage.getProductCartId(1);
+        System.out.println(firstCartIdBefore);
+        categoryPage.filterForm.filterButtonClick("По популярности");
+        categoryPage.filterForm.sortParameterButtonClick("По возрастанию цены");
+        long firstCartIdAfter = categoryPage.getProductCartId(1);
+        System.out.println(firstCartIdAfter);
+        Assert.assertNotEquals("Карточки товаров не изменились", firstCartIdBefore, firstCartIdAfter);
     }
 }

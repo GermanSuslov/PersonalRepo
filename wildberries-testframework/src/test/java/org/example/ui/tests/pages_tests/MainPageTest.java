@@ -5,6 +5,7 @@ import io.qameta.allure.Owner;
 import io.qameta.allure.junit4.DisplayName;
 import org.example.ui.forms.pages.CategoryPage;
 import org.example.ui.forms.pages.MainPage;
+import org.example.ui.forms.pages.SearchResultPage;
 import org.example.ui.tests.BaseTest;
 import org.junit.Assert;
 import org.junit.Before;
@@ -87,5 +88,20 @@ public class MainPageTest extends BaseTest {
 
         Integer promoCartsAmount = mainPage.getPromoCardsAmount();
         Assert.assertTrue("Количество карточек с промоакциями меньше 10", promoCartsAmount > 10);
+    }
+
+    @Owner("German Suslov")
+    @DisplayName("Поиск по запросу \"кофемашина\" с главной страницы")
+    @Description("1. Зайти на главную страницу wildberries - Главная страница открыта\n" +
+            "2. Ввести в строку поиска слово \"кофемашина\", нажать Enter - " +
+            "Страница с результатом поиска \"кофемашина\" открыта\n")
+    @Test
+    public void searchTest() {
+        Assert.assertTrue("Главная страница не открыта", mainPage.isOpen());
+
+        String searchPhrase = "кофемашина";
+        mainPage.searchForm.search(searchPhrase);
+        SearchResultPage searchResultPage = new SearchResultPage(searchPhrase);
+        Assert.assertTrue("Страница с результатом поиска \"кофемашина\" не открыта", searchResultPage.isOpen());
     }
 }
