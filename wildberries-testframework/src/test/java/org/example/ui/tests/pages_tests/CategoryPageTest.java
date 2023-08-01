@@ -157,7 +157,7 @@ public class CategoryPageTest extends BaseTest {
                 categoryPage.filterForm.isAdditionalFilterPopUpOpen());
 
         categoryPage.productCartClick(1);
-        ProductCartPage productCartPage = new ProductCartPage("First cart");
+        ProductCartPage productCartPage = new ProductCartPage();
         Integer price = productCartPage.getPrice();
         Assert.assertTrue("Цена товара больше 1000 рублей", price < 1000);
     }

@@ -123,7 +123,7 @@ public class MainPageTest extends BaseTest {
         Assert.assertTrue("Страница с результатом поиска \"футболка\" не открыта", searchResultPage.isOpen());
 
         searchResultPage.productCartClick(1);
-        ProductCartPage productCartPage = new ProductCartPage("Футболка");
+        ProductCartPage productCartPage = new ProductCartPage();
         Assert.assertTrue("Страница карточки товара не открыта", productCartPage.isOpen());
     }
 }

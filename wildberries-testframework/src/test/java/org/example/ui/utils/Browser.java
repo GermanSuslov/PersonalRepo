@@ -9,7 +9,9 @@ import io.qameta.allure.selenide.AllureSelenide;
 import org.apache.commons.lang3.StringUtils;
 import org.example.ui.elements.BaseElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.List;
@@ -66,6 +68,12 @@ public class Browser {
     }
 
     private static void setEdgeBrowser() {
+    }
+
+    public static void scrollPageToBottom() {
+        WebDriver driver = Selenide.webdriver().driver().getWebDriver();
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+        jsExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight)");
     }
 
     public static void moveToElement(SelenideElement element) {
