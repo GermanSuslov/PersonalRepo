@@ -14,7 +14,7 @@ public class SearchForm extends BaseForm {
 
     public void search(String text) {
         Waiter.getWaiter().waitForElementToBeVisible(searchField);
-        Browser.enterText(searchField.getSelenideElement(), text);
+        searchField.enterText(text);
         Browser.pressEnterButton();
     }
 }

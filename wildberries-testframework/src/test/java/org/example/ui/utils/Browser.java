@@ -6,6 +6,7 @@ import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.commands.PressEnter;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
+import org.apache.commons.lang3.StringUtils;
 import org.example.ui.elements.BaseElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -68,7 +69,9 @@ public class Browser {
     }
 
     public static void moveToElement(SelenideElement element) {
-        actions().moveToElement(element).build().perform();
+        actions().moveToElement(element)
+                .build()
+                .perform();
     }
 
     public static void enterText(SelenideElement element, String text) {
@@ -82,5 +85,9 @@ public class Browser {
                 .keyUp(Keys.ENTER)
                 .build()
                 .perform();
+    }
+
+    public static void clearField(SelenideElement element) {
+        element.clear();
     }
 }

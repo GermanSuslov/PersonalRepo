@@ -3,27 +3,23 @@ package org.example.ui.forms.pages;
 import com.codeborne.selenide.SelenideElement;
 import org.example.ui.elements.*;
 import org.example.ui.forms.BaseForm;
-import org.example.ui.forms.CatalogForm;
-import org.example.ui.forms.SearchForm;
+import org.example.ui.forms.HeaderForm;
 import org.example.ui.utils.Browser;
 import org.example.ui.utils.DataHelper;
 import org.example.ui.utils.Waiter;
-import org.openqa.selenium.By;
 
 import java.util.List;
 
 public class MainPage extends BaseForm {
-    public CatalogForm catalogForm;
-    public SearchForm searchForm;
+    public HeaderForm headerForm;
     private final Table uniqueElement = new Table("Рекламная карусель",
            "//div[contains(@data-block-type, 'main')]");
-    private final Cart promoCards = new Cart("Карточки промоакций",
+    private final ProductCart promoCards = new ProductCart("Карточки промоакций",
             "//li[contains(@class, 'promo__item')]");
 
     public MainPage() {
         super.uniqueElement = uniqueElement;
-        this.catalogForm = new CatalogForm();
-        this.searchForm = new SearchForm();
+        this.headerForm = new HeaderForm();
     }
 
     public void open() {

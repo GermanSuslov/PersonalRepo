@@ -13,13 +13,9 @@ public class Price extends BaseElement {
         super(elementName, locator);
     }
 
-    public List<Integer> getPrice() {
-        List<SelenideElement> elementList = getElements();
-        List<Integer> priceList = new ArrayList<>();
-        for (SelenideElement element : elementList) {
-            System.out.println(element.getText());
-            priceList.add(Integer.parseInt(element.getText()));
-        }
-        return priceList;
+    public Integer getPrice() {
+        SelenideElement element = getSelenideElement();
+        String price = element.getOwnText().replaceAll("\\D", "");
+        return Integer.parseInt(price);
     }
 }

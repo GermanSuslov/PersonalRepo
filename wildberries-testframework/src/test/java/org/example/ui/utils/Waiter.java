@@ -5,11 +5,14 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.ex.UIAssertionError;
 import org.example.ui.elements.BaseElement;
+import org.example.ui.elements.Field;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.util.List;
+
+import static com.codeborne.selenide.Selenide.closeWebDriver;
 
 public class Waiter {
     private static final Logger logger = LoggerFactory.getLogger(Waiter.class);
@@ -32,6 +35,9 @@ public class Waiter {
     public void waitForElementToBeVisible(BaseElement element) {
         waitUntil(element, Condition.visible);
     }
+    public void waitForFieldToBeEmpty(Field field) {
+        waitUntil(field, Condition.empty);
+    }
     public void waitForElementToBeInvisible(BaseElement element) {
         waitUntil(element, Condition.hidden);
     }
@@ -42,9 +48,9 @@ public class Waiter {
         }
     }
 
-    public void waitBySeconds(Integer seconds) {
+    public void waitByMillis(Integer millis) {
         try {
-            Selenide.sleep(seconds * 1000);
+            Selenide.sleep(millis);
         } catch (Exception e) {
             logger.error("Ошибка implicit wait " + e);
         }
@@ -55,9 +61,19 @@ public class Waiter {
             element.getSelenideElement()
                     .shouldBe(condition, Duration.ofSeconds(DataHelper.getWaitTime()));
         } catch (UIAssertionError e) {
-            logger.error("Can not find '" + element.getElementName() +
-                    "' condition \nby locator : " + element.getLocator());
+            logger.error("Элемент - '" + element.getElementName() +
+                    "' не соответствует ожидаемому состоянию '" + condition + "' \nby locator : " + element.getLocator());
+            tearDown();
+        } catch (Exception ex) {
+            logger.error("Element " + element.getElementName() + " not found by locator "
+                    + element.getLocator());
+            tearDown();
         }
+    }
+
+    private void tearDown() {
+        quitWaiter();
+        closeWebDriver();
     }
 
     public static void quitWaiter() {

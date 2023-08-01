@@ -5,6 +5,7 @@ import io.qameta.allure.Owner;
 import io.qameta.allure.junit4.DisplayName;
 import org.example.ui.forms.pages.CategoryPage;
 import org.example.ui.forms.pages.MainPage;
+import org.example.ui.forms.pages.ProductCartPage;
 import org.example.ui.forms.pages.SearchResultPage;
 import org.example.ui.tests.BaseTest;
 import org.junit.Assert;
@@ -29,11 +30,11 @@ public class MainPageTest extends BaseTest {
     public void catalogButtonTest() {
         Assert.assertTrue("Главная страница не открыта", mainPage.isOpen());
 
-        mainPage.catalogForm.catalogBtnClick();
-        Assert.assertTrue("Каталог не отображен", mainPage.catalogForm.catalogMenuIsVisible());
+        mainPage.headerForm.catalogForm.catalogBtnClick();
+        Assert.assertTrue("Каталог не отображен", mainPage.headerForm.catalogForm.catalogMenuIsVisible());
 
-        mainPage.catalogForm.closeCatalogBtnClick();
-        Assert.assertTrue("Каталог отображен", mainPage.catalogForm.catalogMenuIsHidden());
+        mainPage.headerForm.catalogForm.closeCatalogBtnClick();
+        Assert.assertTrue("Каталог отображен", mainPage.headerForm.catalogForm.catalogMenuIsHidden());
     }
 
     @Owner("German Suslov")
@@ -45,12 +46,12 @@ public class MainPageTest extends BaseTest {
     public void catalogCategoryTest() {
         Assert.assertTrue("Главная страница не открыта", mainPage.isOpen());
 
-        mainPage.catalogForm.catalogBtnClick();
-        Assert.assertTrue("Каталог не отображен", mainPage.catalogForm.catalogMenuIsVisible());
+        mainPage.headerForm.catalogForm.catalogBtnClick();
+        Assert.assertTrue("Каталог не отображен", mainPage.headerForm.catalogForm.catalogMenuIsVisible());
 
-        mainPage.catalogForm.mainCategoryMove("Обувь");
-        mainPage.catalogForm.innerCategoryClick("Мужская");
-        mainPage.catalogForm.innerCategoryClick("Тапочки");
+        mainPage.headerForm.catalogForm.mainCategoryMove("Обувь");
+        mainPage.headerForm.catalogForm.innerCategoryClick("Мужская");
+        mainPage.headerForm.catalogForm.innerCategoryClick("Тапочки");
         CategoryPage tapochkiPage = new CategoryPage("Мужские тапочки");
         Assert.assertTrue("Страница категории \"Мужские тапочки\" не открыта", tapochkiPage.isOpen());
     }
@@ -65,16 +66,16 @@ public class MainPageTest extends BaseTest {
     public void mainPageButtonTest() {
         Assert.assertTrue("Главная страница не открыта", mainPage.isOpen());
 
-        mainPage.catalogForm.catalogBtnClick();
-        Assert.assertTrue("Каталог не отображен", mainPage.catalogForm.catalogMenuIsVisible());
+        mainPage.headerForm.catalogForm.catalogBtnClick();
+        Assert.assertTrue("Каталог не отображен", mainPage.headerForm.catalogForm.catalogMenuIsVisible());
 
-        mainPage.catalogForm.mainCategoryMove("Детям");
-        mainPage.catalogForm.innerCategoryClick("Для мальчиков");
-        mainPage.catalogForm.innerCategoryClick("Джинсы");
+        mainPage.headerForm.catalogForm.mainCategoryMove("Детям");
+        mainPage.headerForm.catalogForm.innerCategoryClick("Для мальчиков");
+        mainPage.headerForm.catalogForm.innerCategoryClick("Джинсы");
         CategoryPage jeansPage = new CategoryPage("Джинсы для мальчиков");
         Assert.assertTrue("Страница категории \"Джинсы для мальчиков\" не открыта", jeansPage.isOpen());
 
-        mainPage.catalogForm.mainPageButtonClick();
+        mainPage.headerForm.catalogForm.mainPageButtonClick();
         Assert.assertTrue("Главная страница не открыта", mainPage.isOpen());
     }
 
@@ -100,8 +101,29 @@ public class MainPageTest extends BaseTest {
         Assert.assertTrue("Главная страница не открыта", mainPage.isOpen());
 
         String searchPhrase = "кофемашина";
-        mainPage.searchForm.search(searchPhrase);
+        mainPage.headerForm.searchForm.search(searchPhrase);
         SearchResultPage searchResultPage = new SearchResultPage(searchPhrase);
         Assert.assertTrue("Страница с результатом поиска \"кофемашина\" не открыта", searchResultPage.isOpen());
+    }
+
+    @Owner("German Suslov")
+    @DisplayName("Поиск по запросу \"футболка\" и переход на первую карточку товара из результатов с главной страницы")
+    @Description("1. Зайти на главную страницу wildberries - Главная страница открыта\n" +
+            "2. Ввести в строку поиска слово \"футболка\", нажать Enter - " +
+            "Страница с результатом поиска \"футболка\" открыта\n" +
+            "3. Нажать на первую карточку товара из результатов - " +
+            "Страница с карточкой товара \"футболка\" открыта\n")
+    @Test
+    public void cartSearchTest() {
+        Assert.assertTrue("Главная страница не открыта", mainPage.isOpen());
+
+        String searchPhrase = "футболка";
+        mainPage.headerForm.searchForm.search(searchPhrase);
+        SearchResultPage searchResultPage = new SearchResultPage(searchPhrase);
+        Assert.assertTrue("Страница с результатом поиска \"футболка\" не открыта", searchResultPage.isOpen());
+
+        searchResultPage.productCartClick(1);
+        ProductCartPage productCartPage = new ProductCartPage("Футболка");
+        Assert.assertTrue("Страница карточки товара не открыта", productCartPage.isOpen());
     }
 }

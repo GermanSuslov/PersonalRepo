@@ -54,7 +54,8 @@ public class CatalogForm extends BaseForm {
 
     public void mainCategoryMove(String category) {
         mainListCategory = new Category(category, String.format(mainListCategorySample, category));
-        Waiter.getWaiter().waitForElementToBeClickable(mainListCategory);
+        Waiter.getWaiter().waitForElementToBeVisible(mainListCategory);
+        Waiter.getWaiter().waitByMillis(300);
         mainListCategory.moveToElement();
         Waiter.getWaiter().waitForElementToBeVisible(innerMenu);
     }
