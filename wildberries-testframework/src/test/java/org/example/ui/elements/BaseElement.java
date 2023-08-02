@@ -1,6 +1,7 @@
 package org.example.ui.elements;
 
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.ex.UIAssertionError;
 import lombok.Getter;
 import org.example.ui.utils.Browser;
 import org.openqa.selenium.NoSuchElementException;
@@ -39,8 +40,9 @@ public abstract class BaseElement {
     public void click() {
         try {
             getSelenideElement().click();
-        } catch (NoSuchElementException e) {
-            logger.error("Can not click element - '" + elementName + "' \nby locator " + locator);
+        } catch (UIAssertionError e) {
+            logger.error("Can not click element - '" + elementName +
+                    "' \nby locator " + locator + "\nException: \n" + e);
         }
     }
 
@@ -52,7 +54,7 @@ public abstract class BaseElement {
         SelenideElement element = null;
         try {
             element = Browser.findElementByXpath(locator);
-        } catch (NoSuchElementException e) {
+        } catch (UIAssertionError e) {
             logger.error("Can not find element - '" + elementName + "' \nby locator " + locator);
         }
         return element;
@@ -62,7 +64,7 @@ public abstract class BaseElement {
         List<SelenideElement> element = null;
         try {
             element = Browser.findElements(locator);
-        } catch (NoSuchElementException e) {
+        } catch (UIAssertionError e) {
             logger.error("Can not find element - '" + elementName + "' \nby locator " + locator);
         }
         return element;

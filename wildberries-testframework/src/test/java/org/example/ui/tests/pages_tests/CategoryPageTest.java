@@ -1,6 +1,7 @@
 package org.example.ui.tests.pages_tests;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
 import io.qameta.allure.junit4.DisplayName;
 import org.example.ui.elements.ProductCart;
@@ -13,6 +14,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+@Feature("Тесты категорий товаров")
 public class CategoryPageTest extends BaseTest {
     private MainPage mainPage;
 

@@ -62,7 +62,8 @@ public class Waiter {
                     .shouldBe(condition, Duration.ofSeconds(DataHelper.getWaitTime()));
         } catch (UIAssertionError e) {
             logger.error("Элемент - '" + element.getElementName() +
-                    "' не соответствует ожидаемому состоянию '" + condition + "' \nby locator : " + element.getLocator());
+                    "' не соответствует ожидаемому состоянию '" + condition + "' \nby locator : " +
+                    element.getLocator() + "\nException: \n" + e);
             tearDown();
         } catch (Exception ex) {
             logger.error("Element " + element.getElementName() + " not found by locator "

@@ -76,6 +76,10 @@ public class Browser {
         jsExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight)");
     }
 
+    public static String getText(BaseElement element) {
+        return element.getSelenideElement().getText();
+    }
+
     public static void moveToElement(SelenideElement element) {
         actions().moveToElement(element)
                 .build()
