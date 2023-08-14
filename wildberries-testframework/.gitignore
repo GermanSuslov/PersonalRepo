@@ -1,6 +1,11 @@
 # Java Build
 build/
-target/
+target/classes
+target/generated-sources
+target/generated-test-sources
+target/maven-status
+target/surefire-reports
+target/test-classes
 *.class
 
 # Maven Build
