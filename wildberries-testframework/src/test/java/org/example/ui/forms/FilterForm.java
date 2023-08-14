@@ -17,10 +17,13 @@ public class FilterForm extends BaseForm {
             "//div[contains(@class, 'filters-desktop')][contains(@class, 'shown')]");
     private final Field upperPriceField = new Field("Цена - До",
             "//input[contains(@class, 'j-price')][@name = 'endN']");
+    private String additionalFilterCheckboxSample =
+            "//div[contains(@class, 'filter')]//span[contains(text(), '%s')]";
     private Button filterButton;
     private Button sortParameterButton;
     private final String selectedFilterButtonSample = "//span[contains(@class, 'your-choice__btn')][contains(text(), '%s')]";
     private Button selectedFilterButton;
+    private CheckBox additionalFilterCheckbox;
 
     public FilterForm() {
         super.uniqueElement = categoryButton;
@@ -30,24 +33,29 @@ public class FilterForm extends BaseForm {
         String filterButtonLocator = String.format(filterButtonSample, text);
         filterButton = new Button(text, filterButtonLocator);
         filterButton.click();
-        Waiter.getWaiter().waitForElementToBeVisible(filterDropdown);
+        getWaiter().waitForElementToBeVisible(filterDropdown);
+    }
+    public void additionalFilterCheckboxClick(String filter) {
+        String locator = String.format(additionalFilterCheckboxSample, filter);
+        additionalFilterCheckbox = new CheckBox(filter, locator);
+        additionalFilterCheckbox.click();
     }
     public void allFilterButtonClick() {
         String filterButtonLocator = String.format(filterButtonSample, "Все фильтры");
         filterButton = new Button("Все фильтры", filterButtonLocator);
         filterButton.click();
-        Waiter.getWaiter().waitForElementToBeVisible(additionalFilterPopUp);
+        getWaiter().waitForElementToBeVisible(additionalFilterPopUp);
     }
     public void enterUpperPrice(Integer price) {
-        Waiter.getWaiter().waitForElementToBeVisible(upperPriceField);
+        getWaiter().waitForElementToBeVisible(upperPriceField);
         upperPriceField.clearField();
-        Waiter.getWaiter().waitForFieldToBeEmpty(upperPriceField);
+        getWaiter().waitForFieldToBeEmpty(upperPriceField);
         upperPriceField.enterText(price.toString());
     }
     public void showButtonClick() {
-        Waiter.getWaiter().waitForElementToBeVisible(showButton);
+        getWaiter().waitForElementToBeVisible(showButton);
         showButton.click();
-        Waiter.getWaiter().waitForElementToBeInvisible(additionalFilterPopUp);
+        getWaiter().waitForElementToBeInvisible(additionalFilterPopUp);
     }
     public void filterCheckboxClick(String text) {
         new CheckBox(text, String.format(filterCheckboxSample, text)).click();
@@ -61,10 +69,10 @@ public class FilterForm extends BaseForm {
     public void sortParameterButtonClick(String text) {
         sortParameterButton = new Button(text, String.format(sortParameterSample, text));
         sortParameterButton.click();
-        Waiter.getWaiter().waitByMillis(1000);
+        getWaiter().waitByMillis(1000);
     }
     public boolean isSelectedFilterVisible() {
-        Waiter.getWaiter().waitForElementToBeVisible(selectedFilterButton);
+        getWaiter().waitForElementToBeVisible(selectedFilterButton);
         return selectedFilterButton.isDisplayed();
     }
 

@@ -16,7 +16,9 @@ public class CategoryPage extends BaseForm {
             "//a[contains(@class, 'card-sizes__btn--c516x688')]");
     private Button bigCartsButton = new Button("Кнопка большие карточки товаров",
             "//a[contains(@class, 'card-sizes__btn--big')]");
-    private ProductCart productCart;
+    private Number productAmount = new Number("Количество товаров",
+            "//span[contains(@class, 'goods-count')]//span[contains(@data-link, 'html')]");
+    private ProductCard productCard;
 
     public CategoryPage(String title) {
         this.headerForm = new HeaderForm();
@@ -25,38 +27,43 @@ public class CategoryPage extends BaseForm {
                 String.format("//h1[contains(text(),'%s')]", title));
     }
 
+    public Integer getProductAmount() {
+        getWaiter().waitForElementToBeVisible(productAmount);
+        return productAmount.getNumber();
+    }
+
     public Integer getGoodsAmount() {
-        Waiter.getWaiter().waitForElementToBeVisible(goodsAmount);
+        getWaiter().waitForElementToBeVisible(goodsAmount);
         return goodsAmount.getNumber();
     }
 
     public void bigCartsButtonClick() {
-        Waiter.getWaiter().waitForElementToBeClickable(bigCartsButton);
+        getWaiter().waitForElementToBeClickable(bigCartsButton);
         bigCartsButton.click();
     }
     public void smallCartsButtonClick() {
-        Waiter.getWaiter().waitForElementToBeClickable(smallCartsButton);
+        getWaiter().waitForElementToBeClickable(smallCartsButton);
         smallCartsButton.click();
     }
 
     public Integer getProductCartArea(Integer cartNumber) {
-        productCart = new ProductCart("Карточка товара №" + cartNumber,
+        productCard = new ProductCard("Карточка товара №" + cartNumber,
                 String.format("(//article[contains(@class, 'product-card')])[%d]", cartNumber));
-        Waiter.getWaiter().waitForElementToBeVisible(productCart);
-        return productCart.getBorderArea();
+        getWaiter().waitForElementToBeVisible(productCard);
+        return productCard.getBorderArea();
     }
 
     public Integer getProductCartId(Integer cartNumber) {
-        productCart = new ProductCart("Карточка товара №" + cartNumber,
+        productCard = new ProductCard("Карточка товара №" + cartNumber,
                 String.format("(//article[contains(@class, 'product-card')])[%d]", cartNumber));
-        Waiter.getWaiter().waitForElementToBeVisible(productCart);
-        return productCart.getId();
+        getWaiter().waitForElementToBeVisible(productCard);
+        return productCard.getId();
     }
 
     public void productCartClick(Integer cartNumber) {
-        productCart = new ProductCart("Карточка товара №" + cartNumber,
+        productCard = new ProductCard("Карточка товара №" + cartNumber,
                 String.format("(//article[contains(@class, 'product-card')])[%d]", cartNumber));
-        Waiter.getWaiter().waitForElementToBeVisible(productCart);
-        productCart.click();
+        getWaiter().waitForElementToBeVisible(productCard);
+        productCard.click();
     }
 }

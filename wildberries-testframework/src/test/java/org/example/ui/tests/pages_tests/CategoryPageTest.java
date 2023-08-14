@@ -4,11 +4,9 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
 import io.qameta.allure.junit4.DisplayName;
-import org.example.ui.elements.ProductCart;
 import org.example.ui.forms.pages.CategoryPage;
 import org.example.ui.forms.pages.MainPage;
-import org.example.ui.forms.pages.ProductCartPage;
-import org.example.ui.forms.pages.SearchResultPage;
+import org.example.ui.forms.pages.ProductCardPage;
 import org.example.ui.tests.BaseTest;
 import org.junit.Assert;
 import org.junit.Before;
@@ -130,6 +128,39 @@ public class CategoryPageTest extends BaseTest {
     }
 
     @Owner("German Suslov")
+    @DisplayName("Применение фильтра \"Объем оперативной памяти (Гб) - 8 ГБ\" на странице категории \"Ноутбуки\"")
+    @Description("1. Зайти на главную страницу wildberries - Главная страница открыта\n" +
+            "2. Нажать на кнопку \"Каталог\", выбрать категорию \"Электроника\" - \"Ноутбуки и компьютеры\"" +
+            " - \"Ноутбуки\" - Страница \"Ноутбуки и ультрабуки\" открыта\n" +
+            "3. Нажать \"Все фильтры\" - Поп-ап окно с фильтрами отображено\n" +
+            "4. Выбрать фильтр \"Объем оперативной памяти (Гб) - 8 ГБ\", нажать кнопку показать - " +
+            "Поп-ап окно с фильтрами закрылось, количество товаров уменьшилось")
+    @Test
+    public void categoryPageAdditionalFilterTest() {
+        Assert.assertTrue("Главная страница не открыта", mainPage.isOpen());
+        mainPage.headerForm.catalogForm.catalogBtnClick();
+
+        mainPage.headerForm.catalogForm.mainCategoryMove("Электроника");
+        mainPage.headerForm.catalogForm.innerCategoryClick("Ноутбуки и компьютеры");
+        mainPage.headerForm.catalogForm.innerCategoryClick("Ноутбуки");
+        CategoryPage categoryPage = new CategoryPage("Ноутбуки и ультрабуки");
+        Assert.assertTrue("Страница категории \"Ноутбуки и ультрабуки\" не открыта", categoryPage.isOpen());
+
+        Integer productAmount = categoryPage.getProductAmount();
+        categoryPage.filterForm.allFilterButtonClick();
+        Assert.assertTrue("Поп-ап окно с фильтрами не отображено",
+                categoryPage.filterForm.isAdditionalFilterPopUpOpen());
+
+        categoryPage.filterForm.additionalFilterCheckboxClick("8 ГБ");
+        categoryPage.filterForm.showButtonClick();
+        Assert.assertFalse("Поп-ап окно с фильтрами не закрылось",
+                categoryPage.filterForm.isAdditionalFilterPopUpOpen());
+        Integer productAmountAfterFilter = categoryPage.getProductAmount();
+        Assert.assertTrue("Количество товаров не уменьшилось",
+                productAmountAfterFilter < productAmount);
+    }
+
+    @Owner("German Suslov")
     @DisplayName("Фильтр товаров в категории \"Конструкторы\" по цене до 1000 рублей")
     @Description("1. Зайти на главную страницу wildberries - Главная страница открыта\n" +
             "2. Нажать на кнопку \"Каталог\", выбрать категорию \"Детям\" - \"Конструкторы\"" +
@@ -159,8 +190,8 @@ public class CategoryPageTest extends BaseTest {
                 categoryPage.filterForm.isAdditionalFilterPopUpOpen());
 
         categoryPage.productCartClick(1);
-        ProductCartPage productCartPage = new ProductCartPage();
-        Integer price = productCartPage.getPrice();
+        ProductCardPage productCardPage = new ProductCardPage();
+        Integer price = productCardPage.getPrice();
         Assert.assertTrue("Цена товара больше 1000 рублей", price < 1000);
     }
 }

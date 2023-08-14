@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 @Feature("Тесты карточек товаров")
-public class ProductCartPageTest extends BaseTest {
+public class ProductCardPageTest extends BaseTest {
     private MainPage mainPage;
 
     @Before
@@ -41,11 +41,11 @@ public class ProductCartPageTest extends BaseTest {
                 categoryPage.isOpen());
 
         categoryPage.productCartClick(2);
-        ProductCartPage productCartPage = new ProductCartPage();
-        Assert.assertTrue("Страница карточки товара не открыта", productCartPage.isOpen());
+        ProductCardPage productCardPage = new ProductCardPage();
+        Assert.assertTrue("Страница карточки товара не открыта", productCardPage.isOpen());
 
         Assert.assertTrue("Карточка товара не содержит слово \"Состав\"",
-                productCartPage.containsInformation("Состав"));
+                productCardPage.containsInformation("Состав"));
     }
 
     @Owner("German Suslov")
@@ -71,13 +71,13 @@ public class ProductCartPageTest extends BaseTest {
                 categoryPage.isOpen());
 
         categoryPage.productCartClick(3);
-        ProductCartPage productCartPage = new ProductCartPage();
-        Assert.assertTrue("Страница карточки товара не открыта", productCartPage.isOpen());
+        ProductCardPage productCardPage = new ProductCardPage();
+        Assert.assertTrue("Страница карточки товара не открыта", productCardPage.isOpen());
 
         Assert.assertTrue("Карточка товара не содержит слово \"Страна производства\"",
-                productCartPage.containsInformation("Страна производства"));
+                productCardPage.containsInformation("Страна производства"));
         Assert.assertTrue("Карточка товара не содержит слово \"Габариты\"",
-                productCartPage.containsInformation("Габариты"));
+                productCardPage.containsInformation("Габариты"));
     }
 
     @Owner("German Suslov")
@@ -103,14 +103,14 @@ public class ProductCartPageTest extends BaseTest {
                 categoryPage.isOpen());
 
         categoryPage.productCartClick(1);
-        ProductCartPage productCartPage = new ProductCartPage();
-        Assert.assertTrue("Страница карточки товара не открыта", productCartPage.isOpen());
+        ProductCardPage productCardPage = new ProductCardPage();
+        Assert.assertTrue("Страница карточки товара не открыта", productCardPage.isOpen());
 
-        productCartPage.addToBasketButtonClick();
-        Assert.assertTrue("Поп-ап окно не появилось", productCartPage.basketPopUpIsDisplayed());
+        productCardPage.clickAddToBasketButton();
+        Assert.assertTrue("Поп-ап окно не появилось", productCardPage.basketPopUpIsDisplayed());
 
         Assert.assertEquals("\"Перейти в корзину\" не отображено", "Перейти в корзину",
-                productCartPage.getBuyButtonText());
+                productCardPage.getBuyButtonText());
     }
 
     @Owner("German Suslov")
@@ -137,16 +137,16 @@ public class ProductCartPageTest extends BaseTest {
                 categoryPage.isOpen());
 
         categoryPage.productCartClick(1);
-        ProductCartPage productCartPage = new ProductCartPage();
-        Assert.assertTrue("Страница карточки товара не открыта", productCartPage.isOpen());
+        ProductCardPage productCardPage = new ProductCardPage();
+        Assert.assertTrue("Страница карточки товара не открыта", productCardPage.isOpen());
 
-        productCartPage.addToBasketButtonClick();
-        Assert.assertTrue("Поп-ап окно не появилось", productCartPage.basketPopUpIsDisplayed());
+        productCardPage.clickAddToBasketButton();
+        Assert.assertTrue("Поп-ап окно не появилось", productCardPage.basketPopUpIsDisplayed());
 
         Assert.assertEquals("\"Перейти в корзину\" не отображено", "Перейти в корзину",
-                productCartPage.getBuyButtonText());
+                productCardPage.getBuyButtonText());
 
-        productCartPage.headerForm.basketButtonClick();
+        productCardPage.headerForm.basketButtonClick();
         BasketPage basketPage = new BasketPage();
         Assert.assertTrue("Корзина не открыта", basketPage.isOpen());
         Assert.assertTrue("Товар \"Велосипед\" не находится в корзине",
@@ -170,12 +170,12 @@ public class ProductCartPageTest extends BaseTest {
         Assert.assertTrue("Страница с результатом поиска \"брюки женские\" не открыта", searchResultPage.isOpen());
 
         searchResultPage.productCartClick(4);
-        ProductCartPage productCartPage = new ProductCartPage();
-        Assert.assertTrue("Страница карточки товара не открыта", productCartPage.isOpen());
+        ProductCardPage productCardPage = new ProductCardPage();
+        Assert.assertTrue("Страница карточки товара не открыта", productCardPage.isOpen());
 
-        productCartPage.sizeTableButtonClick();
+        productCardPage.sizeTableButtonClick();
         Assert.assertTrue("Поп-ап окно с таблицей размеров не появилось",
-                productCartPage.sizeTablePopUpIsDisplayed());
+                productCardPage.sizeTablePopUpIsDisplayed());
     }
 
     @Owner("German Suslov")
@@ -195,11 +195,11 @@ public class ProductCartPageTest extends BaseTest {
         Assert.assertTrue("Страница с результатом поиска \"кресло\" не открыта", searchResultPage.isOpen());
 
         searchResultPage.productCartClick(2);
-        ProductCartPage productCartPage = new ProductCartPage();
-        Assert.assertTrue("Страница карточки товара не открыта", productCartPage.isOpen());
-        Assert.assertTrue("Имя продавца не отображено", productCartPage.sellerButtonIsDisplayed());
+        ProductCardPage productCardPage = new ProductCardPage();
+        Assert.assertTrue("Страница карточки товара не открыта", productCardPage.isOpen());
+        Assert.assertTrue("Имя продавца не отображено", productCardPage.sellerButtonIsDisplayed());
 
-        productCartPage.sellerButtonClick();
+        productCardPage.sellerButtonClick();
         SellersPage sellersPage = new SellersPage();
         Assert.assertTrue("Страница продавца не открылась", sellersPage.isOpen());
         Assert.assertTrue("Статистика продавца не отображена", sellersPage.sellersInfoTablesIsDisplayed());

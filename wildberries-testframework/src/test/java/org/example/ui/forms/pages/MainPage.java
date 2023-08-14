@@ -14,8 +14,11 @@ public class MainPage extends BaseForm {
     public HeaderForm headerForm;
     private final Table uniqueElement = new Table("Рекламная карусель",
            "//div[contains(@data-block-type, 'main')]");
-    private final ProductCart promoCards = new ProductCart("Карточки промоакций",
+    private final ProductCard promoCards = new ProductCard("Карточки промоакций",
             "//li[contains(@class, 'promo__item')]");
+    private final Text mainPageText = new Text("Текст внизу главной страницы",
+            "//div[contains(@class, 'text_block')]");
+    String information;
 
     public MainPage() {
         super.uniqueElement = uniqueElement;
@@ -24,12 +27,25 @@ public class MainPage extends BaseForm {
 
     public void open() {
         Browser.openUrl(DataHelper.getStartUrl());
-        Waiter.getWaiter().waitForElementToBeVisible(uniqueElement);
+        getWaiter().waitForElementToBeVisible(uniqueElement);
+    }
+
+    public boolean mainPageTextIsDisplayed() {
+        Browser.scrollPageToBottom();
+        getWaiter().waitForElementToBeVisible(mainPageText);
+        return mainPageText.isDisplayed();
     }
 
     public Integer getPromoCardsAmount() {
-        Waiter.getWaiter().waitForElementToBeVisible(uniqueElement);
+        getWaiter().waitForElementToBeVisible(uniqueElement);
         List<SelenideElement> promoCardsList = promoCards.getElements();
         return promoCardsList.size();
+    }
+
+    public boolean containsInformation(String keyWord) {
+        if (information == null) {
+            information = Browser.getText(mainPageText);
+        }
+        return information.contains(keyWord);
     }
 }

@@ -22,7 +22,7 @@ public class SellersPage extends BaseForm {
 
     public boolean sellersInfoTablesIsDisplayed() {
         List<SelenideElement> infoList = sellersInfoTables.getElements();
-        Waiter.getWaiter().waitForElementsToBeVisible(infoList);
+        getWaiter().waitForElementsToBeVisible(infoList);
 
         return infoList.size() == 4;
     }

@@ -6,7 +6,7 @@ import io.qameta.allure.Owner;
 import io.qameta.allure.junit4.DisplayName;
 import org.example.ui.forms.pages.CategoryPage;
 import org.example.ui.forms.pages.MainPage;
-import org.example.ui.forms.pages.ProductCartPage;
+import org.example.ui.forms.pages.ProductCardPage;
 import org.example.ui.forms.pages.SearchResultPage;
 import org.example.ui.tests.BaseTest;
 import org.junit.Assert;
@@ -109,6 +109,22 @@ public class MainPageTest extends BaseTest {
     }
 
     @Owner("German Suslov")
+    @DisplayName("Наличие маркетингового текста внизу главной страницы")
+    @Description("1. Зайти на главную страницу wildberries - Главная страница открыта\n" +
+            "2. Прокуртить страницу доконца вниз - " +
+            "Маркетинговый текст отображен, содержит слова: \"Wildberries\", \"Интернет-магазин\"\n")
+    @Test
+    public void mainPageTextTest() {
+        Assert.assertTrue("Главная страница не открыта", mainPage.isOpen());
+
+        Assert.assertTrue("Маркетинговый текст не отображен", mainPage.mainPageTextIsDisplayed());
+        Assert.assertTrue("Маркетинговый текст не содержит слово \"Wildberries\"",
+                mainPage.containsInformation("Wildberries"));
+        Assert.assertTrue("Маркетинговый текст не содержит слово \"Интернет-магазин\"",
+                mainPage.containsInformation("Интернет-магазин"));
+    }
+
+    @Owner("German Suslov")
     @DisplayName("Поиск по запросу \"футболка\" и переход на первую карточку товара из результатов с главной страницы")
     @Description("1. Зайти на главную страницу wildberries - Главная страница открыта\n" +
             "2. Ввести в строку поиска слово \"футболка\", нажать Enter - " +
@@ -116,7 +132,7 @@ public class MainPageTest extends BaseTest {
             "3. Нажать на первую карточку товара из результатов - " +
             "Страница с карточкой товара \"футболка\" открыта\n")
     @Test
-    public void cartSearchTest() {
+    public void cardSearchTest() {
         Assert.assertTrue("Главная страница не открыта", mainPage.isOpen());
 
         String searchPhrase = "футболка";
@@ -125,7 +141,7 @@ public class MainPageTest extends BaseTest {
         Assert.assertTrue("Страница с результатом поиска \"футболка\" не открыта", searchResultPage.isOpen());
 
         searchResultPage.productCartClick(1);
-        ProductCartPage productCartPage = new ProductCartPage();
-        Assert.assertTrue("Страница карточки товара не открыта", productCartPage.isOpen());
+        ProductCardPage productCardPage = new ProductCardPage();
+        Assert.assertTrue("Страница карточки товара не открыта", productCardPage.isOpen());
     }
 }

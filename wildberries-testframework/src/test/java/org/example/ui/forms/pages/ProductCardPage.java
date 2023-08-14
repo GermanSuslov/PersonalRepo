@@ -1,6 +1,7 @@
 package org.example.ui.forms.pages;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import org.example.ui.elements.Button;
 import org.example.ui.elements.Price;
 import org.example.ui.elements.Table;
@@ -8,9 +9,8 @@ import org.example.ui.elements.Title;
 import org.example.ui.forms.BaseForm;
 import org.example.ui.forms.HeaderForm;
 import org.example.ui.utils.Browser;
-import org.example.ui.utils.Waiter;
 
-public class ProductCartPage extends BaseForm {
+public class ProductCardPage extends BaseForm {
     public HeaderForm headerForm;
     private final Price productPrice = new Price("Цена товара",
             "(//ins[contains(@class, 'price-block__final-price')])[1]");
@@ -34,18 +34,19 @@ public class ProductCartPage extends BaseForm {
             "//a[contains(@class, 'seller-info__name')]");
     private String information;
 
-    public ProductCartPage() {
+    public ProductCardPage() {
         this.headerForm = new HeaderForm();
         super.uniqueElement = new Title("Страница карточки товара",
                 "//div[contains(@class, 'product-page__grid')]");
     }
+
     public boolean sellerButtonIsDisplayed() {
-        Waiter.getWaiter().waitForElementToBeVisible(sellerButton);
+        getWaiter().waitForElementToBeVisible(sellerButton);
         return sellerButton.isDisplayed();
     }
 
     public void sellerButtonClick() {
-        Waiter.getWaiter().waitForElementToBeVisible(sellerButton);
+        getWaiter().waitForElementToBeVisible(sellerButton);
         sellerButton.click();
     }
 
@@ -58,17 +59,17 @@ public class ProductCartPage extends BaseForm {
     }
 
     public void sizeTableButtonClick() {
-        Waiter.getWaiter().waitForElementToBeVisible(sizeTableButton);
+        getWaiter().waitForElementToBeVisible(sizeTableButton);
         sizeTableButton.click();
     }
 
     public boolean sizeTablePopUpIsDisplayed() {
-        Waiter.getWaiter().waitForElementToBeVisible(sizeTablePopUp);
+        getWaiter().waitForElementToBeVisible(sizeTablePopUp);
         return sizeTablePopUp.isDisplayed();
     }
 
     public boolean basketPopUpIsDisplayed() {
-        Waiter.getWaiter().waitForElementToBeVisible(basketPopUp);
+        getWaiter().waitForElementToBeVisible(basketPopUp);
         return basketPopUp.isDisplayed();
     }
 
@@ -76,14 +77,15 @@ public class ProductCartPage extends BaseForm {
         return Browser.getText(toBasketButton);
     }
 
-    public void addToBasketButtonClick() {
-        Waiter.getWaiter().waitForElementToBeVisible(addToBasketButton);
+    @Step("Кликнуть по кнопке 'Добавить в корзину'")
+    public void clickAddToBasketButton() {
+        getWaiter().waitForElementToBeVisible(addToBasketButton);
         addToBasketButton.click();
     }
 
     public void unrollAllText() {
         Browser.scrollPageToBottom();
-        Waiter.getWaiter().waitForElementToBeVisible(seeMore);
+        getWaiter().waitForElementToBeVisible(seeMore);
         unrollButtons.getElements().forEach(SelenideElement::click);
     }
 

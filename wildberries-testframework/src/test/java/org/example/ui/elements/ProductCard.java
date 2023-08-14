@@ -1,7 +1,7 @@
 package org.example.ui.elements;
 
-public class ProductCart extends BaseElement {
-    public ProductCart(String elementName, String locator) {
+public class ProductCard extends BaseElement {
+    public ProductCard(String elementName, String locator) {
         super(elementName, locator);
     }
     public Integer getBorderArea() {
